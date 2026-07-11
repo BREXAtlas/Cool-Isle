@@ -8,7 +8,11 @@ def inject_index(path: Path) -> None:
 
     html = html.replace(
         '<link rel="canonical" href="https://YOURUSERNAME.github.io/coolisle/">',
+        '<link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/">',
+    )
+    html = html.replace(
         '<link rel="canonical" href="https://brexatlas.github.io/cool-isle/">',
+        '<link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/">',
     )
 
     gallery_css = """
