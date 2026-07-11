@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ===================== SEO: UK WEATHER-READY NICHE ===================== -->
+<title>CoolIsle UK — Heat Relief, Winter Warmth &amp; Weather-Ready Living | UK Delivery</title>
+<meta name="description" content="Britain's weather-ready shop: portable cooling for heatwaves, warmth for winter, rain-ready gear, live UK heat tracker, budget cooling hacks and sustainable solutions. Fast UK delivery.">
+<meta name="keywords" content="portable air conditioner UK, keep house cool heatwave UK, cooling on a budget UK, cheap ways to keep cool UK, best fan UK, air cooler UK, keep warm winter UK, draught excluder, thermal curtains, heated throw, energy bills UK, fuel poverty help, UK heatwave 2026, heat health alert, Met Office amber warning, eco friendly cooling UK, sustainable heating UK, rain gear UK, weather preparedness UK, where to buy air conditioner UK, air conditioner price comparison UK">
+<meta property="og:title" content="CoolIsle UK — Weather-Ready Britain">
+<meta property="og:description" content="Live UK heat tracker, budget cooling hacks, heatwave relief, winter warmth and rain-ready gear. Built for British homes.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://YOURUSERNAME.github.io/coolisle/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Store","name":"CoolIsle UK","description":"Weather-ready living for UK homes: cooling, warmth, rain gear and preparedness advice","areaServed":["England","Scotland","Wales","Northern Ireland"],"currenciesAccepted":"GBP, USD, EUR"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --paper:#F4F8FA; --ink:#0E2A3C; --glacial:#BFE7F2; --relief:#0E7C9E;
+  --amber:#F5A200; --red:#C8341F; --line:#D5E2E8; --warm:#B3541E; --leaf:#2E7D46; --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{font-family:'Public Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.08}
+a{color:var(--relief)}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+section{padding:56px 0}
+.sec-head{margin-bottom:26px}
+.sec-head h2{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800}
+.sec-head p{color:#456;max-width:64ch;margin-top:8px}
+.eyebrow{font-family:'IBM Plex Mono';font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--relief)}
+
+/* ===== SIGNATURE: live heat-alert ticker ===== */
+.alert-strip{background:var(--amber);color:#1E1300;font-weight:700;font-size:.85rem;overflow:hidden;white-space:nowrap;border-bottom:3px solid #1E1300}
+.alert-strip.red{background:var(--red);color:#fff;border-bottom-color:#4A0E04}
+.alert-inner{display:inline-block;padding:8px 0;animation:tick 30s linear infinite}
+.alert-inner span{margin:0 34px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-index:1000}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.logo{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:#fff;text-decoration:none}
+.logo em{font-style:normal;color:var(--glacial)}
+.nav-links{display:flex;gap:14px;flex-wrap:wrap}
+.nav-links a{color:#CFE6EF;text-decoration:none;font-size:.85rem;font-weight:500}
+.nav-links a:hover{color:#fff;text-decoration:underline}
+.currency{display:flex;border:1px solid #3A5A6E;border-radius:999px;overflow:hidden}
+.currency button{background:transparent;color:#CFE6EF;border:0;padding:6px 12px;font:inherit;font-size:.82rem;cursor:pointer}
+.currency button[aria-pressed="true"]{background:var(--glacial);color:var(--ink);font-weight:700}
+
+.hero{background:linear-gradient(180deg,var(--ink) 0%, #10425C 70%, var(--relief) 100%);color:#fff;padding:60px 0 68px}
+.hero .eyebrow{color:var(--glacial)}
+.hero h1{font-size:clamp(2rem,5.5vw,3.5rem);font-weight:800;margin:14px 0 16px;max-width:17ch}
+.hero p{max-width:56ch;color:#DCEDF4;font-size:1.03rem}
+.cta-row{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 22px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:.95rem;border:2px solid transparent;cursor:pointer}
+.btn-amber{background:var(--amber);color:#1E1300}
+.btn-ghost{border-color:var(--glacial);color:var(--glacial);background:transparent}
+.btn-amber:hover{background:#FFB627}
+.btn-ghost:hover{background:rgba(191,231,242,.12)}
+
+/* live heat board */
+.heat-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:26px}
+.heat-city{background:rgba(255,255,255,.08);border:1px solid rgba(191,231,242,.3);border-radius:8px;padding:12px 14px}
+.heat-city b{display:block;font-size:.82rem;color:var(--glacial)}
+.heat-city .t{font-family:'IBM Plex Mono';font-size:1.5rem;font-weight:500}
+.advisory{margin-top:14px;font-size:.82rem;color:#CFE6EF}
+.advisory a{color:var(--glacial)}
+
+.badge{display:inline-block;font-family:'IBM Plex Mono';font-size:.66rem;letter-spacing:.05em;padding:3px 9px;border-radius:999px;font-weight:500}
+.badge.uk{background:#E1F1E4;color:#1F6B34;border:1px solid #9FCEAB}
+.badge.us{background:#E8ECF8;color:#2B3F8C;border:1px solid #AAB8E8}
+.badge.eco{background:#E4F2E7;color:var(--leaf);border:1px solid #A8D3B3}
+
+/* product grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:8px;transition:transform .15s ease, box-shadow .15s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(14,42,60,.10)}
+.card .temp-bar{height:5px;border-radius:3px;background:linear-gradient(90deg,var(--relief),var(--glacial))}
+.card.winter .temp-bar{background:linear-gradient(90deg,var(--warm),#F0C89B)}
+.card.rain .temp-bar{background:linear-gradient(90deg,#3E5C76,#A8C3D9)}
+.card h3{font-size:1rem;font-weight:600}
+.card .meta{font-size:.82rem;color:#567}
+.card .stars{color:var(--amber);font-size:.85rem}
+.card .price{font-family:'IBM Plex Mono';font-size:1.2rem;margin-top:auto}
+.card .price small{font-size:.7rem;color:#789;display:block;font-family:'Public Sans'}
+.card .buy{margin-top:10px;text-align:center;background:var(--ink);color:#fff;border-radius:8px;padding:10px;text-decoration:none;font-weight:700;font-size:.88rem}
+.card .buy:hover{background:#123B54}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font:inherit;font-size:.84rem;cursor:pointer;font-weight:500}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hero-three{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-bottom:34px}
+.hero-three .card{border:2px solid var(--amber)}
+
+/* hacks */
+.hacks{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.hack{background:#fff;border:1px solid var(--line);border-left:5px solid var(--relief);border-radius:8px;padding:18px}
+.hack h3{font-size:1rem;margin-bottom:6px}
+.hack p{font-size:.9rem;color:#345}
+.hack .cost{font-family:'IBM Plex Mono';font-size:.75rem;color:var(--leaf);display:block;margin-top:8px}
+.hack a{font-weight:600}
+
+/* trends */
+.chart-box{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.chart-box canvas{width:100%;max-height:340px}
+.chart-note{font-size:.78rem;color:#678;margin-top:10px}
+.compare{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:24px}
+.compare .c{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+.compare .c .t{font-family:'IBM Plex Mono';font-size:1.4rem;color:var(--red)}
+.compare .c b{display:block;font-size:.85rem}
+.compare .c span{font-size:.72rem;color:#678}
+
+/* map */
+#ukmap{height:440px;border-radius:var(--radius);border:2px solid var(--ink);z-index:1}
+.map-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:.82rem}
+.map-legend span::before{content:"●";margin-right:6px}
+.leg-heat::before{color:var(--red)}
+.leg-supplier::before{color:var(--relief)}
+
+/* AC locator table */
+.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.88rem}
+.tbl th{background:var(--ink);color:#fff;text-align:left;padding:12px 14px;font-family:'Bricolage Grotesque'}
+.tbl td{padding:11px 14px;border-top:1px solid var(--line)}
+.tbl tr:hover td{background:#EFF6F9}
+.tbl-scroll{overflow-x:auto}
+
+/* eco */
+.eco{background:#EAF4EC}
+.eco-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:20px}
+.eco-link{background:#fff;border:1px solid #BFDCC7;border-radius:8px;padding:16px;text-decoration:none;color:var(--ink)}
+.eco-link b{display:block;color:var(--leaf)}
+.eco-link span{font-size:.84rem;color:#456}
+
+/* about */
+.about{background:var(--ink);color:#DCEDF4}
+.about h2{color:#fff}
+.about .pain{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:22px}
+.about .pain div{background:rgba(255,255,255,.06);border:1px solid rgba(191,231,242,.25);border-radius:8px;padding:16px}
+.about .pain b{color:var(--amber);display:block;margin-bottom:6px}
+.about .pain p{font-size:.88rem}
+
+/* calculator */
+.calc{background:#fff;border:2px solid var(--ink);border-radius:var(--radius);padding:26px;display:grid;gap:15px;max-width:620px}
+.calc label{font-weight:700;font-size:.9rem;display:block;margin-bottom:6px}
+.calc input,.calc select{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.calc-result{background:var(--glacial);border-radius:8px;padding:16px;font-family:'IBM Plex Mono',monospace;display:none}
+.calc-result.show{display:block}
+
+details{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-bottom:10px}
+summary{font-weight:700;cursor:pointer}
+details p{margin-top:10px;color:#345;font-size:.94rem}
+
+/* ===== fun animations ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+.float-icons{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.float-icons span{position:absolute;font-size:1.6rem;opacity:.5;animation:floaty 9s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-26px) rotate(6deg)}}
+.hero{position:relative}
+.sun-pulse{display:inline-block;animation:sunpulse 3s ease-in-out infinite}
+@keyframes sunpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18) rotate(12deg)}}
+.card .temp-bar{background-size:200% 100%;animation:shimmer 4s linear infinite}
+@keyframes shimmer{from{background-position:0% 0}to{background-position:200% 0}}
+.btn-amber{transition:transform .15s ease}
+.btn-amber:hover{transform:translateY(-2px)}
+.heat-city .t{animation:tempglow 2.6s ease-in-out infinite}
+@keyframes tempglow{0%,100%{text-shadow:0 0 0 rgba(245,162,0,0)}50%{text-shadow:0 0 18px rgba(245,162,0,.55)}}
+footer{background:#081C29;color:#B9D2DD;padding:44px 0;font-size:.85rem}
+footer a{color:var(--glacial)}
+.foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px;margin-bottom:24px}
+.foot-grid h4{color:#fff;margin-bottom:10px;font-family:'Bricolage Grotesque'}
+.disclaimer{border-top:1px solid #24506A;padding-top:16px;color:#7FA2B4;font-size:.78rem}
+</style>
+</head>
+<body>
+
+<!-- LIVE heat-alert ticker: updates from Open-Meteo; falls back to static messages offline -->
+<div class="alert-strip" id="alertStrip" role="status" aria-label="UK weather alert ticker">
+  <div class="alert-inner" id="ticker"></div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">Cool<em>Isle</em> UK</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#shop">Heat Relief</a>
+      <a href="#hacks">Budget Hacks</a>
+      <a href="#winter">Winter Ready</a>
+      <a href="#trends">Climate Trends</a>
+      <a href="#map">UK Heat Map</a>
+      <a href="#locator">AC Locator</a>
+      <a href="blog.html">Guides &amp; Blog</a>
+      <a href="winter.html">Winter Guide</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="currency" role="group" aria-label="Currency">
+      <button data-cur="GBP" aria-pressed="true">£</button>
+      <button data-cur="USD" aria-pressed="false">$</button>
+      <button data-cur="EUR" aria-pressed="false">€</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="float-icons" aria-hidden="true">
+    <span style="left:8%;top:18%;animation-delay:0s">☀️</span>
+    <span style="left:85%;top:12%;animation-delay:1.4s">🌧️</span>
+    <span style="left:72%;top:64%;animation-delay:2.8s">❄️</span>
+    <span style="left:16%;top:70%;animation-delay:2s">🌬️</span>
+    <span style="left:48%;top:8%;animation-delay:.8s">⛅</span>
+  </div>
+  <div class="wrap">
+    <p class="eyebrow">Too hot in July. Too cold in January. Wet all year. We've got you.</p>
+    <h1><span class="sun-pulse" aria-hidden="true">☀️</span> Weather-ready living for British homes.</h1>
+    <p>CoolIsle helps you beat the heatwave today and prepare for the freeze tomorrow — with honest advice, budget-friendly hacks and sustainable kit that suits terraces, tenements, flats and rentals. Because British homes were built to keep heat in, not out.</p>
+    <div class="cta-row">
+      <a class="btn btn-amber" href="#shop">Beat the heat now</a>
+      <a class="btn btn-ghost" href="#hacks">Free cooling hacks</a>
+    </div>
+    <!-- LIVE HEAT BOARD -->
+    <div class="heat-board" id="heatBoard" aria-live="polite"></div>
+    <p class="advisory">Live temperatures via Open-Meteo. For official heat-health alerts always check the <a href="https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-warnings" rel="noopener" target="_blank">Met Office warnings page</a> and <a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA heat-health alerts on GOV.UK</a>.</p>
+  </div>
+</section>
+
+<!-- ============ SHOP: 3 HERO PRODUCTS + FULL GRID ============ -->
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">In stock while the big shops sell out</p>
+      <h2>Immediate heat relief — start with these three</h2>
+      <p>Our starter trio: seal the window properly, upgrade your AC's efficiency, or create a cool zone without an AC at all. Light to post, quick to arrive, kind to your leccy bill.</p>
+    </div>
+    <div class="hero-three" id="heroThree"></div>
+    <div class="filters" role="group" aria-label="Filter products">
+      <button data-filter="all" aria-pressed="true">Everything</button>
+      <button data-filter="ac" aria-pressed="false">Cooling</button>
+      <button data-filter="accessory" aria-pressed="false">Hack kit</button>
+      <button data-filter="winter" aria-pressed="false">Winter</button>
+      <button data-filter="rain" aria-pressed="false">Rain</button>
+      <button data-filter="eco" aria-pressed="false">Eco picks</button>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ============ BUDGET COOLING HACKS ============ -->
+<section id="hacks" style="background:#E9F3F7">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Cooling on a budget</p>
+      <h2>Keep your cool without melting your bank balance</h2>
+      <p>Tried-and-tested tricks for British homes — most cost pennies. Each hack links to the kit that makes it work harder.</p>
+    </div>
+    <div class="hacks">
+      <div class="hack"><h3>1. Curtains shut by day, windows open by night</h3><p>Close curtains and blinds on sun-facing windows before 9am. After sunset, open windows on opposite sides of the home for a through-draught.</p><span class="cost">Cost: free</span></div>
+      <div class="hack"><h3>2. The wet-sheet trick</h3><p>Hang a damp sheet in front of an open window or a fan — evaporative cooling, Victorian style. Pairs brilliantly with a <a href="#shop">tower fan</a>.</p><span class="cost">Cost: free–£90</span></div>
+      <div class="hack"><h3>3. Bowl of ice in front of a fan</h3><p>The classic. A frozen water bottle works even better and refreezes overnight. Upgrade: an <a href="#shop">evaporative cooler with ice packs</a> does this properly.</p><span class="cost">Cost: pennies</span></div>
+      <div class="hack"><h3>4. Seal that AC window gap</h3><p>A portable AC with an unsealed window is cooling the street. A <a href="#shop">window seal kit</a> can noticeably improve cooling and cut running costs.</p><span class="cost">Cost: ~£25, saves on every hour of use</span></div>
+      <div class="hack"><h3>5. Switch off heat-makers</h3><p>Ovens, tumble dryers, gaming PCs and even chargers pump heat into your rooms. Cook cold meals, dry laundry outside, and unplug what you're not using.</p><span class="cost">Cost: free — and cuts your bill</span></div>
+      <div class="hack"><h3>6. Cotton sheets, hot water bottle... frozen</h3><p>Swap to cotton or linen bedding, and fill a hot water bottle with cold water and freeze it for a bed cooler. Genuinely works.</p><span class="cost">Cost: free–£12</span></div>
+      <div class="hack"><h3>7. Cool the person, not the room</h3><p>Cold flannel on wrists and neck, feet in a basin of cool water, a <a href="#shop">handheld fan</a> for the commute. Cooling your body directly uses a fraction of the energy.</p><span class="cost">Cost: pennies</span></div>
+      <div class="hack"><h3>8. Check on neighbours</h3><p>Heat is most dangerous for older people and those with health conditions. Knock on for elderly neighbours during amber alerts — it's the British thing to do. NHS heat advice: <a href="https://www.nhs.uk/live-well/seasonal-health/heatwave-how-to-cope-in-hot-weather/" rel="noopener" target="_blank">nhs.uk</a>.</p><span class="cost">Cost: free, value: priceless</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WINTER READY ============ -->
+<section id="winter">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Yes — Britain's cold problem is even bigger than its heat problem</p>
+      <h2>Winter-ready: the freeze is coming</h2>
+      <p>The UK has some of the oldest, draughtiest housing in Europe. Every winter brings thousands of excess deaths linked to cold homes, and millions of households struggle with heating bills. The answer isn't just turning the thermostat up — it's keeping the warmth you've already paid for. We're building our winter range now; join the list and be first.</p>
+    </div>
+    <div class="grid" id="winterGrid"></div>
+    <p style="margin-top:18px;font-size:.9rem">Struggling with heating costs? Check your eligibility for support: <a href="https://www.gov.uk/browse/benefits/help-for-carers" rel="noopener" target="_blank">GOV.UK help with bills</a> · <a href="https://www.gov.uk/winter-fuel-payment" rel="noopener" target="_blank">Winter Fuel Payment</a> · <a href="https://www.gov.uk/cold-weather-payment" rel="noopener" target="_blank">Cold Weather Payment</a> · <a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p>
+  </div>
+</section>
+
+<!-- ============ CLIMATE TRENDS ============ -->
+<section id="trends" style="background:#E9F3F7">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The 20-year picture</p>
+      <h2>Britain is heating up — the trend, not the blip</h2>
+      <p>Hottest recorded UK temperature by notable year. Two decades ago, 35°C made headlines. In 2022 the UK crossed 40°C for the first time in recorded history, and recent summers keep pushing amber and red alerts. The Met Office's UK climate projections point to hotter, drier summers and warmer, wetter winters becoming the norm.</p>
+    </div>
+    <div class="chart-box">
+      <canvas id="trendChart" height="140" role="img" aria-label="Line chart of notable UK maximum temperatures rising from about 36 degrees in 2006 to over 40 degrees in 2022 and high 30s since"></canvas>
+      <p class="chart-note">Approximate hottest recorded UK temperature in notable years, °C. Values indicative, compiled from Met Office public records — always verify current data at <a href="https://www.metoffice.gov.uk/research/climate/maps-and-data" rel="noopener" target="_blank">metoffice.gov.uk</a>. 2022 record: 40.3°C at Coningsby, Lincolnshire.</p>
+    </div>
+    <h3 style="margin-top:34px">How does the UK compare to the neighbours?</h3>
+    <p style="color:#456;font-size:.92rem;margin-top:6px">Record maximum temperatures. Our neighbours run hotter — but their homes are built for it. Only a small minority of UK homes have any air conditioning, which is why British heatwaves hit harder at lower temperatures.</p>
+    <div class="compare">
+      <div class="c"><b>🇬🇧 United Kingdom</b><span class="t">40.3°</span><span>Coningsby, 2022</span></div>
+      <div class="c"><b>🇮🇪 Ireland</b><span class="t">33.3°</span><span>Kilkenny, 1887</span></div>
+      <div class="c"><b>🇫🇷 France</b><span class="t">46.0°</span><span>Vérargues, 2019</span></div>
+      <div class="c"><b>🇳🇱 Netherlands</b><span class="t">40.7°</span><span>Gilze-Rijen, 2019</span></div>
+      <div class="c"><b>🇧🇪 Belgium</b><span class="t">41.8°</span><span>Begijnendijk, 2019</span></div>
+      <div class="c"><b>🇩🇪 Germany</b><span class="t">41.2°</span><span>Duisburg, 2019</span></div>
+      <div class="c"><b>🇪🇸 Spain</b><span class="t">47.6°</span><span>La Rambla, 2021</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECO / CLIMATE RESPONSIBILITY ============ -->
+<section class="eco">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Climate responsibility</p>
+      <h2>Cool the home, not the planet</h2>
+      <p>Every product we recommend is chosen with running cost and carbon in mind: fans before coolers, coolers before compressors, and compressors sized right so they don't waste energy. Passive measures first — shading, sealing, insulation — then efficient kit. That's cheaper for you and lighter on the grid.</p>
+    </div>
+    <div class="eco-links">
+      <a class="eco-link" href="https://www.gov.uk/apply-boiler-upgrade-scheme" rel="noopener" target="_blank"><b>Boiler Upgrade Scheme →</b><span>Government grants towards a heat pump — which heats in winter AND can cool in summer.</span></a>
+      <a class="eco-link" href="https://energysavingtrust.org.uk" rel="noopener" target="_blank"><b>Energy Saving Trust →</b><span>Independent advice on insulation, draught-proofing and cutting bills.</span></a>
+      <a class="eco-link" href="https://www.gov.uk/improve-energy-efficiency" rel="noopener" target="_blank"><b>Improve your home's energy efficiency →</b><span>Official GOV.UK tool with recommendations for your property.</span></a>
+      <a class="eco-link" href="https://www.metoffice.gov.uk/weather/climate-change" rel="noopener" target="_blank"><b>Met Office: UK climate change →</b><span>The science behind Britain's shifting weather.</span></a>
+      <a class="eco-link" href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank"><b>UKHSA Heat-Health Alerts →</b><span>Sign up for official alerts before heatwaves hit.</span></a>
+      <a class="eco-link" href="https://www.nhs.uk/live-well/seasonal-health/keep-warm-keep-well/" rel="noopener" target="_blank"><b>NHS: Keep Warm, Keep Well →</b><span>Official winter health guidance for cold homes.</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UK HEAT MAP + SUPPLIERS ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Live map</p>
+      <h2>UK heat by nation &amp; region — and where our stock ships from</h2>
+      <p>Red markers show live temperatures across England, Scotland, Wales and Northern Ireland. Blue markers show fulfilment hubs our dropship partners operate from — the closer the warehouse, the faster your delivery.</p>
+    </div>
+    <div id="ukmap" aria-label="Map of UK showing live city temperatures and supplier warehouse locations"></div>
+    <div class="map-legend">
+      <span class="leg-heat">Live temperature (city)</span>
+      <span class="leg-supplier">Supplier / fulfilment hub (approximate)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AC LOCATOR & PRICE COMPARISON ============ -->
+<section id="locator" style="background:#E9F3F7">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Honest shopping</p>
+      <h2>AC Locator — everywhere to buy, compared</h2>
+      <p>We'd love your order, but our first job is being useful. Here's where Brits can buy portable air conditioning right now, with typical price ranges and what each is best for. During heatwaves, phone ahead — stock vanishes within hours.</p>
+    </div>
+    <div class="tbl-scroll">
+    <table class="tbl">
+      <thead><tr><th>Retailer</th><th>Typical portable AC price</th><th>Best for</th><th>Watch out for</th></tr></thead>
+      <tbody>
+        <tr><td><b>CoolIsle UK</b> (you're here)</td><td>£219–£599</td><td>Accessories in stock, honest sizing advice, 1–4 day UK dropship delivery</td><td>New kid on the block — check our reviews</td></tr>
+        <tr><td>Currys</td><td>£249–£699</td><td>Big-brand units, click &amp; collect</td><td>Sells out first in heatwaves</td></tr>
+        <tr><td>Argos</td><td>£150–£500</td><td>Same-day collection at Sainsbury's</td><td>Budget units, limited BTU info</td></tr>
+        <tr><td>B&amp;Q / Screwfix</td><td>£180–£550</td><td>Trade-adjacent stock, hose fittings</td><td>Portable units sold out during June's heatwave</td></tr>
+        <tr><td>AO.com</td><td>£230–£650</td><td>Fast delivery, good filtering</td><td>Delivery slots fill in hot weeks</td></tr>
+        <tr><td>Appliances Direct</td><td>£170–£600</td><td>Widest AC-specialist range</td><td>Check refurb vs new listings</td></tr>
+        <tr><td>Amazon UK</td><td>£150–£700</td><td>Reviews at scale, fast Prime delivery</td><td>Unbranded imports — verify UKCA marking &amp; UK plug</td></tr>
+        <tr><td>Meaco (direct)</td><td>£369–£549</td><td>The UK's best-reviewed portable ACs</td><td>Premium pricing, waitlists in heatwaves</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:14px;font-size:.85rem;color:#567">Prices indicative, July 2026. Whoever you buy from: check the BTU suits your room (use our <a href="#calculator">calculator</a>), confirm a UK window kit is included, and never buy a 115V US-spec unit — it won't run on UK mains.</p>
+  </div>
+</section>
+
+<!-- ============ BTU CALCULATOR ============ -->
+<section id="calculator">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Which BTU do I need?</h2>
+      <p>Rule of thumb for UK rooms: ~350 BTU per square metre. South-facing rooms and lofts need 15–25% more.</p>
+    </div>
+    <div class="calc">
+      <div><label for="roomSize">Room size (m²)</label><input type="number" id="roomSize" min="5" max="60" value="16" inputmode="numeric"></div>
+      <div><label for="facing">Room type</label><select id="facing"><option value="1">Standard room</option><option value="1.2">South-facing / big windows</option><option value="1.15">Poorly insulated / loft room</option></select></div>
+      <button class="btn btn-amber" id="calcBtn" type="button">Calculate</button>
+      <div class="calc-result" id="calcResult" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT US ============ -->
+<section id="about" class="about">
+  <div class="wrap">
+    <p class="eyebrow" style="color:var(--glacial)">About CoolIsle UK</p>
+    <h2>Sustainable heat and cooling for every British home</h2>
+    <p style="max-width:70ch;margin-top:14px">CoolIsle exists because Britain's weather has changed faster than Britain's homes. Our houses — from Victorian terraces to Glasgow tenements — were masterpieces of their era, built to hold warmth through long grey winters. Nobody designed them for 40°C. Our goal is simple: help every household stay safe and comfortable in heatwaves, cold snaps and downpours alike, with solutions that respect both your budget and the environment.</p>
+    <p style="max-width:70ch;margin-top:14px">We take our cue from a very British tradition of environmental stewardship — one championed for over five decades by His Majesty King Charles III, who spoke about sustainability long before it was fashionable. In that spirit, we always recommend the lowest-energy option that solves your problem: shade before fans, fans before coolers, coolers before compressors, and insulation before everything. This country queued calmly through rationing and put the kettle on during the Blitz; a heatwave won't beat us either — but a bit of preparation helps.</p>
+    <div class="pain">
+      <div><b>Pain: "My flat is an oven and I rent."</b><p>Solve: no-drill, landlord-friendly kit — window seal kits, portable units, evaporative coolers. Nothing permanent, everything reversible.</p></div>
+      <div><b>Pain: "ACs are sold out everywhere."</b><p>Solve: live stock via dropship warehouses, plus our AC Locator pointing you to whoever has stock — even if it isn't us.</p></div>
+      <div><b>Pain: "I can't afford to run cooling."</b><p>Solve: running costs on every listing, free hacks that cost pennies, and right-sizing advice so you never buy more BTU than you need.</p></div>
+      <div><b>Pain: "Winter bills frighten me more than summer."</b><p>Solve: our winter range keeps warmth in rather than burning more gas — plus signposting to every GOV.UK support scheme.</p></div>
+      <div><b>Pain: "I don't know what to trust online."</b><p>Solve: UKCA-marked branded products only, honest comparisons including our competitors, and official Met Office, NHS and GOV.UK sources linked throughout.</p></div>
+      <div><b>Pain: "And then it rains."</b><p>Solve: of course it does. Rain-ready gear lives here too — because being weather-ready in Britain means all the weather.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" style="background:#E9F3F7">
+  <div class="wrap">
+    <div class="sec-head"><h2>Frequently asked questions</h2></div>
+    <details><summary>Do portable air conditioners work in UK homes?</summary><p>Yes — a 9,000 BTU unit handles a typical double bedroom (12–18m²), needs no installation and no landlord permission. Window kits fit standard UK casement and sliding windows.</p></details>
+    <details><summary>How much does a portable AC cost to run in the UK?</summary><p>Roughly 20–32p per hour at current electricity rates. Evaporative coolers run at 3–6p/hr and fans just 1–3p/hr — which is why we suggest the cheapest option that actually solves your problem.</p></details>
+    <details><summary>Does the UK really have a cold problem too?</summary><p>A serious one. Britain's housing stock is among the least insulated in western Europe, and cold homes are linked to thousands of excess winter deaths each year. Draught-proofing and insulation are the highest-impact fixes — see our Winter Ready section and the NHS Keep Warm Keep Well guidance.</p></details>
+    <details><summary>Air conditioner vs air cooler — what's the difference?</summary><p>An air conditioner uses a compressor to genuinely lower room temperature and remove humidity. An evaporative cooler blows air over water — far cheaper to run, but in muggy British heat it can make humid air feel worse. For sticky 30°C+ nights, choose a compressor AC.</p></details>
+    <details><summary>Can I use a US air conditioner in the UK?</summary><p>No — US units run on 115V/60Hz; UK mains is 230V/50Hz. Buy UK-spec units with a UK plug and UKCA marking.</p></details>
+    <details><summary>Where does the live temperature data come from?</summary><p>The Open-Meteo public weather API. It's indicative only — for official warnings always check the Met Office and UKHSA heat-health alerts, both linked on this page.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><h4>CoolIsle UK</h4><p>Weather-ready living for British homes. Heat relief, winter warmth, rain-ready gear.</p></div>
+      <div><h4>Shop</h4><p><a href="#shop">Cooling</a><br><a href="#winter">Winter warmth</a><br><a href="#shop">Rain-ready</a><br><a href="#shop">Hack kit</a></p></div>
+      <div><h4>Learn</h4><p><a href="#hacks">Budget cooling hacks</a><br><a href="#trends">UK climate trends</a><br><a href="#locator">AC Locator</a><br><a href="#calculator">BTU calculator</a></p></div>
+      <div><h4>Official resources</h4><p><a href="https://www.metoffice.gov.uk" rel="noopener" target="_blank">Met Office</a><br><a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA alerts</a><br><a href="https://www.nhs.uk/live-well/seasonal-health/" rel="noopener" target="_blank">NHS seasonal health</a><br><a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p></div>
+    </div>
+    <p class="disclaimer">© 2026 CoolIsle UK. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Prices shown in GBP, USD or EUR at indicative rates; final charge in GBP at checkout. We are an independent retailer; links to GOV.UK, NHS and Met Office are provided as a public resource and imply no endorsement.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* =====================================================================
+   CONFIG — edit freely. buyUrl: paste your Shopify product links.
+===================================================================== */
+const HERO_SKUS = ["CI-SEAL-001","CI-DUAL-003","CI-TOWER-006"]; // the starter trio
+
+const PRODUCTS = [
+ {sku:"CI-SEAL-001", name:"Universal Window Seal Kit for Portable AC", cat:"accessory", ship:"uk", gbp:24.99, rating:"★★★★☆ Essential", meta:"Fits UK casement & sliding windows · boosts AC efficiency", eco:true, buyUrl:"#"},
+ {sku:"CI-DUAL-003", name:"Dual-Hose Upgrade Kit", cat:"accessory", ship:"uk", gbp:22.99, rating:"★★★★☆ Efficiency boost", meta:"Makes single-hose ACs 20–30% more effective", eco:true, buyUrl:"#"},
+ {sku:"CI-TOWER-006", name:"Evaporative Tower Air Cooler 3L + Ice Packs", cat:"ac", ship:"uk", gbp:89.00, rating:"★★★★☆", meta:"3–6p/hr to run · remote · 12hr timer", eco:true, buyUrl:"#"},
+ {sku:"CI-HOSE-002", name:"AC Exhaust Hose Extension 2m", cat:"accessory", ship:"uk", gbp:18.99, rating:"★★★★☆", meta:"Universal 130/150mm fittings", buyUrl:"#"},
+ {sku:"CI-MINIFAN-004", name:"Handheld Mini Fan 3-Pack (USB-C)", cat:"ac", ship:"uk", gbp:19.99, rating:"★★★★☆ Commuter hero", meta:"Rechargeable — don't bin it, recharge it", eco:true, buyUrl:"#"},
+ {sku:"CI-DESK-005", name:"Personal Desktop Air Cooler (USB)", cat:"ac", ship:"uk", gbp:29.99, rating:"★★★★☆", meta:"Cool zone at your desk for pennies", buyUrl:"#"},
+ {sku:"CI-TFAN-007", name:"Silent Tower Fan 46\"", cat:"ac", ship:"uk", gbp:69.00, rating:"★★★★★ Sleep saver", meta:"1–3p/hr · quiet enough for light sleepers", eco:true, buyUrl:"#"},
+ {sku:"CI-PB9000", name:"Pro Breeze 4-in-1 Smart 9000 BTU AC", cat:"ac", ship:"uk", gbp:299, rating:"★★★★☆ 4.2 (779)", meta:"Which? Best Buy · WiFi · rooms to 22m²", buyUrl:"#"},
+ {sku:"CI-MC7000", name:"MeacoCool MC Series 7000 BTU AC", cat:"ac", ship:"uk", gbp:369, rating:"★★★★★ Editors' pick", meta:"Quietest small-bedroom AC · UK window kit", buyUrl:"#"},
+ /* ---- WINTER (preview — launching autumn) ---- */
+ {sku:"CI-W-DRAFT", name:"Door & Letterbox Draught Excluder Set", cat:"winter", ship:"uk", gbp:16.99, rating:"Coming this autumn", meta:"Stops the warmth you've paid for escaping", eco:true, buyUrl:"#", preorder:true},
+ {sku:"CI-W-THERM", name:"Thermal Blackout Curtain Liners (pair)", cat:"winter", ship:"uk", gbp:34.99, rating:"Coming this autumn", meta:"Cuts window heat-loss · doubles as summer shade", eco:true, buyUrl:"#", preorder:true},
+ {sku:"CI-W-THROW", name:"Low-Energy Heated Throw", cat:"winter", ship:"uk", gbp:49.99, rating:"Coming this autumn", meta:"Heat the person, not the house — pennies per evening", eco:true, buyUrl:"#", preorder:true},
+ {sku:"CI-W-FILM", name:"Window Insulation Film Kit", cat:"winter", ship:"uk", gbp:12.99, rating:"Coming this autumn", meta:"Secondary glazing for renters — fully removable", eco:true, buyUrl:"#", preorder:true},
+ /* ---- RAIN ---- */
+ {sku:"CI-R-BROLLY", name:"Storm-Proof Windproof Umbrella", cat:"rain", ship:"uk", gbp:24.99, rating:"★★★★☆", meta:"Inverted frame survives British gusts", buyUrl:"#"},
+ {sku:"CI-R-PONCHO", name:"Packable Rain Poncho (recycled fabric)", cat:"rain", ship:"uk", gbp:14.99, rating:"★★★★☆", meta:"Festival & school-run approved", eco:true, buyUrl:"#"},
+ {sku:"CI-R-BOOT", name:"Boot & Shoe Drying Rack", cat:"rain", ship:"uk", gbp:19.99, rating:"★★★★☆", meta:"Because wet school shoes by 8am is a national crisis", buyUrl:"#"},
+];
+
+/* Live cities for the heat board + map. lat/lon for Open-Meteo. */
+const CITIES = [
+ {n:"London", la:51.51, lo:-0.13}, {n:"Birmingham", la:52.48, lo:-1.90},
+ {n:"Manchester", la:53.48, lo:-2.24}, {n:"Bournemouth", la:50.72, lo:-1.88},
+ {n:"Cardiff", la:51.48, lo:-3.18}, {n:"Glasgow", la:55.86, lo:-4.25},
+ {n:"Belfast", la:54.60, lo:-5.93}, {n:"Leeds", la:53.80, lo:-1.55},
+];
+
+/* Supplier / fulfilment hubs (approximate public locations) */
+const SUPPLIERS = [
+ {n:"Avasam network (HQ)", la:53.48, lo:-2.29, note:"Verified UK dropship suppliers, 1–4 day delivery"},
+ {n:"CJ Dropshipping UK hub", la:52.45, lo:-1.73, note:"Accessories, fans, coolers — UK warehouse"},
+ {n:"Costway UK warehouse", la:52.24, lo:-0.90, note:"Bulky home goods, UK stock"},
+ {n:"AliExpress UK-stock hubs", la:51.88, lo:0.55, note:"'Ships from UK' filtered listings"},
+];
+
+/* Trend data: approximate hottest recorded UK temp in notable years (°C, Met Office public records) */
+const TREND = [
+ {y:2003,t:38.5},{y:2006,t:36.5},{y:2015,t:36.7},{y:2019,t:38.7},
+ {y:2020,t:37.8},{y:2022,t:40.3},{y:2023,t:33.5},{y:2024,t:34.8},{y:2025,t:35.8},{y:2026,t:37.7}
+];
+
+const STATIC_TICKER = [
+ "⚠ Heatwave season: UK AC install requests up 320% year-on-year",
+ "Portable units sold out at major retailers — accessories still in stock",
+ "1–4 day delivery from UK warehouses",
+ "Winter range launching this autumn — draught-proofing before the freeze",
+];
+
+/* ============ currency ============ */
+let RATES = { GBP:1, USD:1.27, EUR:1.17 };
+const SYMBOL = { GBP:"£", USD:"$", EUR:"€" };
+let currentCur = "GBP";
+fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR")
+ .then(r=>r.json()).then(d=>{ if(d&&d.rates){RATES.USD=d.rates.USD;RATES.EUR=d.rates.EUR;renderAll();}}).catch(()=>{});
+
+/* ============ rendering ============ */
+function priceIn(g){return SYMBOL[currentCur]+(g*RATES[currentCur]).toFixed(2);}
+function cardHTML(p){
+ const cls = p.cat==="winter"?"card winter":p.cat==="rain"?"card rain":"card";
+ const btn = p.preorder ? "Join the winter list" : "Add to basket";
+ return `<article class="${cls}"><div class="temp-bar"></div>
+  <div><span class="badge uk">SHIPS FROM UK</span> ${p.eco?'<span class="badge eco">LOW-ENERGY PICK</span>':''}</div>
+  <h3>${p.name}</h3><div class="stars">${p.rating}</div><div class="meta">${p.meta}</div>
+  <div class="price">${priceIn(p.gbp)}<small>${currentCur!=="GBP"?"≈ £"+p.gbp.toFixed(2)+" charged at checkout":"inc. VAT"}</small></div>
+  <a class="buy" href="${p.buyUrl}">${btn}</a></article>`;
+}
+let currentFilter="all";
+function renderAll(){
+ document.getElementById("heroThree").innerHTML =
+   PRODUCTS.filter(p=>HERO_SKUS.includes(p.sku)).map(cardHTML).join("");
+ document.getElementById("productGrid").innerHTML =
+   PRODUCTS.filter(p=>{
+     if(currentFilter==="all") return p.cat!=="winter";
+     if(currentFilter==="eco") return !!p.eco;
+     return p.cat===currentFilter;
+   }).map(cardHTML).join("");
+ document.getElementById("winterGrid").innerHTML =
+   PRODUCTS.filter(p=>p.cat==="winter").map(cardHTML).join("");
+}
+renderAll();
+
+document.querySelectorAll(".currency button").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".currency button").forEach(x=>x.setAttribute("aria-pressed","false"));
+ b.setAttribute("aria-pressed","true"); currentCur=b.dataset.cur; renderAll();
+}));
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{
+ document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed","false"));
+ b.setAttribute("aria-pressed","true"); currentFilter=b.dataset.filter; renderAll();
+}));
+
+/* ============ LIVE ticker + heat board (Open-Meteo, no key needed) ============ */
+function setTicker(msgs, red){
+ const s = msgs.map(m=>`<span>${m}</span>`).join("");
+ document.getElementById("ticker").innerHTML = s+s;
+ document.getElementById("alertStrip").classList.toggle("red", !!red);
+}
+setTicker(STATIC_TICKER,false);
+
+const latList = CITIES.map(c=>c.la).join(","), lonList = CITIES.map(c=>c.lo).join(",");
+fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latList}&longitude=${lonList}&current=temperature_2m&daily=temperature_2m_max&forecast_days=1&timezone=Europe%2FLondon`)
+ .then(r=>r.json()).then(data=>{
+   const arr = Array.isArray(data)?data:[data];
+   let hottest=-99, board="";
+   arr.forEach((d,i)=>{
+     const t = d.current?.temperature_2m, mx = d.daily?.temperature_2m_max?.[0];
+     if(typeof t!=="number") return;
+     if(mx>hottest) hottest=mx;
+     board += `<div class="heat-city"><b>${CITIES[i].n}</b><span class="t">${t.toFixed(1)}°C</span><span style="font-size:.72rem;color:#BFE7F2">high ${mx?.toFixed(0)}°C today</span></div>`;
+     CITIES[i].live=t; CITIES[i].max=mx;
+   });
+   document.getElementById("heatBoard").innerHTML = board;
+   let level="none", red=false, msgs=[...STATIC_TICKER];
+   if(hottest>=34){level="SEVERE HEAT"; red=true;}
+   else if(hottest>=30){level="AMBER-LEVEL HEAT";}
+   else if(hottest>=27){level="HOT SPELL";}
+   if(level!=="none"){
+     msgs.unshift(`⚠ CoolIsle advisory: ${level} — highs near ${hottest.toFixed(0)}°C in parts of the UK today. Check official Met Office warnings.`);
+   } else {
+     msgs.unshift(`Today's UK picture: highs near ${hottest.toFixed(0)}°C. Mild for now — a grand day to prepare before the next heatwave.`);
+   }
+   setTicker(msgs, red);
+   drawMap();
+ }).catch(()=>{ drawMap(); });
+
+/* ============ trend chart (vanilla canvas) ============ */
+(function(){
+ const c=document.getElementById("trendChart"), ctx=c.getContext("2d");
+ const W=c.width=c.offsetWidth*2, H=c.height=340*2; ctx.scale(1,1);
+ const pad=70, minT=32, maxT=42;
+ const x=i=>pad+ i*(W-2*pad)/(TREND.length-1);
+ const y=t=>H-pad-((t-minT)/(maxT-minT))*(H-2*pad);
+ ctx.strokeStyle="#D5E2E8"; ctx.fillStyle="#678"; ctx.font="20px 'IBM Plex Mono',monospace"; ctx.lineWidth=1;
+ for(let t=32;t<=42;t+=2){ctx.beginPath();ctx.moveTo(pad,y(t));ctx.lineTo(W-pad,y(t));ctx.stroke();ctx.fillText(t+"°",14,y(t)+6);}
+ ctx.strokeStyle="#F5A200";ctx.beginPath();ctx.setLineDash([8,8]);ctx.moveTo(pad,y(40));ctx.lineTo(W-pad,y(40));ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle="#C8341F";ctx.fillText("40°C — first crossed 2022",W-pad-330,y(40)-10);
+ ctx.strokeStyle="#0E7C9E";ctx.lineWidth=5;ctx.beginPath();
+ TREND.forEach((p,i)=>{i?ctx.lineTo(x(i),y(p.t)):ctx.moveTo(x(0),y(p.t));});ctx.stroke();
+ TREND.forEach((p,i)=>{
+  ctx.fillStyle=p.t>=40?"#C8341F":"#0E7C9E";ctx.beginPath();ctx.arc(x(i),y(p.t),9,0,7);ctx.fill();
+  ctx.fillStyle="#0E2A3C";ctx.fillText(p.y,x(i)-28,H-pad+34);
+  ctx.fillText(p.t+"°",x(i)-26,y(p.t)-16);
+ });
+})();
+
+/* ============ Leaflet UK map ============ */
+let mapDrawn=false;
+function drawMap(){
+ if(mapDrawn||typeof L==="undefined")return; mapDrawn=true;
+ const map=L.map("ukmap",{scrollWheelZoom:false}).setView([54.3,-3.4],5);
+ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors",maxZoom:18}).addTo(map);
+ CITIES.forEach(c=>{
+  const t = typeof c.live==="number" ? `${c.live.toFixed(1)}°C now · high ${c.max?.toFixed(0)}°C` : "live temp unavailable";
+  L.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
+   .addTo(map).bindPopup(`<b>${c.n}</b><br>${t}`);
+ });
+ SUPPLIERS.forEach(s=>{
+  L.circleMarker([s.la,s.lo],{radius:8,color:"#0E2A3C",fillColor:"#0E7C9E",fillOpacity:.9,weight:2})
+   .addTo(map).bindPopup(`<b>${s.n}</b><br>${s.note}`);
+ });
+}
+setTimeout(drawMap, 2500); // fallback if weather fetch is slow
+
+/* ============ scroll reveal ============ */
+document.querySelectorAll("section .wrap > *, .card, .hack, .compare .c, .eco-link").forEach(el=>el.classList.add("reveal"));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+// re-observe dynamically rendered cards after each render
+const _renderAll = renderAll;
+renderAll = function(){ _renderAll(); document.querySelectorAll(".card:not(.in)").forEach(el=>{el.classList.add("reveal");io.observe(el);}); };
+
+/* ============ BTU calculator ============ */
+document.getElementById("calcBtn").addEventListener("click",()=>{
+ const size=parseFloat(document.getElementById("roomSize").value)||16;
+ const mult=parseFloat(document.getElementById("facing").value);
+ const btu=Math.round(size*350*mult/500)*500;
+ const rec=btu<=7500?"7,000 BTU class (small bedroom)":btu<=9500?"9,000 BTU class (double bedroom)":btu<=12500?"12,000 BTU class (living room)":"14,000–16,000 BTU class (open-plan)";
+ const el=document.getElementById("calcResult");
+ el.textContent=`You need roughly ${btu.toLocaleString()} BTU → recommended: ${rec}`;
+ el.classList.add("show");
+});
+</script>
+</body>
+</html>
