@@ -4,7 +4,7 @@
 
 CoolIsle UK helps British households stay safe and comfortable through heatwaves, cold snaps and downpours — with honest advice, budget-friendly hacks and sustainable kit that suits terraces, tenements, flats and rentals.
 
-🔗 **Live site:** https://brexatlas.github.io/cool-isle/
+🔗 **Live site:** https://brexatlas.github.io/Cool-Isle/
 
 ## What's on the site
 
