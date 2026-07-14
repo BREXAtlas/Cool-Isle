@@ -185,7 +185,7 @@ function loadScript(timeoutMs) {
   });
 }
 
-function loadLeaflet(timeoutMs = 8000) {
+export function loadLeaflet(timeoutMs = 8000) {
   if (window.L && document.querySelector('link[data-leaflet-styles]')?.sheet) return Promise.resolve(window.L);
   if (!leafletPromise) {
     leafletPromise = Promise.all([loadStylesheet(timeoutMs), loadScript(timeoutMs)])
