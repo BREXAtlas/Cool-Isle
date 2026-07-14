@@ -1,18 +1,17 @@
 {
   "version": 2,
   "utcDay": "2026-07-14",
-  "attempts": 0,
+  "attempts": 12,
   "limit": 350,
-  "updatedAt": "2026-07-14T04:19:22.229Z",
-  "source": "operator-confirmed-bootstrap",
-  "reservations": [],
-  "bootstrapAudit": {
-    "method": "workflow-dispatch-operator-confirmed",
-    "actor": "BREXAtlas",
-    "workflowRunId": "29305674020",
-    "confirmedAttempts": 0,
-    "confirmedUtcDay": "2026-07-14",
-    "initialisedAt": "2026-07-14T04:19:22.229Z",
-    "replacedQuarantine": true
-  }
+  "updatedAt": "2026-07-14T04:19:23.530Z",
+  "source": "github-contents-durable-reservation",
+  "reservations": [
+    {
+      "id": "29305674020:1:ba55d5f6-bc43-4d04-8ecc-864c59e5b988",
+      "size": 12,
+      "attemptsBefore": 0,
+      "attemptsAfter": 12,
+      "reservedAt": "2026-07-14T04:19:23.530Z"
+    }
+  ]
 }
