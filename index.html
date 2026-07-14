@@ -10,7 +10,7 @@
 <meta property="og:title" content="CoolIsle UK — Weather-Ready Britain">
 <meta property="og:description" content="Live UK heat tracker, budget cooling hacks, heatwave relief, winter warmth and rain-ready gear. Built for British homes.">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://YOURUSERNAME.github.io/coolisle/">
+<link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Store","name":"CoolIsle UK","description":"Weather-ready living for UK homes: cooling, warmth, rain gear and preparedness advice","areaServed":["England","Scotland","Wales","Northern Ireland"],"currenciesAccepted":"GBP, USD, EUR"}
 </script>
@@ -51,6 +51,8 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .nav-links{display:flex;gap:14px;flex-wrap:wrap}
 .nav-links a{color:#CFE6EF;text-decoration:none;font-size:.85rem;font-weight:500}
 .nav-links a:hover{color:#fff;text-decoration:underline}
+.nav-links .weatherchart-nav-link{background:#42C7F5;color:#152238;padding:6px 10px;border-radius:999px;font-weight:700}
+.nav-links .weatherchart-nav-link:hover{background:#BDF3FF;color:#152238;text-decoration:none}
 .currency{display:flex;border:1px solid #3A5A6E;border-radius:999px;overflow:hidden}
 .currency button{background:transparent;color:#CFE6EF;border:0;padding:6px 12px;font:inherit;font-size:.82rem;cursor:pointer}
 .currency button[aria-pressed="true"]{background:var(--glacial);color:var(--ink);font-weight:700}
@@ -63,8 +65,10 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .btn{display:inline-block;padding:13px 22px;border-radius:var(--radius);font-weight:700;text-decoration:none;font-size:.95rem;border:2px solid transparent;cursor:pointer}
 .btn-amber{background:var(--amber);color:#1E1300}
 .btn-ghost{border-color:var(--glacial);color:var(--glacial);background:transparent}
+.btn-weatherchart{background:#42C7F5;color:#152238}
 .btn-amber:hover{background:#FFB627}
 .btn-ghost:hover{background:rgba(191,231,242,.12)}
+.btn-weatherchart:hover{background:#BDF3FF}
 
 /* live heat board */
 .heat-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:26px}
@@ -73,6 +77,19 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .heat-city .t{font-family:'IBM Plex Mono';font-size:1.5rem;font-weight:500}
 .advisory{margin-top:14px;font-size:.82rem;color:#CFE6EF}
 .advisory a{color:var(--glacial)}
+.weather-check-status{margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:#CFE6EF}
+
+/* WeatherChart bridge: connected to CoolIsle, visually its own thing */
+.weatherchart-bridge{background:#25245E;color:#F7FBFF;padding:34px 0}
+.weatherchart-bridge-card{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,.7fr);gap:24px;align-items:center;background:linear-gradient(135deg,rgba(66,199,245,.18),rgba(184,233,106,.10));border:1px solid rgba(189,243,255,.42);border-radius:20px;padding:26px}
+.weatherchart-bridge .eyebrow{color:#B8E96A}
+.weatherchart-bridge h2{font-size:clamp(1.4rem,3vw,2rem);margin:6px 0 8px}
+.weatherchart-bridge p{color:#E1F6FF;max-width:64ch}
+.weatherchart-status{background:rgba(21,34,56,.48);border-radius:14px;padding:18px;display:grid;gap:6px}
+.weatherchart-status strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem}
+.weatherchart-status span{font-size:.82rem;color:#BDF3FF}
+.weatherchart-status .btn{margin-top:8px;text-align:center}
+@media (max-width:720px){.weatherchart-bridge-card{grid-template-columns:1fr}.nav-links .weatherchart-nav-link{padding:4px 8px}}
 
 .badge{display:inline-block;font-family:'IBM Plex Mono';font-size:.66rem;letter-spacing:.05em;padding:3px 9px;border-radius:999px;font-weight:500}
 .badge.uk{background:#E1F1E4;color:#1F6B34;border:1px solid #9FCEAB}
@@ -177,6 +194,18 @@ footer a{color:var(--glacial)}
 .foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px;margin-bottom:24px}
 .foot-grid h4{color:#fff;margin-bottom:10px;font-family:'Bricolage Grotesque'}
 .disclaimer{border-top:1px solid #24506A;padding-top:16px;color:#7FA2B4;font-size:.78rem}
+
+/* Free-to-use image gallery — photos served by Unsplash */
+.weather-gallery{background:#fff}
+.weather-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.weather-photo{position:relative;min-height:280px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:#dce8ed}
+.weather-photo img{width:100%;height:100%;min-height:280px;object-fit:cover;display:block;transition:transform .35s ease}
+.weather-photo:hover img{transform:scale(1.035)}
+.weather-photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:36px 16px 14px;background:linear-gradient(transparent,rgba(8,28,41,.9));color:#fff;font-weight:700}
+.weather-photo figcaption span{display:block;font-size:.75rem;font-weight:400;color:#d7e8ef;margin-top:3px}
+.photo-credit{font-size:.76rem;color:#678;margin-top:12px}
+@media (max-width:760px){.weather-gallery-grid{grid-template-columns:1fr}.weather-photo,.weather-photo img{min-height:230px}}
+
 </style>
 </head>
 <body>
@@ -191,6 +220,7 @@ footer a{color:var(--glacial)}
     <a class="logo" href="#">Cool<em>Isle</em> UK</a>
     <nav class="nav-links" aria-label="Main">
       <a href="#shop">Heat Relief</a>
+      <a href="#weather-gallery">Gallery</a>
       <a href="#hacks">Budget Hacks</a>
       <a href="#winter">Winter Ready</a>
       <a href="#trends">Climate Trends</a>
@@ -198,6 +228,7 @@ footer a{color:var(--glacial)}
       <a href="#locator">AC Locator</a>
       <a href="blog.html">Guides &amp; Blog</a>
       <a href="winter.html">Winter Guide</a>
+      <a class="weatherchart-nav-link" href="weatherchart/">WeatherChart UK</a>
       <a href="#about">About</a>
     </nav>
     <div class="currency" role="group" aria-label="Currency">
@@ -223,10 +254,56 @@ footer a{color:var(--glacial)}
     <div class="cta-row">
       <a class="btn btn-amber" href="#shop">Beat the heat now</a>
       <a class="btn btn-ghost" href="#hacks">Free cooling hacks</a>
+      <a class="btn btn-weatherchart" href="weatherchart/">Open WeatherChart UK</a>
     </div>
     <!-- LIVE HEAT BOARD -->
     <div class="heat-board" id="heatBoard" aria-live="polite"></div>
     <p class="advisory">Live temperatures via Open-Meteo. For official heat-health alerts always check the <a href="https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-warnings" rel="noopener" target="_blank">Met Office warnings page</a> and <a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA heat-health alerts on GOV.UK</a>.</p>
+    <p class="weather-check-status" id="weatherCheckStatus" role="status" aria-live="polite">Preparing the latest indicative weather check…</p>
+  </div>
+</section>
+
+<section class="weatherchart-bridge" aria-labelledby="weatherchart-bridge-title">
+  <div class="wrap">
+    <div class="weatherchart-bridge-card">
+      <div>
+        <p class="eyebrow">Meet the weather side of the family</p>
+        <h2 id="weatherchart-bridge-title">WeatherChart UK — what’s the sky up to?</h2>
+        <p>A visual, plain-English forecast companion with location search, charts, warnings, maps and public weather chatter. It is independent, family-friendly and never a substitute for official warning guidance.</p>
+      </div>
+      <div class="weatherchart-status" aria-live="polite">
+        <strong id="weatherchartWarningCount">Official warning status loading…</strong>
+        <span id="weatherchartSummary">Checking the latest published WeatherChart dataset.</span>
+        <span id="weatherchartUpdated">Updates are checked hourly.</span>
+        <a class="btn btn-weatherchart" href="weatherchart/">See the full WeatherChart →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="weather-gallery" class="weather-gallery" aria-labelledby="weather-gallery-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Weather-ready inspiration</p>
+      <h2 id="weather-gallery-title">Real homes. Real seasons. Practical comfort.</h2>
+      <p>Visual guides for preparing a British home for summer heat, winter cold and year-round weather changes.</p>
+    </div>
+    <div class="weather-gallery-grid">
+      <figure class="weather-photo">
+        <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=82" alt="A row of homes in bright summer weather" loading="lazy" decoding="async">
+        <figcaption>Summer-ready homes<span>Shade first, ventilate at night, then add efficient cooling.</span></figcaption>
+      </figure>
+      <figure class="weather-photo">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267d?auto=format&fit=crop&w=1200&q=82" alt="A bright, comfortable apartment interior" loading="lazy" decoding="async">
+        <figcaption>Comfort in smaller spaces<span>Practical ideas for flats, rentals and compact rooms.</span></figcaption>
+      </figure>
+      <figure class="weather-photo">
+        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=82" alt="A warm and comfortable home interior" loading="lazy" decoding="async">
+        <figcaption>Winter warmth<span>Keep paid-for heat indoors with insulation, curtains and draught control.</span></figcaption>
+      </figure>
+    </div>
+    <p class="photo-credit">Images provided under the <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>. Images are illustrative.</p>
   </div>
 </section>
 
@@ -338,7 +415,7 @@ footer a{color:var(--glacial)}
       <h2>UK heat by nation &amp; region — and where our stock ships from</h2>
       <p>Red markers show live temperatures across England, Scotland, Wales and Northern Ireland. Blue markers show fulfilment hubs our dropship partners operate from — the closer the warehouse, the faster your delivery.</p>
     </div>
-    <div id="ukmap" aria-label="Map of UK showing live city temperatures and supplier warehouse locations"></div>
+    <div id="ukmap" role="region" aria-label="Map of UK showing live city temperatures and supplier warehouse locations"></div>
     <div class="map-legend">
       <span class="leg-heat">Live temperature (city)</span>
       <span class="leg-supplier">Supplier / fulfilment hub (approximate)</span>
@@ -426,6 +503,7 @@ footer a{color:var(--glacial)}
       <div><h4>CoolIsle UK</h4><p>Weather-ready living for British homes. Heat relief, winter warmth, rain-ready gear.</p></div>
       <div><h4>Shop</h4><p><a href="#shop">Cooling</a><br><a href="#winter">Winter warmth</a><br><a href="#shop">Rain-ready</a><br><a href="#shop">Hack kit</a></p></div>
       <div><h4>Learn</h4><p><a href="#hacks">Budget cooling hacks</a><br><a href="#trends">UK climate trends</a><br><a href="#locator">AC Locator</a><br><a href="#calculator">BTU calculator</a></p></div>
+      <div><h4>WeatherChart UK</h4><p><a href="weatherchart/"><strong>Open the forecast companion →</strong></a><br>Location weather, official warnings, charts, maps and explainers.</p></div>
       <div><h4>Official resources</h4><p><a href="https://www.metoffice.gov.uk" rel="noopener" target="_blank">Met Office</a><br><a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA alerts</a><br><a href="https://www.nhs.uk/live-well/seasonal-health/" rel="noopener" target="_blank">NHS seasonal health</a><br><a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p></div>
     </div>
     <p class="disclaimer">© 2026 CoolIsle UK. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Prices shown in GBP, USD or EUR at indicative rates; final charge in GBP at checkout. We are an independent retailer; links to GOV.UK, NHS and Met Office are provided as a public resource and imply no endorsement.</p>
@@ -533,37 +611,180 @@ document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("clic
 
 /* ============ LIVE ticker + heat board (Open-Meteo, no key needed) ============ */
 function setTicker(msgs, red){
- const s = msgs.map(m=>`<span>${m}</span>`).join("");
- document.getElementById("ticker").innerHTML = s+s;
+ const ticker=document.getElementById("ticker");
+ const fragment=document.createDocumentFragment();
+ [...msgs,...msgs].forEach(message=>{
+   const span=document.createElement("span");
+   span.textContent=message;
+   fragment.appendChild(span);
+ });
+ ticker.replaceChildren(fragment);
  document.getElementById("alertStrip").classList.toggle("red", !!red);
 }
 setTicker(STATIC_TICKER,false);
 
-const latList = CITIES.map(c=>c.la).join(","), lonList = CITIES.map(c=>c.lo).join(",");
-fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latList}&longitude=${lonList}&current=temperature_2m&daily=temperature_2m_max&forecast_days=1&timezone=Europe%2FLondon`)
- .then(r=>r.json()).then(data=>{
-   const arr = Array.isArray(data)?data:[data];
-   let hottest=-99, board="";
-   arr.forEach((d,i)=>{
-     const t = d.current?.temperature_2m, mx = d.daily?.temperature_2m_max?.[0];
-     if(typeof t!=="number") return;
-     if(mx>hottest) hottest=mx;
-     board += `<div class="heat-city"><b>${CITIES[i].n}</b><span class="t">${t.toFixed(1)}°C</span><span style="font-size:.72rem;color:#BFE7F2">high ${mx?.toFixed(0)}°C today</span></div>`;
-     CITIES[i].live=t; CITIES[i].max=mx;
-   });
-   document.getElementById("heatBoard").innerHTML = board;
-   let level="none", red=false, msgs=[...STATIC_TICKER];
-   if(hottest>=34){level="SEVERE HEAT"; red=true;}
-   else if(hottest>=30){level="AMBER-LEVEL HEAT";}
-   else if(hottest>=27){level="HOT SPELL";}
-   if(level!=="none"){
-     msgs.unshift(`⚠ CoolIsle advisory: ${level} — highs near ${hottest.toFixed(0)}°C in parts of the UK today. Check official Met Office warnings.`);
-   } else {
-     msgs.unshift(`Today's UK picture: highs near ${hottest.toFixed(0)}°C. Mild for now — a grand day to prepare before the next heatwave.`);
+const WEATHER_REFRESH_MS=60*60*1000;
+const WEATHER_TIMEOUT_MS=12000;
+const latList=CITIES.map(city=>city.la).join(",");
+const lonList=CITIES.map(city=>city.lo).join(",");
+const coolIsleWeatherUrl=`https://api.open-meteo.com/v1/forecast?latitude=${latList}&longitude=${lonList}&current=temperature_2m&daily=temperature_2m_max&forecast_days=1&timezone=Europe%2FLondon`;
+let lastSuccessfulWeatherAt=0;
+let weatherRefreshPromise=null;
+
+async function fetchWithTimeout(url,options={},timeout=WEATHER_TIMEOUT_MS){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),timeout);
+ try{
+   return await fetch(url,{...options,signal:controller.signal});
+ }finally{
+   clearTimeout(timer);
+ }
+}
+
+function formatUKTime(value){
+ return new Intl.DateTimeFormat("en-GB",{
+   timeZone:"Europe/London",weekday:"short",hour:"2-digit",minute:"2-digit"
+ }).format(new Date(value));
+}
+
+function renderHeatBoard(observations){
+ const fragment=document.createDocumentFragment();
+ observations.forEach(({city,temperature,maximum})=>{
+   const card=document.createElement("div");
+   card.className="heat-city";
+   const name=document.createElement("b");
+   name.textContent=city.n;
+   const current=document.createElement("span");
+   current.className="t";
+   current.textContent=`${temperature.toFixed(1)}°C`;
+   const high=document.createElement("span");
+   high.style.cssText="font-size:.72rem;color:#BFE7F2";
+   high.textContent=Number.isFinite(maximum)?`high ${maximum.toFixed(0)}°C today`:"today’s high unavailable";
+   card.append(name,current,high);
+   fragment.appendChild(card);
+ });
+ document.getElementById("heatBoard").replaceChildren(fragment);
+}
+
+function updateTemperatureTicker(hottest){
+ const messages=[...STATIC_TICKER];
+ let red=false;
+ if(hottest>=34){
+   red=true;
+   messages.unshift(`⚠ CoolIsle temperature note — highs near ${hottest.toFixed(0)}°C. This is not an official warning; check the Met Office.`);
+ }else if(hottest>=30){
+   messages.unshift(`CoolIsle temperature note — highs near ${hottest.toFixed(0)}°C. Check official warnings before making plans.`);
+ }else if(hottest>=27){
+   messages.unshift(`Today's indicative UK picture: a hot spell with highs near ${hottest.toFixed(0)}°C.`);
+ }else{
+   messages.unshift(`Today's indicative UK picture: highs near ${hottest.toFixed(0)}°C. A decent moment to prepare for the next swing.`);
+ }
+ setTicker(messages,red);
+}
+
+async function refreshCoolIsleWeather({force=false}={}){
+ if(weatherRefreshPromise)return weatherRefreshPromise;
+ if(!force&&lastSuccessfulWeatherAt&&Date.now()-lastSuccessfulWeatherAt<WEATHER_REFRESH_MS)return;
+ const status=document.getElementById("weatherCheckStatus");
+ status.textContent=lastSuccessfulWeatherAt?"Checking for a newer indicative Open-Meteo update…":"Checking indicative weather via Open-Meteo…";
+ weatherRefreshPromise=(async()=>{
+   try{
+     const response=await fetchWithTimeout(coolIsleWeatherUrl,{cache:"no-store"});
+     if(!response.ok)throw new Error(`Weather request failed (${response.status})`);
+     const payload=await response.json();
+     const rows=Array.isArray(payload)?payload:[payload];
+     const observations=[];
+     rows.slice(0,CITIES.length).forEach((row,index)=>{
+       const temperature=row?.current?.temperature_2m;
+       const maximum=row?.daily?.temperature_2m_max?.[0];
+       if(!Number.isFinite(temperature))return;
+       observations.push({city:CITIES[index],temperature,maximum:Number(maximum)});
+     });
+     if(!observations.length)throw new Error("Weather response contained no usable observations");
+     observations.forEach(({city,temperature,maximum})=>{
+       city.live=temperature;
+       city.max=maximum;
+     });
+     renderHeatBoard(observations);
+     const maxima=observations.map(item=>item.maximum).filter(Number.isFinite);
+     updateTemperatureTicker(maxima.length?Math.max(...maxima):Math.max(...observations.map(item=>item.temperature)));
+     lastSuccessfulWeatherAt=Date.now();
+     status.textContent=`Last weather check ${formatUKTime(lastSuccessfulWeatherAt)} · Open-Meteo indicative fallback`;
+     if(mapDrawn)refreshWeatherMarkers();else drawMap();
+   }catch(error){
+     status.textContent=lastSuccessfulWeatherAt
+       ?`Latest check failed; showing the last successful display from ${formatUKTime(lastSuccessfulWeatherAt)}.`
+       :"Indicative weather is temporarily unavailable. Official guidance links remain available.";
+     drawMap();
+   }finally{
+     weatherRefreshPromise=null;
    }
-   setTicker(msgs, red);
-   drawMap();
- }).catch(()=>{ drawMap(); });
+ })();
+ return weatherRefreshPromise;
+}
+
+async function refreshWeatherChartPanel(){
+ const warning=document.getElementById("weatherchartWarningCount");
+ const summary=document.getElementById("weatherchartSummary");
+ const updated=document.getElementById("weatherchartUpdated");
+ try{
+   const check=Date.now();
+   const [statusResponse,forecastResponse]=await Promise.all([
+     fetchWithTimeout(`weatherchart/data/status.json?check=${check}`,{cache:"no-store"},8000),
+     fetchWithTimeout(`weatherchart/data/forecast.json?check=${check}`,{cache:"no-store"},8000).catch(()=>null)
+   ]);
+   if(!statusResponse.ok)throw new Error("WeatherChart status unavailable");
+   const status=await statusResponse.json();
+   const forecast=forecastResponse?.ok?await forecastResponse.json():null;
+   const warningCount=Number(status.warningCount);
+   const isSample=status.sample===true||status.datasetState==="sample"||status.provider?.mode==="sample";
+   const forecastNotFresh=status.stale===true||status.fallbackUsed===true||/preserved|failed|fallback/i.test(String(status.forecastState||""));
+   const warningSourceReady=Array.isArray(status.successfulSources)&&status.successfulSources.includes("met-office-warnings-rss");
+   warning.textContent=warningSourceReady&&Number.isFinite(warningCount)
+       ?`${warningCount} active official warning${warningCount===1?"":"s"} in the latest dataset`
+       :"Official warning update unavailable — check the Met Office";
+   const forecastSummary=status.currentSummary||status.summary||summariseWeatherChartForecast(forecast)||"The last validated location forecasts remain available.";
+   summary.textContent=isSample
+     ?"Explore the interface safely; current decisions should use the linked official Met Office services."
+     :forecastNotFresh
+       ?`Last validated forecast retained${status.stale===true?" and marked stale":""}. ${forecastSummary} Check the official services before making decisions.`
+       :forecastSummary;
+   const updateTime=status.generatedAt||status.deployedAt;
+   updated.textContent=updateTime
+     ?forecastNotFresh
+       ?`WeatherChart last checked ${formatUKTime(updateTime)} · forecast not refreshed`
+       :`WeatherChart updated ${formatUKTime(updateTime)} · checked hourly`
+     :"WeatherChart checks for published updates hourly.";
+ }catch(error){
+   warning.textContent="Open WeatherChart UK for the latest available status";
+   summary.textContent="The forecast companion remains available with clearly labelled sample or fallback data.";
+   updated.textContent="Always follow current official Met Office warnings and emergency guidance.";
+ }
+}
+
+function summariseWeatherChartForecast(forecast){
+ const locations=Array.isArray(forecast?.locations)?forecast.locations:[];
+ const usable=locations.filter(location=>Number.isFinite(Number(location?.current?.temperatureC)));
+ if(!usable.length)return "";
+ const warmest=[...usable].sort((a,b)=>Number(b.current.temperatureC)-Number(a.current.temperatureC))[0];
+ const wettest=[...usable].sort((a,b)=>Number(b.current?.precipitationProbability??b.current?.precipitationProbabilityPercent??0)-Number(a.current?.precipitationProbability??a.current?.precipitationProbabilityPercent??0))[0];
+ const rainChance=Number(wettest.current?.precipitationProbability??wettest.current?.precipitationProbabilityPercent??0);
+ return `${warmest.name} is warmest across the 12 forecast points at ${Math.round(Number(warmest.current.temperatureC))}°C; ${wettest.name} has the highest rain chance at ${Math.round(rainChance)}%.`;
+}
+
+refreshCoolIsleWeather({force:true});
+refreshWeatherChartPanel();
+setInterval(()=>{
+ refreshCoolIsleWeather();
+ refreshWeatherChartPanel();
+},WEATHER_REFRESH_MS);
+document.addEventListener("visibilitychange",()=>{
+ if(document.visibilityState!=="visible")return;
+ if(!lastSuccessfulWeatherAt||Date.now()-lastSuccessfulWeatherAt>=WEATHER_REFRESH_MS){
+   refreshCoolIsleWeather({force:true});
+   refreshWeatherChartPanel();
+ }
+});
 
 /* ============ trend chart (vanilla canvas) ============ */
 (function(){
@@ -587,14 +808,23 @@ fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latList}&longitude=${lo
 
 /* ============ Leaflet UK map ============ */
 let mapDrawn=false;
+const weatherMarkers=[];
+function weatherPopup(city){
+ return typeof city.live==="number"
+   ?`<b>${city.n}</b><br>${city.live.toFixed(1)}°C now · high ${Number.isFinite(city.max)?city.max.toFixed(0)+"°C":"unavailable"}`
+   :`<b>${city.n}</b><br>indicative temperature unavailable`;
+}
+function refreshWeatherMarkers(){
+ weatherMarkers.forEach(({marker,city})=>marker.setPopupContent(weatherPopup(city)));
+}
 function drawMap(){
  if(mapDrawn||typeof L==="undefined")return; mapDrawn=true;
  const map=L.map("ukmap",{scrollWheelZoom:false}).setView([54.3,-3.4],5);
  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors",maxZoom:18}).addTo(map);
  CITIES.forEach(c=>{
-  const t = typeof c.live==="number" ? `${c.live.toFixed(1)}°C now · high ${c.max?.toFixed(0)}°C` : "live temp unavailable";
-  L.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
-   .addTo(map).bindPopup(`<b>${c.n}</b><br>${t}`);
+  const marker=L.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
+   .addTo(map).bindPopup(weatherPopup(c));
+  weatherMarkers.push({marker,city:c});
  });
  SUPPLIERS.forEach(s=>{
   L.circleMarker([s.la,s.lo],{radius:8,color:"#0E2A3C",fillColor:"#0E7C9E",fillOpacity:.9,weight:2})
