@@ -11,6 +11,8 @@ const API_VERSION = "2022-11-28";
 const DEFAULT_BRANCH = "weatherchart-quota-state";
 const DEFAULT_PATH = ".weatherchart-quota/met-office-global-spot.json";
 const MAX_CAS_ATTEMPTS = 3;
+const DEFAULT_CONFIRMATION_ATTEMPTS = 4;
+const DEFAULT_CONFIRMATION_DELAY_MS = 250;
 
 function durableError(code, message) {
   return Object.assign(new Error(message), { code });
@@ -128,6 +130,8 @@ export class GitHubContentsQuotaStore {
     fetchImpl = fetch,
     timeoutMs = REQUEST_TIMEOUT_MS,
     now = () => new Date(),
+    confirmationAttempts = DEFAULT_CONFIRMATION_ATTEMPTS,
+    confirmationDelayMs = DEFAULT_CONFIRMATION_DELAY_MS,
   } = {}) {
     this.apiUrl = String(apiUrl).replace(/\/$/, "");
     this.repository = repository;
@@ -138,6 +142,8 @@ export class GitHubContentsQuotaStore {
     this.fetchImpl = fetchImpl;
     this.timeoutMs = timeoutMs;
     this.now = now;
+    this.confirmationAttempts = Math.max(1, Math.min(10, Number(confirmationAttempts) || 1));
+    this.confirmationDelayMs = Math.max(0, Math.min(2_000, Number(confirmationDelayMs) || 0));
   }
 
   async request(path, { method = "GET", body } = {}) {
@@ -239,20 +245,40 @@ export class GitHubContentsQuotaStore {
     return this.request(this.contentsPath(), { method: "PUT", body });
   }
 
-  async confirmReservation(day, expected) {
-    const confirmed = await this.readState(day);
-    const reservation = confirmed.record?.reservations?.find(({ id }) => id === this.reservationId);
-    if (
-      confirmed.state !== "valid" ||
-      confirmed.record.utcDay !== day ||
-      !reservation ||
-      reservation.size !== expected.size ||
-      reservation.attemptsBefore !== expected.attemptsBefore ||
-      reservation.attemptsAfter !== expected.attemptsAfter ||
-      confirmed.record.attempts < expected.attemptsAfter
-    ) {
-      throw durableError("durable-quota-write-unconfirmed", "Durable quota reservation could not be confirmed");
+  async waitForConfirmation(day, predicate, { code, message }) {
+    for (let attempt = 0; attempt < this.confirmationAttempts; attempt += 1) {
+      try {
+        const confirmed = await this.readState(day);
+        if (predicate(confirmed)) return confirmed;
+      } catch (error) {
+        // A malformed durable record is not an eventual-consistency condition.
+        if (error?.code === "durable-quota-state-invalid") throw error;
+      }
+      if (attempt + 1 < this.confirmationAttempts && this.confirmationDelayMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, this.confirmationDelayMs));
+      }
     }
+    throw durableError(code, message);
+  }
+
+  async confirmReservation(day, expected) {
+    const confirmed = await this.waitForConfirmation(
+      day,
+      (value) => {
+        const reservation = value.record?.reservations?.find(({ id }) => id === this.reservationId);
+        return value.state === "valid"
+          && value.record.utcDay === day
+          && reservation?.size === expected.size
+          && reservation.attemptsBefore === expected.attemptsBefore
+          && reservation.attemptsAfter === expected.attemptsAfter
+          && value.record.attempts >= expected.attemptsAfter;
+      },
+      {
+        code: "durable-quota-write-unconfirmed",
+        message: "Durable quota reservation could not be confirmed",
+      },
+    );
+    const reservation = confirmed.record.reservations.find(({ id }) => id === this.reservationId);
     return reservationResult(confirmed.record, reservation, confirmed.sha);
   }
 
@@ -273,15 +299,17 @@ export class GitHubContentsQuotaStore {
     };
     const written = await this.writeState(record, null);
     if (!written.ok) return written;
-    const confirmed = await this.readState(day);
-    if (
-      confirmed.state !== "valid" ||
-      confirmed.record.utcDay !== day ||
-      confirmed.record.attempts !== DAILY_ATTEMPT_LIMIT ||
-      confirmed.record.source !== "missing-durable-state-quarantine"
-    ) {
-      throw durableError("durable-quota-write-unconfirmed", "Durable quota quarantine could not be confirmed");
-    }
+    await this.waitForConfirmation(
+      day,
+      (confirmed) => confirmed.state === "valid"
+        && confirmed.record.utcDay === day
+        && confirmed.record.attempts === DAILY_ATTEMPT_LIMIT
+        && confirmed.record.source === "missing-durable-state-quarantine",
+      {
+        code: "durable-quota-write-unconfirmed",
+        message: "Durable quota quarantine could not be confirmed",
+      },
+    );
     const error = durableError(
       "durable-quota-bootstrap-quarantined",
       "Missing durable quota state was quarantined for the current UTC day",
@@ -357,20 +385,19 @@ export class GitHubContentsQuotaStore {
         "The operator-confirmed quota bootstrap could not be written",
       );
     }
-    const confirmed = await this.readState(operationDay);
-    if (
-      confirmed.state !== "valid" ||
-      confirmed.record.utcDay !== operationDay ||
-      confirmed.record.attempts !== attempts ||
-      confirmed.record.limit !== DAILY_ATTEMPT_LIMIT ||
-      confirmed.record.source !== "operator-confirmed-bootstrap" ||
-      confirmed.record.bootstrapAudit?.confirmedAttempts !== attempts
-    ) {
-      throw durableError(
-        "durable-quota-bootstrap-write-unconfirmed",
-        "The operator-confirmed quota bootstrap could not be read back",
-      );
-    }
+    await this.waitForConfirmation(
+      operationDay,
+      (confirmed) => confirmed.state === "valid"
+        && confirmed.record.utcDay === operationDay
+        && confirmed.record.attempts === attempts
+        && confirmed.record.limit === DAILY_ATTEMPT_LIMIT
+        && confirmed.record.source === "operator-confirmed-bootstrap"
+        && confirmed.record.bootstrapAudit?.confirmedAttempts === attempts,
+      {
+        code: "durable-quota-bootstrap-write-unconfirmed",
+        message: "The operator-confirmed quota bootstrap could not be read back",
+      },
+    );
     return { day: operationDay, attempts, limit: DAILY_ATTEMPT_LIMIT, confirmed: true };
   }
 

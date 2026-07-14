@@ -21,7 +21,7 @@ function apiResponse(status, data = {}) {
 function createFakeGitHub({
   branchExists = true,
   conflictOnce = false,
-  hideConfirmationOnce = false,
+  hideConfirmationReads = 0,
 } = {}) {
   const state = {
     branchExists,
@@ -30,7 +30,7 @@ function createFakeGitHub({
     writes: 0,
     requests: [],
     conflictOnce,
-    hideConfirmationOnce,
+    hideConfirmationReads,
     afterWrite: false,
   };
   let shaCounter = 1;
@@ -61,8 +61,8 @@ function createFakeGitHub({
     }
     if (url.pathname === "/repos/example/weather/contents/.weatherchart-quota/met-office-global-spot.json") {
       if (method === "GET") {
-        if (state.afterWrite && state.hideConfirmationOnce) {
-          state.hideConfirmationOnce = false;
+        if (state.afterWrite && state.hideConfirmationReads > 0) {
+          state.hideConfirmationReads -= 1;
           return apiResponse(404);
         }
         if (!state.record) return apiResponse(404);
@@ -113,7 +113,7 @@ function createFakeGitHub({
   return { state, fetchImpl };
 }
 
-function quotaStore(fake, now, reservationId) {
+function quotaStore(fake, now, reservationId, options = {}) {
   return new GitHubContentsQuotaStore({
     apiUrl: "https://api.github.test",
     repository: "example/weather",
@@ -121,6 +121,7 @@ function quotaStore(fake, now, reservationId) {
     reservationId,
     fetchImpl: fake.fetchImpl,
     now: () => now,
+    ...options,
   });
 }
 
@@ -283,12 +284,27 @@ test("a compare-and-swap conflict re-reads the higher count before reserving", a
   assert.deepEqual(fake.state.record.reservations.map(({ id }) => id), ["competing-run:1", "run-103:1"]);
 });
 
+test("a single delayed readback is retried before a reservation is returned", async () => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const fake = createFakeGitHub({ hideConfirmationReads: 1 });
+  seedDurableRecord(fake);
+  const result = await quotaStore(fake, now, "run-103b:1", {
+    confirmationDelayMs: 0,
+  }).reserveBatch({ size: 12, minimumAttempts: 0 });
+  assert.equal(result.confirmed, true);
+  assert.equal(result.attempts, 12);
+  assert.equal(fake.state.writes, 1);
+});
+
 test("a write that cannot be read back is never returned as a usable reservation", async () => {
   const now = new Date("2026-07-13T18:00:00Z");
-  const fake = createFakeGitHub({ hideConfirmationOnce: true });
+  const fake = createFakeGitHub({ hideConfirmationReads: 10 });
   seedDurableRecord(fake);
   await assert.rejects(
-    quotaStore(fake, now, "run-103b:1").reserveBatch({ size: 12, minimumAttempts: 0 }),
+    quotaStore(fake, now, "run-103c:1", {
+      confirmationAttempts: 3,
+      confirmationDelayMs: 0,
+    }).reserveBatch({ size: 12, minimumAttempts: 0 }),
     { code: "durable-quota-write-unconfirmed" },
   );
   assert.equal(fake.state.record.attempts, 12);
