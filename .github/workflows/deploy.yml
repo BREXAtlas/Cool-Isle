@@ -4,15 +4,22 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
-  contents: read
+  # The workflow token writes only the dedicated durable quota branch. The
+  # forecast key remains a separate Actions secret and is never written there.
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  # cancel-in-progress=false prevents a running job from being cancelled. GitHub may
+  # replace an older pending event with a newer one, but no two jobs run together;
+  # every job that does run restores the same conservative UTC-day quota history.
+  group: pages-weatherchart-data
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -20,12 +27,85 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Restore private WeatherChart state
+        id: restore-weatherchart-state
+        uses: actions/cache/restore@v4
+        with:
+          path: .weatherchart-state
+          key: weatherchart-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            weatherchart-state-
+
+      - name: Restore the previously deployed data bundle
+        env:
+          WEATHERCHART_DEPLOYED_DATA_BASE: ${{ vars.WEATHERCHART_DEPLOYED_DATA_BASE || 'https://brexatlas.github.io/Cool-Isle/weatherchart/data/' }}
+        run: node scripts/restore-deployed-data.mjs
+
+      - name: Refresh hourly forecast data
+        env:
+          MET_OFFICE_API_KEY: ${{ secrets.MET_OFFICE_API_KEY }}
+          WEATHERCHART_REQUIRE_DURABLE_QUOTA: 'true'
+          WEATHERCHART_QUOTA_TOKEN: ${{ github.token }}
+          WEATHERCHART_QUOTA_BRANCH: weatherchart-quota-state
+          WEATHERCHART_QUOTA_PATH: .weatherchart-quota/met-office-global-spot.json
+        run: node scripts/update-weather-data.mjs
+
+      - name: Refresh warnings and news RSS
+        run: node scripts/update-metoffice-news.mjs
+
+      - name: Refresh community pulse
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: node scripts/update-community-pulse.mjs
+
+      - name: Validate the complete data bundle
+        run: node scripts/validate-generated-data.mjs --restore-on-failure
+
+      - name: Run pipeline tests
+        run: npm test
+
       - name: Add free licensed images
         run: python scripts/add-free-images.py
+
+      - name: Recheck the final static artifact and data
+        run: |
+          npm run test:static
+          npm run validate:data
+
+      # This snapshot is included in the candidate artifact, but it is persisted
+      # outside this runner only by the cache-save step after deploy-pages succeeds.
+      - name: Mark and snapshot the verified deployment candidate
+        run: node scripts/validate-generated-data.mjs --snapshot
+
+      - name: Stage the public Pages artifact
+        run: |
+          mkdir -p "$RUNNER_TEMP/pages-site"
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.weatherchart-state/' \
+            --exclude='node_modules/' \
+            --exclude='.env' \
+            ./ "$RUNNER_TEMP/pages-site/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -33,8 +113,14 @@ jobs:
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ${{ runner.temp }}/pages-site
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Persist the successfully deployed private snapshot
+        uses: actions/cache/save@v4
+        with:
+          path: .weatherchart-state
+          key: weatherchart-state-${{ github.run_id }}-${{ github.run_attempt }}
