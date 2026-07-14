@@ -1,4 +1,5 @@
 import { makeElement } from './accessibility.js';
+import { optionalMapsAllowed } from './privacy-choices.js';
 
 const REGION_CENTRES = Object.freeze({
   'North West England': [54.0, -2.65],
@@ -28,6 +29,16 @@ const LEAFLET_SCRIPT = Object.freeze({
   integrity: 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo='
 });
 let leafletPromise;
+
+function unloadLeaflet() {
+  document.querySelectorAll('[data-leaflet-styles], [data-leaflet-script]').forEach((element) => element.remove());
+  leafletPromise = undefined;
+  try {
+    delete window.L;
+  } catch {
+    window.L = undefined;
+  }
+}
 
 function number(value) {
   if (value === null || value === undefined || value === '') return null;
@@ -186,10 +197,11 @@ function loadScript(timeoutMs) {
 }
 
 export function loadLeaflet(timeoutMs = 8000) {
+  if (!optionalMapsAllowed()) return Promise.resolve(null);
   if (window.L && document.querySelector('link[data-leaflet-styles]')?.sheet) return Promise.resolve(window.L);
   if (!leafletPromise) {
     leafletPromise = Promise.all([loadStylesheet(timeoutMs), loadScript(timeoutMs)])
-      .then(([stylesReady, scriptReady]) => stylesReady && scriptReady ? window.L : null)
+      .then(([stylesReady, scriptReady]) => stylesReady && scriptReady && optionalMapsAllowed() ? window.L : null)
       .catch(() => null);
   }
   return leafletPromise;
@@ -214,6 +226,22 @@ export function initialiseWeatherMap(initialData = {}) {
   let map = null;
   let markerLayer = null;
   let requestedLayer = switcher?.querySelector('input:checked')?.value || 'temperature';
+
+  const showPrivacyPlaceholder = () => {
+    mapElement.setAttribute('aria-label', 'Optional interactive map is off');
+    const placeholder = makeElement('div', {
+      className: 'privacy-map-placeholder',
+      attributes: { role: 'status' }
+    });
+    placeholder.append(
+      makeElement('p', { text: 'The optional interactive map is off. Forecast values and the accessible location table remain available without it.' }),
+      makeElement('button', {
+        text: 'Review map privacy choice',
+        attributes: { type: 'button', 'data-privacy-settings': '' }
+      })
+    );
+    mapElement.replaceChildren(placeholder);
+  };
 
   const entriesFor = (layer) => {
     if (layer === 'warnings') return warningEntries(dataState.warnings, dataState.warningSample);
@@ -273,7 +301,16 @@ export function initialiseWeatherMap(initialData = {}) {
 
   const createMap = async () => {
     if (map) return;
+    if (!optionalMapsAllowed()) {
+      showPrivacyPlaceholder();
+      return;
+    }
     const L = await loadLeaflet();
+    if (!optionalMapsAllowed()) {
+      unloadLeaflet();
+      showPrivacyPlaceholder();
+      return;
+    }
     if (!L) {
       mapElement.replaceChildren(makeElement('p', { className: 'map-placeholder', text: 'The interactive map library could not load. The accessible location table remains available below.' }));
       return;
@@ -288,10 +325,25 @@ export function initialiseWeatherMap(initialData = {}) {
     renderLayer(requestedLayer);
   };
 
+  const removeMap = () => {
+    markerLayer?.clearLayers();
+    map?.remove();
+    markerLayer = null;
+    map = null;
+    unloadLeaflet();
+    showPrivacyPlaceholder();
+  };
+
+  window.addEventListener('privacychoicechange', (event) => {
+    if (event.detail?.optionalMaps) createMap();
+    else removeMap();
+  });
+
   switcher?.addEventListener('change', (event) => {
     if (event.target.matches('input[name="map-layer"]')) renderLayer(event.target.value);
   });
   renderLayer(requestedLayer);
+  if (!optionalMapsAllowed()) showPrivacyPlaceholder();
 
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {

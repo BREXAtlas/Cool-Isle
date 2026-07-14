@@ -7,13 +7,14 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const WEATHERCHART = path.join(ROOT, "weatherchart");
-const PREVIEW_BASE = new URL("https://brexatlas.github.io/Cool-Isle/weatherchart/");
+const PREVIEW_BASE = new URL("https://brexatlas.github.io/WeatherChartUK/");
 const PRODUCTION_BASE = new URL("https://weatherchart.uk/");
 const COOL_ISLE_BASE = "https://brexatlas.github.io/Cool-Isle/";
 const SOCIAL_IMAGE = PREVIEW_BASE.href + "assets/images/weatherchart-social.png";
 const WEATHERCHART_PAGE_NAMES = [
   "404.html",
   "community.html",
+  "cookies.html",
   "explainers.html",
   "index.html",
   "location.html",
@@ -21,7 +22,7 @@ const WEATHERCHART_PAGE_NAMES = [
   "privacy.html",
   "sources.html",
 ];
-const ROOT_PAGE_NAMES = ["index.html", "blog.html", "winter.html"];
+const ROOT_PAGE_NAMES = ["index.html", "blog.html", "cookies.html", "winter.html"];
 
 async function read(filePath) {
   return fs.readFile(filePath, "utf8");
@@ -136,7 +137,11 @@ async function deployedFileFor(url, mode) {
   let target;
   if (mode === "preview") {
     assert.equal(url.origin, PREVIEW_BASE.origin);
-    assert.ok(url.pathname.startsWith("/Cool-Isle/"), "Preview URL escaped /Cool-Isle/: " + url.href);
+    assert.ok(url.pathname.startsWith("/WeatherChartUK/"), "Preview URL escaped /WeatherChartUK/: " + url.href);
+    target = path.join(WEATHERCHART, decodeURIComponent(url.pathname.slice("/WeatherChartUK/".length)));
+  } else if (mode === "coolisle") {
+    assert.equal(url.origin, new URL(COOL_ISLE_BASE).origin);
+    assert.ok(url.pathname.startsWith("/Cool-Isle/"), "Cool Isle URL escaped /Cool-Isle/: " + url.href);
     target = path.join(ROOT, decodeURIComponent(url.pathname.slice("/Cool-Isle/".length)));
   } else {
     assert.equal(url.origin, PRODUCTION_BASE.origin);
@@ -235,13 +240,15 @@ test("HTML IDs are unique and served text contains no common mojibake markers", 
   }
 });
 
-test("Cool Isle and every WeatherChart page expose a clear two-way link", async () => {
-  const coolIsleHome = await read(path.join(ROOT, "index.html"));
-  const outbound = [...coolIsleHome.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].find((match) => {
-    return getAttribute("<a " + match[1] + ">", "href") === "weatherchart/";
-  });
-  assert.ok(outbound, "Cool Isle home lacks a direct WeatherChart link");
-  assert.match(outbound[2].replace(/<[^>]+>/g, " "), /WeatherChart UK/i);
+test("Cool Isle and every WeatherChart page expose an explicit standalone two-way link", async () => {
+  for (const pageName of ROOT_PAGE_NAMES) {
+    const html = await read(path.join(ROOT, pageName));
+    const outbound = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].find((match) => {
+      return getAttribute("<a " + match[1] + ">", "href") === PREVIEW_BASE.href;
+    });
+    assert.ok(outbound, pageName + " lacks a direct link to the standalone WeatherChart site");
+    assert.match(outbound[2].replace(/<[^>]+>/g, " "), /WeatherChart UK/i);
+  }
 
   for (const pageName of WEATHERCHART_PAGE_NAMES) {
     const html = await read(path.join(WEATHERCHART, pageName));
@@ -250,12 +257,69 @@ test("Cool Isle and every WeatherChart page expose a clear two-way link", async 
     });
     assert.ok(backLink, pageName + " lacks a Cool Isle return link");
     assert.match(backLink[2].replace(/<[^>]+>/g, " "), /Cool Isle/i);
-    assert.equal(getAttribute("<a " + backLink[1] + ">", "href"), "../index.html");
+    assert.equal(getAttribute("<a " + backLink[1] + ">", "href"), COOL_ISLE_BASE);
   }
 
   const deploymentConfig = await read(path.join(WEATHERCHART, "assets", "js", "config.js"));
+  assert.match(deploymentConfig, new RegExp("previewBase:\\s*['\"]" + PREVIEW_BASE.href.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")));
   assert.match(deploymentConfig, new RegExp("coolIsleBase:\\s*['\"]" + COOL_ISLE_BASE.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&")));
   assert.match(deploymentConfig, /data-cool-isle-link/);
+});
+
+test("every page exposes first-visit privacy choices and a permanent settings control", async () => {
+  const cases = [
+    ...ROOT_PAGE_NAMES.map((pageName) => ({
+      pageName,
+      file: path.join(ROOT, pageName),
+      stylesheet: "weatherchart/assets/css/privacy-choices.css",
+      module: "weatherchart/assets/js/privacy-choices.js",
+      policy: "cookies.html",
+    })),
+    ...WEATHERCHART_PAGE_NAMES.map((pageName) => ({
+      pageName: "weatherchart/" + pageName,
+      file: path.join(WEATHERCHART, pageName),
+      stylesheet: "assets/css/privacy-choices.css",
+      module: "assets/js/app.js",
+      policy: "cookies.html",
+    })),
+  ];
+
+  for (const entry of cases) {
+    const html = await read(entry.file);
+    const tags = htmlTags(html);
+    assert.ok(tags.some((tag) => tag.startsWith("<link")
+      && getAttribute(tag, "rel") === "stylesheet"
+      && getAttribute(tag, "href") === entry.stylesheet), entry.pageName + " lacks privacy-choice styles");
+    assert.ok(tags.some((tag) => tag.startsWith("<script")
+      && getAttribute(tag, "type") === "module"
+      && getAttribute(tag, "src") === entry.module), entry.pageName + " lacks the privacy-choice module entrypoint");
+    const controls = html.match(/<(?:a|button)\b[^>]*data-privacy-settings[^>]*>/gi) ?? [];
+    assert.ok(controls.length > 0, entry.pageName + " lacks a permanent privacy settings control");
+    const linkedControl = controls.find((tag) => getAttribute(tag, "href") !== null);
+    if (linkedControl) assert.equal(getAttribute(linkedControl, "href"), entry.policy);
+  }
+
+  const privacyModule = await read(path.join(WEATHERCHART, "assets", "js", "privacy-choices.js"));
+  assert.match(privacyModule, /storageKey:\s*['"]coolisle\.privacy\.v1['"]/);
+  assert.match(privacyModule, /storageKey:\s*['"]weatherchart\.privacy\.v1['"]/);
+  assert.match(privacyModule, /180\s*\*\s*24\s*\*\s*60\s*\*\s*60\s*\*\s*1000/);
+  assert.match(privacyModule, /Reject optional maps/);
+  assert.match(privacyModule, /Allow optional maps/);
+  assert.doesNotMatch(privacyModule, /document\.cookie/);
+});
+
+test("both cookie pages accurately document the minimal choice and let visitors reset it", async () => {
+  for (const file of [path.join(ROOT, "cookies.html"), path.join(WEATHERCHART, "cookies.html")]) {
+    const html = await read(file);
+    const label = path.relative(ROOT, file);
+    assert.match(html, /Cookie and privacy choices/i, label + " lacks a clear policy heading");
+    assert.match(html, /no analytics or advertising cookies/i, label + " must state the actual cookie use");
+    assert.match(html, /(?:localStorage|browser storage)/i, label + " must explain the preference record");
+    assert.match(html, /(?:six months|180 days)/i, label + " must state the retention period");
+    assert.match(html, /OpenStreetMap/i, label + " must identify the optional external map provider");
+    assert.match(html, /data-privacy-reset/, label + " lacks a reset control");
+    assert.match(html, /data-privacy-choice-status/, label + " lacks an accessible saved-choice status");
+  }
 });
 
 test("Cool Isle commerce cards use disclosed external seller destinations", async () => {
@@ -377,7 +441,7 @@ test("WeatherChart metadata, CSP and WebSite structured data are complete", asyn
   }
 
   const imageUrl = new URL(SOCIAL_IMAGE);
-  assert.equal(await exists(path.join(ROOT, decodeURIComponent(imageUrl.pathname.slice("/Cool-Isle/".length)))), true);
+  assert.equal(await exists(path.join(WEATHERCHART, decodeURIComponent(imageUrl.pathname.slice("/WeatherChartUK/".length)))), true);
 
   const home = await read(path.join(WEATHERCHART, "index.html"));
   const structuredText = home.match(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/i)?.[1];
@@ -393,16 +457,23 @@ test("WeatherChart metadata, CSP and WebSite structured data are complete", asyn
   assert.ok(homePolicy.includes("'sha256-" + hash + "'"), "CSP does not authorize the exact JSON-LD block");
 });
 
-test("Leaflet is integrity-pinned and lazy-loaded only when the map approaches view", async () => {
+test("Leaflet is integrity-pinned, consent-gated and never eager-loaded from HTML", async () => {
   const home = await read(path.join(WEATHERCHART, "index.html"));
+  const coolIsleHome = await read(path.join(ROOT, "index.html"));
   const mapModule = await read(path.join(WEATHERCHART, "assets", "js", "map.js"));
   assert.doesNotMatch(home, /<(?:link|script)\b[^>]*leaflet@/i, "Leaflet should not load eagerly from HTML");
+  assert.doesNotMatch(coolIsleHome, /<(?:link|script)\b[^>]*(?:leaflet|cdnjs\.cloudflare\.com\/ajax\/libs\/leaflet)/i, "Cool Isle must not load Leaflet before a visitor's choice");
+  assert.match(coolIsleHome, /privacychoicechange/);
+  assert.match(coolIsleHome, /optional-allowed/);
   assert.match(mapModule, /leaflet@1\.9\.4\/dist\/leaflet\.css/);
   assert.match(mapModule, /sha256-p4NxAoJBhIIN\+hmNHrzRCf9tD\/miZyoHS5obTRR9BMY=/);
   assert.match(mapModule, /leaflet@1\.9\.4\/dist\/leaflet\.js/);
   assert.match(mapModule, /sha256-20nQCchB9co0qIjJZRGuk2\/Z9VM\+kNiyxNV1lvTlZBo=/);
   assert.match(mapModule, /IntersectionObserver/);
   assert.match(mapModule, /loadLeaflet\(\)/);
+  assert.match(mapModule, /if\s*\(!optionalMapsAllowed\(\)\)\s*return Promise\.resolve\(null\)/);
+  assert.match(mapModule, /addEventListener\(['"]privacychoicechange['"]/);
+  assert.match(mapModule, /unloadLeaflet\(\)/);
 });
 
 test("WeatherChart-owned references resolve under preview and standalone deployment bases", async () => {
@@ -422,7 +493,7 @@ test("WeatherChart-owned references resolve under preview and standalone deploym
   }
 
   const config = await read(path.join(WEATHERCHART, "assets", "js", "config.js"));
-  assert.match(config, /previewBase:\s*['"]https:\/\/brexatlas\.github\.io\/Cool-Isle\/weatherchart\/['"]/);
+  assert.match(config, /previewBase:\s*['"]https:\/\/brexatlas\.github\.io\/WeatherChartUK\/['"]/);
   assert.match(config, /productionBase:\s*['"]https:\/\/weatherchart\.uk\/['"]/);
 
   const manifest = JSON.parse(await read(path.join(WEATHERCHART, "manifest.webmanifest")));
@@ -439,12 +510,12 @@ test("preview and standalone robots/sitemaps advertise real, unique pages", asyn
   assert.match(previewRobots, /Allow:\s*\/Cool-Isle\//);
   assert.match(previewRobots, /Sitemap:\s*https:\/\/brexatlas\.github\.io\/Cool-Isle\/sitemap\.xml/);
   assert.match(productionRobots, /^User-agent:\s*\*/m);
-  assert.match(productionRobots, /Sitemap:\s*https:\/\/weatherchart\.uk\/sitemap\.xml/);
+  assert.match(productionRobots, /Sitemap:\s*https:\/\/brexatlas\.github\.io\/WeatherChartUK\/sitemap\.xml/);
   assert.doesNotMatch(previewRobots + productionRobots, /Disallow:\s*\/\s*$/m);
 
   const cases = [
-    { file: path.join(ROOT, "sitemap.xml"), mode: "preview", minimum: 10 },
-    { file: path.join(WEATHERCHART, "sitemap.xml"), mode: "production", minimum: 7 },
+    { file: path.join(ROOT, "sitemap.xml"), mode: "coolisle", minimum: 4 },
+    { file: path.join(WEATHERCHART, "sitemap.xml"), mode: "preview", minimum: 8 },
   ];
   for (const entry of cases) {
     const xml = await read(entry.file);

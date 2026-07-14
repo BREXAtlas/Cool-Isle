@@ -28,18 +28,19 @@ Fans before coolers, coolers before compressors, insulation before everything. W
 | `index.html` | Main site |
 | `blog.html` | Guides & blog |
 | `winter.html` | Winter-Ready guide |
-| `weatherchart/index.html` | WeatherChart UK forecast companion |
+| `cookies.html` | Cookie and privacy choices |
+| `weatherchart/` | Source mirror for the standalone WeatherChart UK site |
 
 ## Deployment
 
-Deploys automatically to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`. The same serialised workflow also checks WeatherChart data around minute 17 of each hour and supports manual dispatch. Set **Settings → Pages → Source → GitHub Actions** once.
+Deploys automatically to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`. A secret-free hourly mirror copies WeatherChart's already-published public JSON so the historical subpath does not show sample or obsolete data. This repository never receives the Met Office key and never calls Weather DataHub.
 
 For a future standalone `weatherchart.uk` deployment, follow the exact
 [GoDaddy and GitHub Pages DNS checklist](docs/GODADDY-GITHUB-PAGES-DNS.md).
 
 ## WeatherChart UK
 
-[WeatherChart UK](https://brexatlas.github.io/Cool-Isle/weatherchart/) is a connected but visually separate, family-friendly forecast companion. It reads generated first-party JSON, provides 12 cached UK locations, plain-English deterministic interpretations, accessible charts and tables, official-warning links, severe-weather news, a coarse weather map, and moderated public-weather context. It is independent and is not affiliated with or endorsed by the Met Office.
+[WeatherChart UK](https://brexatlas.github.io/WeatherChartUK/) is a connected but visually separate, family-friendly forecast companion published from [`BREXAtlas/WeatherChartUK`](https://github.com/BREXAtlas/WeatherChartUK). It reads generated first-party JSON, provides 12 cached UK locations, plain-English deterministic interpretations, accessible charts and tables, official-warning links, severe-weather news, a coarse weather map, and attributed public-weather context. It is independent and is not affiliated with or endorsed by the Met Office.
 
 The committed dataset contains a current, validated live Open-Meteo forecast fallback. With a valid server-side `MET_OFFICE_API_KEY`, the hourly workflow prefers normalised Met Office Global Spot hourly data. The browser never receives that key or calls Weather DataHub directly, and production validation rejects synthetic forecast data.
 
@@ -57,19 +58,19 @@ python -m http.server 8000
 
 Then open `http://localhost:8000/` for Cool Isle and `http://localhost:8000/weatherchart/` for WeatherChart. Opening the HTML through `file://` will not work reliably because the subsite fetches local JSON modules.
 
-### Live data updates, keys and the 350-call ceiling
+### Live data ownership and the 350-call ceiling
 
-Copy `.env.example` only for local server-side testing and keep the resulting `.env` untracked. In GitHub, store the replacement Met Office credential as the Actions secret `MET_OFFICE_API_KEY`; optional YouTube and X credentials use the documented Actions-secret names. Never place credentials in HTML, browser JavaScript, generated JSON, screenshots, logs or pull-request text.
+The standalone WeatherChart repository is the sole owner of the hourly live-data job and its `MET_OFFICE_API_KEY` Actions secret. Never place credentials in HTML, browser JavaScript, generated JSON, screenshots, logs or pull-request text. Cool Isle reads only WeatherChart's public generated JSON.
 
-The Global Spot updater fetches 12 priority locations no more often than every 55 minutes, reserves the complete batch on the dedicated `weatherchart-quota-state` branch before making any request, confirms that write, performs no automatic retries, serialises runs, and stops before a shared UTC-day total of 350. A normal 24-hour schedule therefore reserves at most 288 calls, leaving 62 attempts of safety headroom. Failed or unused reserved attempts still count. Missing, contradictory or malformed durable state is quarantined at 350 for the current UTC day while a validated live forecast is retained or refreshed from the attributed Open-Meteo fallback. An auditable manual workflow bootstrap can initialise a genuinely missing current-day ledger from an operator-verified count.
+The Global Spot updater fetches 12 priority locations no more often than every 55 minutes, reserves the complete batch on the standalone repository's dedicated `weatherchart-quota-state` branch before making any request, confirms that write, performs no automatic retries, serialises runs, and stops before a UTC-day total of 350. A normal 24-hour schedule therefore reserves at most 288 calls, leaving 62 attempts of safety headroom. Failed or unused reserved attempts still count. Missing, contradictory or malformed durable state is quarantined at 350 for the current UTC day until an operator supplies a verified bootstrap count.
 
 Warnings and news use official Met Office RSS feeds; article bodies and Met Office images are not copied. Community adapters use supported APIs, oEmbed or manually reviewed public links—never page scraping. Cards expose city/region only, show location confidence, expire quickly and remain explicitly unverified.
 
 ### Operations and documentation
 
-- Run the workflow manually from the repository’s **Actions** tab; the same freshness and quota guards apply.
-- Diagnose stale data through the deployed `weatherchart/data/status.json` and the source-specific workflow outcome, without printing secrets.
-- The current preview lives below `/Cool-Isle/weatherchart/`. A later `weatherchart.uk` deployment requires a separately confirmed Pages repository and token; no DNS or cross-repository publishing is enabled here.
+- Run live-data operations from the standalone WeatherChart repository's **Actions** tab; the same freshness and quota guards apply.
+- Diagnose stale data through [`WeatherChartUK/data/status.json`](https://brexatlas.github.io/WeatherChartUK/data/status.json) and the source-specific workflow outcome, without printing secrets.
+- The public WeatherChart site lives at [`https://brexatlas.github.io/WeatherChartUK/`](https://brexatlas.github.io/WeatherChartUK/). Cool Isle links there directly in navigation, promotional panels and footers.
 - Setup, fallbacks and secret rotation: [`docs/WEATHERCHART-SETUP.md`](docs/WEATHERCHART-SETUP.md)
 - Hourly deployment and stale-data recovery: [`docs/WEATHERCHART-DEPLOYMENT.md`](docs/WEATHERCHART-DEPLOYMENT.md)
 - Source/licence review: [`docs/MET-OFFICE-SOURCE-AUDIT.md`](docs/MET-OFFICE-SOURCE-AUDIT.md) and [`docs/ATTRIBUTION-AND-LICENSING.md`](docs/ATTRIBUTION-AND-LICENSING.md)

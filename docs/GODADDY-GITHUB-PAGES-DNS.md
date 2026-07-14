@@ -18,23 +18,22 @@ repository's root (Cool Isle), not just the WeatherChart subfolder.
 
 Do these steps before changing DNS:
 
-1. Create the separate public repository `BREXAtlas/WeatherChart-UK`.
-2. Publish the contents of this repository's `weatherchart/` directory at the
-   root of that repository's Pages artifact.
-3. In `BREXAtlas/WeatherChart-UK`, open **Settings -> Pages** and select
-   **Deploy from a branch**, branch `main`, folder `/(root)`. The publisher
-   template copies the generated static site to that branch; it does not add a
-   target-repository GitHub Actions Pages workflow.
+1. Use the separate public repository `BREXAtlas/WeatherChartUK`.
+2. Its GitHub Actions workflow publishes WeatherChart at the root of that
+   repository's Pages artifact, so the site is available at
+   `https://brexatlas.github.io/WeatherChartUK/` without an extra path segment.
+3. In `BREXAtlas/WeatherChartUK`, open **Settings -> Pages** and keep
+   **Source: GitHub Actions** selected.
 4. Because `BREXAtlas` is a personal account, open the account's **Settings ->
    Pages** screen and verify ownership of `weatherchart.uk` using the TXT record
    GitHub supplies. Keep that TXT record permanently after verification.
-5. In the target repository's Pages settings, enter `weatherchart.uk` under
+5. After the first successful Pages deployment, enter `weatherchart.uk` under
    **Custom domain** and save it. GitHub recommends adding the custom domain to
    the repository before pointing public DNS at GitHub.
 
-The target repository did not exist when this document was written. Do not
-change DNS until steps 1–5 are complete, or the domain may remain parked or be
-served by the wrong Pages site.
+Do not change DNS until the standalone Pages deployment works and steps 3–5
+are complete, or the domain may remain parked or be served by the wrong Pages
+site.
 
 ## GoDaddy records for the apex domain
 
@@ -62,7 +61,7 @@ back to the parked apex, then add:
 | --- | --- | --- |
 | CNAME | `www` | `BREXAtlas.github.io` |
 
-The `www` CNAME must not contain `/Cool-Isle`, `/WeatherChart-UK`, a protocol,
+The `www` CNAME must not contain `/Cool-Isle`, `/WeatherChartUK`, a protocol,
 or any path. Do not create wildcard DNS records.
 
 ## Verify and enable HTTPS

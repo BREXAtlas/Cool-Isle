@@ -1,5 +1,7 @@
 # Met Office source audit
 
+Operational owner: `BREXAtlas/WeatherChartUK`. Its GitHub Actions workflow is the sole Met Office caller and 350-attempt UTC-day quota owner. `BREXAtlas/Cool-Isle` consumes only the published public data and contains no provider secret.
+
 Reviewed: 13 July 2026. This is an engineering source record, not legal advice. Recheck live terms before production use or a material change in product scope.
 
 | Source | Information used | Access method | Planned refresh | Terms/licence and attribution | Handling | Direct source |

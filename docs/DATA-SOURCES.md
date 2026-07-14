@@ -1,5 +1,9 @@
 # WeatherChart UK data sources
 
+## Operational ownership
+
+The live pipeline runs only in `BREXAtlas/WeatherChartUK` and publishes to `https://brexatlas.github.io/WeatherChartUK/` through GitHub Actions Pages. That repository is the sole owner of the Met Office repository secret, hourly job, and 350-attempt UTC-day quota ledger. Cool Isle receives only the resulting public JSON and must not make a second provider request or keep a parallel ledger.
+
 ## Forecast hierarchy
 
 1. **Met Office Weather DataHub Global Spot** — preferred official source for the twelve cached UK locations. Server-side workflow only; hourly product; transformed before publishing.
@@ -47,5 +51,5 @@ Leaflet displays OpenStreetMap tiles with visible contributor attribution. Warni
 - Browser JSON check: at load, every 60 minutes, and after returning to a stale tab.
 - Stale label: after two hours.
 - Strong stale warning: after six hours.
-- Production quota guard: reserve and confirm all twelve pending Global Spot calls on the dedicated GitHub state branch before the first request; hard stop at 350 reserved calls per UTC day.
+- Production quota guard: in `BREXAtlas/WeatherChartUK`, reserve and confirm all twelve pending Global Spot calls on the dedicated GitHub state branch before the first request; hard stop at 350 reserved calls per UTC day.
 - On a Met Office failure or quota stop, publish a fresh attributed Open-Meteo batch. If neither live provider succeeds, preserve the last valid live dataset and report both failed sources; production never deploys a synthetic forecast.

@@ -7,6 +7,13 @@ test("the map loader appends integrity-pinned Leaflet assets only when requested
   const appended = [];
   const nodes = new Map();
   const leaflet = { version: "test-leaflet" };
+  const now = Date.now();
+  const acceptedChoice = JSON.stringify({
+    version: 1,
+    optionalMaps: true,
+    decidedAt: new Date(now - 1000).toISOString(),
+    expiresAt: new Date(now + 24 * 60 * 60 * 1000).toISOString(),
+  });
 
   const createNode = (tagName) => {
     const listeners = new Map();
@@ -24,10 +31,20 @@ test("the map loader appends integrity-pinned Leaflet assets only when requested
 
   globalThis.window = {
     L: null,
+    location: { pathname: "/WeatherChartUK/index.html" },
+    localStorage: {
+      getItem(key) {
+        return key === "weatherchart.privacy.v1" ? acceptedChoice : null;
+      },
+      removeItem() {},
+    },
     setTimeout,
     clearTimeout,
   };
   globalThis.document = {
+    readyState: "loading",
+    documentElement: { dataset: {} },
+    addEventListener() {},
     querySelector(selector) {
       return nodes.get(selector) || null;
     },

@@ -1,40 +1,38 @@
 # WeatherChart UK setup
 
+## Repository ownership
+
+The live WeatherChart application is owned and published by the separate public repository [`BREXAtlas/WeatherChartUK`](https://github.com/BREXAtlas/WeatherChartUK). Its GitHub Actions Pages deployment is available at:
+
+`https://brexatlas.github.io/WeatherChartUK/`
+
+`BREXAtlas/Cool-Isle` is a secret-free public-data mirror and consumer. It links to the standalone application and may mirror or read WeatherChart's generated public JSON, but it must not run the Met Office refresh, maintain a second quota ledger, or contain a provider credential. The embedded `weatherchart/` tree in Cool Isle is retained only as a source/history mirror; it is not the production WeatherChart route.
+
 ## Local preview
 
-WeatherChart is a static subsite. Serve the repository root with any local HTTP server; do not open pages through `file://`, because JSON and module requests are subject to browser origin rules.
+Clone `BREXAtlas/WeatherChartUK` for WeatherChart feature or data-pipeline work. Serve its project root with a local HTTP server rather than opening pages through `file://`, because modules and JSON requests use browser origin rules. Use a current Node.js LTS release and install dependencies from the committed lockfile.
 
-Use a current Node.js LTS release for data scripts and tests. Install only from the committed lockfile when one is present. The site itself does not require a framework or a browser-exposed environment file.
+Cool Isle can also be served locally as a static site. Its WeatherChart links and status panel should continue to use the public WeatherChartUK Pages URL.
 
 ## Secrets
 
-Copy `.env.example` to an untracked `.env` only for local server-side script testing. Never place real values in `weatherchart/assets/js`, HTML, JSON, screenshots, console output, URLs, pull-request text, or files uploaded to Pages.
+The credential pasted into the original task must be treated as exposed and revoked. A replacement key belongs only in the standalone repository:
 
-The credential pasted into the original task must be considered exposed even though it was never written to the repository:
+1. Open `BREXAtlas/WeatherChartUK` on GitHub.
+2. Go to **Settings → Secrets and variables → Actions**.
+3. Add a **repository secret** named exactly `MET_OFFICE_API_KEY`.
+4. Keep the value out of repository variables, environment files, browser assets, generated JSON, logs, URLs, screenshots, issues, and pull requests.
 
-1. Reset/revoke it in the Met Office Weather DataHub account.
-2. Create a replacement dedicated to this workflow.
-3. In `BREXAtlas/Cool-Isle`, open **Settings → Environments** and create or select the environment named exactly `MET_OFFICE_API_KEY`.
-4. Add an environment secret named exactly `MET_OFFICE_API_KEY` with the replacement value. The data-preparation job uses this environment; the separate deploy job continues to use `github-pages`.
-5. Do not create a repository variable with the value and do not prefix it for client exposure.
+Optional `YOUTUBE_API_KEY` and `X_BEARER_TOKEN` values, if enabled, follow the same repository-secret rule in `BREXAtlas/WeatherChartUK`. No cross-repository deploy token is required: each repository deploys its own Pages artifact with its automatically scoped GitHub token.
 
-Optional integrations use `YOUTUBE_API_KEY` and `X_BEARER_TOKEN` as Actions secrets. `WEATHERCHART_DEPLOY_TOKEN` is intentionally unused until the owner confirms the second repository and cross-repository deployment.
+## Data and quota responsibility
 
-The hourly workflow uses the automatically scoped `github.token` for a single purpose: compare-and-swap updates on the dedicated `weatherchart-quota-state` branch. Do not create a separate long-lived quota token for Actions. The branch contains only UTC day, count, timestamps, and opaque reservation IDs; it must never contain the Met Office key or response data.
+Only the WeatherChartUK workflow may use the Met Office key. It owns the dedicated durable quota branch, the hourly refresh, and the hard 350-attempt UTC-day ceiling. A complete twelve-location batch is reserved before the first upstream request; failures and unused reservations still count.
 
-## Data modes
+The browser never calls Weather DataHub. It reads validated public files such as `data/forecast.json` and `data/status.json`. When the official source cannot run, the standalone workflow may publish a clearly attributed live Open-Meteo fallback. Synthetic fixtures are limited to development and tests and are rejected in production.
 
-- With `MET_OFFICE_API_KEY`: the automation generates transformed Global Spot hourly data, subject to a GitHub-hosted durable 350-attempt UTC-day cap.
-- If Met Office is unavailable, unconfigured, or stopped by its quota guard: the generator requests a complete, current twelve-location Open-Meteo batch and labels it as an indicative fallback. If neither live provider succeeds, production deployment stops and retains the previously deployed live site.
-- Synthetic fixtures remain development/test inputs only. Production validation and the browser both reject a synthetic forecast.
-- In the browser: the private API is never called. The UI reads `weatherchart/data/*.json` only.
+See `WEATHERCHART-DEPLOYMENT.md` for operational checks and recovery.
 
-## Manual data check
+## Community content
 
-Run the project’s validation and test scripts before generating data. A production-key run must use the workflow's durable quota branch and 55-minute freshness gate. Local runs use an atomic private ledger but are not a substitute for the shared production guard. Never bypass the guard to “just test” a production key.
-
-On first enablement, or after deletion of the durable quota file, expect the current UTC day to be quarantined at 350 with zero new Met Office calls. Normal reservations begin after the next 00:00 UTC reset. An operator who has independently verified the actual current-day count can instead use the one-time manual bootstrap documented in `WEATHERCHART-DEPLOYMENT.md`; scheduled runs can never invoke it.
-
-## Adding community content
-
-Add TikTok URLs only to the curated JSON file, confirm the URL is public and family-safe, and review its location basis. Do not add scraped markup or a private/login-protected link. See `SOCIAL-SOURCES-AND-MODERATION.md`.
+Community content must use the configured official APIs, supported endpoints, or manually curated public links. Do not add scraped markup or private/login-protected sources. See `SOCIAL-SOURCES-AND-MODERATION.md`.

@@ -1,6 +1,8 @@
-# Cool Isle repository audit
+# Historical Cool Isle repository audit
 
 Reviewed: 13 July 2026
+
+> This is the baseline audit captured before WeatherChart was implemented. It is retained for provenance, not as current deployment guidance. WeatherChart is now published from `BREXAtlas/WeatherChartUK` at `https://brexatlas.github.io/WeatherChartUK/`; Cool Isle is a separate, secret-free public-data consumer.
 
 ## Architecture
 
@@ -27,7 +29,7 @@ There was no Met Office API, warnings/news RSS, social API, geocoder, provider a
 
 ## Live-site audit
 
-The live desktop and 390px mobile page rendered without blocking console errors or horizontal overflow. Cool Isle’s root, blog and winter pages returned successfully. `/Cool-Isle/weatherchart/` returned 404 and none of the three live pages linked to WeatherChart.
+At the time of this baseline audit, the live desktop and 390px mobile page rendered without blocking console errors or horizontal overflow. Cool Isle’s root, blog and winter pages returned successfully. The then-proposed embedded WeatherChart route did not exist, and none of the three live pages linked to WeatherChart. This finding is historical; the active WeatherChart site now has its own repository and Pages URL.
 
 ## Fragile areas preserved or addressed
 
@@ -39,4 +41,4 @@ The live desktop and 390px mobile page rendered without blocking console errors 
 
 ## Repository and secret state
 
-The starting checkout was clean at commit `3a7b676`, tracking `origin/main`. No credential pattern was found in tracked files, the ZIP entries, or textual commit patches. The credential pasted into the task conversation is outside Git history but must be treated as exposed, revoked, and replaced with a dedicated GitHub Actions secret. It must never be copied into a file, log, generated dataset, URL, browser bundle, or pull-request text.
+The starting checkout was clean at commit `3a7b676`, tracking `origin/main`. No credential pattern was found in tracked files, the ZIP entries, or textual commit patches. The credential pasted into the task conversation is outside Git history but must be treated as exposed and revoked. The replacement now belongs only in the `MET_OFFICE_API_KEY` repository secret in `BREXAtlas/WeatherChartUK`; Cool Isle must remain secret-free. A credential must never be copied into a file, log, generated dataset, URL, browser bundle, or pull-request text.

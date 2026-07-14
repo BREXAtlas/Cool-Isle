@@ -1,67 +1,45 @@
-# WeatherChart UK implementation plan
+# Historical WeatherChart UK implementation plan
 
-Reviewed: 13 July 2026
+Original review: 13 July 2026
+Status: completed and superseded on 14 July 2026
 
-## Goal
+> This file is retained as a historical design record. It is not deployment or secret-setup guidance. Current operations are documented in `WEATHERCHART-SETUP.md` and `WEATHERCHART-DEPLOYMENT.md`.
 
-Add a distinct, accessible WeatherChart UK subsite at `/Cool-Isle/weatherchart/` without replacing or weakening Cool Isle. Both brands will link clearly to each other, and the existing Cool Isle shop, guides, map, currency conversion, winter content, image-injection step, and GitHub Pages deployment will remain operational.
+## Original goal
 
-## Baseline audit
+The initial work added an accessible WeatherChart experience alongside Cool Isle while preserving Cool Isle's shop, guides, map, currency conversion, winter content, image-injection step, and Pages deployment. The first implementation was built inside the Cool Isle working tree so the interface and data pipeline could be developed and verified together.
 
-- The repository is a dependency-free static site: `index.html`, `blog.html`, and `winter.html`, plus a deployment-time Python image injector and one GitHub Pages workflow.
-- Cool Isle currently calls Open-Meteo once in the browser for eight cities, Frankfurter once for exchange rates, and Leaflet/OpenStreetMap for its map. There are no timeouts, recurring weather checks, timestamps, retained-success state, provider abstraction, generated weather data, tests, or WeatherChart routes.
-- The deployment workflow publishes the repository root after mutating the three HTML files with `scripts/add-free-images.py`.
-- The current live desktop and mobile pages render without blocking console errors. `/Cool-Isle/weatherchart/` is currently a 404 and no Cool Isle page links to WeatherChart.
-- No credential is present in tracked files, the bundled ZIP, or repository history. The credential supplied in the conversation will not be used or stored; it must be rotated before a replacement is added as a GitHub Actions secret.
+The final publishing architecture separated the sites. WeatherChart now lives in [`BREXAtlas/WeatherChartUK`](https://github.com/BREXAtlas/WeatherChartUK) and is published by its own GitHub Actions workflow at `https://brexatlas.github.io/WeatherChartUK/`. Cool Isle links to that deployment and reads only public generated data.
 
-## Data and quota architecture
+## Implemented architecture
 
-1. The browser will load small, normalised JSON files from `weatherchart/data/`; it will never call Weather DataHub directly.
-2. `scripts/update-weather-data.mjs` will expose `MetOfficeProvider`, `OpenMeteoFallbackProvider`, and `MockProvider` behind one normalised schema.
-3. The official Global Spot hourly endpoint will be called for the twelve configured locations once per hourly refresh. Twelve locations × 24 UTC hours = 288 attempts/day.
-4. A hard shared ceiling of 350 upstream attempts per UTC day will apply. The complete twelve-location batch is durably pre-reserved through a compare-and-swap update on a dedicated GitHub branch and confirmed before the first call. Failed or unused reserved calls still count. There will be no automatic retry of Weather DataHub calls and no retry after `429`.
-5. Deployed status and the Actions cache are secondary recovery/observability copies, not quota authority. Scheduled runs are serialised. Missing durable state is quarantined at 350 for the current UTC day; invalid, unconfirmed, exhausted, or conflicting state makes no official calls and activates the live attributed fallback.
-6. Manual and push-triggered runs will honour the same freshness check and ledger; they will not refetch official data that is less than 55 minutes old.
-7. The separate Global Spot daily endpoint remains disabled because the hourly feed supplies the required outlook without another twelve-call batch. Open-Meteo supplies a separately attributed live fallback when the preferred provider cannot run.
-8. The key will be read only from `MET_OFFICE_API_KEY` in GitHub Actions, sent only in the `apikey` request header, and excluded from URLs, logs, generated JSON, browser code, examples, and repository history.
+- Browser code reads small normalised JSON files and never calls Weather DataHub directly.
+- `MetOfficeProvider`, `OpenMeteoFallbackProvider`, and development-only fixtures share a normalised forecast schema.
+- The official Global Spot hourly endpoint covers twelve configured UK locations per refresh.
+- The standalone WeatherChartUK repository owns one durable quota ledger and a hard 350-attempt UTC-day ceiling. It reserves a complete twelve-call batch before the first provider request and does not retry failed requests automatically.
+- Missing, invalid, unconfirmed, exhausted, or conflicting quota state fails closed. Open-Meteo can supply a separately attributed live fallback.
+- The Met Office key is read only from the `MET_OFFICE_API_KEY` repository secret in WeatherChartUK and is excluded from URLs, logs, generated data, browser code, examples, and Git history.
+- WeatherChart and Cool Isle contain clear links to one another while keeping independent GitHub Pages deployments.
 
-## Implementation phases
+## Delivered experience
 
-1. **Foundation and guardrails**
-   - Add `.gitignore`, `.env.example`, package/test metadata, normalised schemas, test fixtures, priority locations, source records, and quota tests.
-   - Add source, licensing, privacy, moderation, setup, deployment, domain, and image-credit documentation.
+- Accessible overview, forecast tables and cards, optional Leaflet/OpenStreetMap map, warning/news views, explainers, community-weather cards, stale/error states, and reduced-motion support.
+- Visible source attribution, timestamps, fallback state, and independence from the Met Office.
+- Test coverage for quota enforcement, provider normalisation, conversions, stale states, URL safety, warning/news constraints, moderation, expiry, coarse locations, and malformed inputs.
+- Production validation that rejects synthetic forecast data.
+- A separate standalone repository with README, MIT licence, GitHub Actions Pages deployment, and cross-site promotion.
 
-2. **WeatherChart experience**
-   - Build a self-contained vanilla-JavaScript subsite with a distinctive indigo/sky palette, semantic structure, skip link, accessible search, warning region, current conditions, deterministic “What this means” cards, 24-hour chart plus data table, forecast cards, Leaflet map plus list, severe-weather news, explainers, community-weather cards, stale/error states, and reduced-motion support.
-   - Publish only validated live provider data; if no provider succeeds, retain prior validated live data or show an unavailable state.
-   - Keep all internal links and assets relative so the subsite works both under `/Cool-Isle/weatherchart/` and at a future domain root.
+## Constraints retained from the original plan
 
-3. **Cool Isle integration**
-   - Add prominent WeatherChart links to the Cool Isle navigation and footer, plus links on the blog and winter guide.
-   - Add a compact WeatherChart status panel to Cool Isle.
-   - Refactor the existing Open-Meteo request into a timeout-protected reusable refresh that runs at load, every 60 minutes, and after visibility restoration when stale; retain the last successful display and show the last UK check time.
+- Do not scrape, frame, hotlink, or reproduce Met Office pages or images.
+- Preserve direct official warning/news links and clearly separate editorial summaries from official warnings.
+- Use only configured official APIs, supported public endpoints, or curated public links for community cards.
+- Reduce public community locations to city or region; never infer or retain precise personal coordinates.
+- Keep all provider credentials server-side and enforce the 350-call ceiling before making official requests.
 
-4. **Hourly generation and deployment**
-   - Extend the existing Pages workflow with the `17 * * * *` schedule, shared quota-state restoration, weather/RSS/community generation, data validation, tests, and deployment of the last valid complete dataset.
-   - Preserve least-privilege Pages permissions, avoid committing generated hourly files, avoid recursive workflow triggers, and leave any cross-repository/domain publishing disabled.
+## Current completion state
 
-5. **Verification and delivery**
-   - Run unit and integration tests for quota enforcement, provider normalisation, conversions, stale states, URL safety, warnings, RSS/news constraints, moderation, expiry, coarse locations, and missing/malformed inputs.
-   - Verify Cool Isle and WeatherChart at desktop, 320–390px mobile, keyboard-only, and reduced-motion settings; check links, console errors, internal 404s, source labels, and both deployment bases.
-   - Capture before/after screenshots, make logical commits on `codex/weatherchart-uk`, push the branch, and open a draft pull request. DNS, CNAME changes, the second repository, and cross-repository deployment remain outside scope until the owner confirms them.
-
-## Source and legal constraints
-
-- Use Weather DataHub APIs, official Met Office RSS feeds, Open-Meteo fallback data, and direct source links only. Do not scrape, frame, hotlink, or reproduce Met Office pages or images.
-- Display “Powered by Met Office data — data supplied by the Met Office” beside Met Office-derived visualisations, preserve direct RSS links, and clearly state that WeatherChart UK is independent and not endorsed by the Met Office.
-- Treat warnings seriously, preserve their source meaning, never invent geometry, and keep editorial interpretations separate.
-- Community content will use only curated links or configured official APIs/oEmbed, with family-safe moderation, coarse city/region labels, visible confidence, short retention, and no inferred precise personal location.
-
-## Completion checks
-
-- Cool Isle remains functional and gains clear links to WeatherChart.
-- WeatherChart links clearly back to Cool Isle and works at `/Cool-Isle/weatherchart/` with a distinct accessible mobile design.
-- Official calls cannot exceed 350 per UTC day; secrets cannot reach Git, generated data, logs, or the browser.
-- Data source, timestamp, fallback, and stale state are visible throughout.
-- Scheduled generation preserves the last valid dataset on any partial failure.
-- Automated checks pass and the draft pull request documents remaining manual secret/domain setup.
+- WeatherChart's active URL is `https://brexatlas.github.io/WeatherChartUK/`.
+- `BREXAtlas/WeatherChartUK` is the sole hourly Met Office caller and quota owner.
+- `BREXAtlas/Cool-Isle` is a secret-free public-data consumer with no provider schedule or quota branch.
+- Each repository publishes its own Pages artifact through GitHub Actions; no cross-repository deploy token is required.

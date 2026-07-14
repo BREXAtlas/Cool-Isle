@@ -1,43 +1,42 @@
-# WeatherChart UK domain plan
+# WeatherChart UK domain and Pages ownership
 
-The inactive template at `.github/workflows/deploy-weatherchart-domain.yml.disabled` prepares a manual, WeatherChart-only publish to `BREXAtlas/WeatherChart-UK`. GitHub does not recognise the `.disabled` extension. Do not rename it until the owner confirms the target repository, its Pages configuration, DNS ownership, and the `WEATHERCHART_DEPLOY_TOKEN` secret. The template preserves any target `CNAME` and cannot change Cool Isle's Pages domain.
+Reviewed: 14 July 2026
 
-Reviewed against current GitHub Pages documentation on 13 July 2026.
+## Active repository separation
 
-## Why a second repository is required
+The standalone public repository [`BREXAtlas/WeatherChartUK`](https://github.com/BREXAtlas/WeatherChartUK) owns the WeatherChart application and its GitHub Actions Pages deployment:
 
-A GitHub Pages project site has one configured custom-domain relationship. A second custom domain cannot be assigned only to the `/weatherchart/` directory while leaving the rest of the same Pages artifact on its current project URL. The recommended separation is:
+`https://brexatlas.github.io/WeatherChartUK/`
 
-- source remains in `BREXAtlas/Cool-Isle/weatherchart/`;
-- preview remains `https://brexatlas.github.io/Cool-Isle/weatherchart/`;
-- a future workflow publishes only WeatherChart output to `BREXAtlas/WeatherChart-UK`;
-- that second repository’s Pages site owns `weatherchart.uk`.
+Cool Isle remains an independent project site. DNS cannot map a custom domain to one folder inside another Pages artifact, so `weatherchart.uk` must be attached only to the WeatherChartUK Pages site. No cross-repository publisher or deploy token is used.
 
-Cool Isle’s current Pages settings, root CNAME state, and deployment remain independent.
+## GitHub Pages settings
 
-## Activation prerequisites
+In `BREXAtlas/WeatherChartUK`:
 
-Do not enable cross-repository publishing until all are confirmed:
+1. Keep **Settings → Pages → Source** set to **GitHub Actions**.
+2. Confirm the Actions deployment succeeds at the GitHub Pages URL before adding a custom domain.
+3. Verify ownership of `weatherchart.uk` at the `BREXAtlas` account level using GitHub's TXT-record process, and retain that verification record.
+4. Enter `weatherchart.uk` in the repository's **Custom domain** setting before changing public DNS.
+5. After DNS resolves to GitHub and the certificate is issued, enable **Enforce HTTPS**.
 
-- `BREXAtlas/WeatherChart-UK` exists and is owner-approved;
-- GitHub Pages is enabled there with **Deploy from a branch**, using `main` and
-  `/(root)` (the publisher copies static files to `main` but does not install a
-  target-side Pages Actions workflow);
-- `WEATHERCHART_DEPLOY_TOKEN` is configured with only the needed repository scope;
-- the organisation/account verifies control of `weatherchart.uk`;
-- the DNS owner confirms the intended apex and `www` behaviour; and
-- preview and production links are tested for redirect loops.
+Use the exact A, AAAA, and CNAME instructions in `GODADDY-GITHUB-PAGES-DNS.md`. Do not change those records to a repository path or use stale IP values copied from an unrelated host.
 
-## DNS and domain checklist
+## Canonical transition
 
-Use the values shown in GitHub’s current documentation at activation time; do not copy old IP addresses from this repository.
+Until the custom domain is configured and HTTPS is working, canonical metadata should use:
 
-1. Verify the domain at the account/organisation level with GitHub’s TXT-record flow and keep the verification record.
-2. Add the custom domain in the **target repository’s** Pages settings before changing DNS.
-3. Configure apex and `www` records exactly as GitHub currently documents; avoid wildcard records.
-4. Confirm DNS with the provider and an independent lookup.
-5. Wait for GitHub’s certificate provisioning, then enable **Enforce HTTPS**.
-6. Check for mixed content, the apex/`www` redirect, canonical metadata, sitemap, and both directions of the Cool Isle link.
+`https://brexatlas.github.io/WeatherChartUK/`
+
+After the custom domain, HTTPS, sitemap, and both directions of the Cool Isle link are verified, canonical metadata may move to `https://weatherchart.uk/`. Keep one canonical destination and avoid redirects in both directions.
+
+## Rollback and safe removal
+
+1. Restore canonical metadata to the GitHub Pages URL.
+2. Remove the custom domain from the WeatherChartUK repository's Pages settings.
+3. Remove or repoint DNS promptly so a disabled Pages mapping cannot be taken over.
+4. Keep account-level domain verification while the owner retains the domain.
+5. Confirm `https://brexatlas.github.io/WeatherChartUK/` and Cool Isle's outbound link still work.
 
 Official references:
 
@@ -45,18 +44,3 @@ Official references:
 - https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
 - https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https
 - https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
-
-## Canonical transition
-
-Before the domain exists, preview pages canonicalise to the preview URL. After HTTPS and both link directions are verified, set `WEATHERCHART_CANONICAL_URL=https://weatherchart.uk/`, make the production site canonical, and keep the GitHub path as a preview or small launch page. Never create redirects in both directions.
-
-## Rollback and safe removal
-
-1. Stop the target deployment workflow.
-2. Restore WeatherChart canonical links to the GitHub preview URL.
-3. Remove the custom domain in the target repository’s Pages settings.
-4. Remove or repoint DNS promptly so a disabled Pages mapping cannot be taken over.
-5. Keep domain verification while the organisation still owns the domain.
-6. Confirm the Cool Isle preview remains usable.
-
-No DNS, CNAME, repository creation, or cross-repository publishing is performed by this implementation.

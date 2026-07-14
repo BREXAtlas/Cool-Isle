@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "node --test --test-reporter=spec",
-    "test:html": "html-validate blog.html index.html winter.html weatherchart/*.html",
+    "test:html": "html-validate blog.html cookies.html index.html winter.html weatherchart/*.html",
     "test:static": "node --test --test-reporter=spec tests/static-site.test.mjs",
     "validate:data": "node scripts/validate-generated-data.mjs",
     "update:weather": "node scripts/update-weather-data.mjs",

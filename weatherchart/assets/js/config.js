@@ -1,6 +1,6 @@
 export const SITE = Object.freeze({
   name: 'WeatherChart UK',
-  previewBase: 'https://brexatlas.github.io/Cool-Isle/weatherchart/',
+  previewBase: 'https://brexatlas.github.io/WeatherChartUK/',
   productionBase: 'https://weatherchart.uk/',
   coolIsleBase: 'https://brexatlas.github.io/Cool-Isle/'
 });
@@ -51,7 +51,6 @@ export function configureDeploymentLinks() {
     }
   }
 
-  if (!production) return;
   document.querySelectorAll('[data-cool-isle-link]').forEach((link) => {
     link.href = SITE.coolIsleBase;
   });

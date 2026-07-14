@@ -431,27 +431,22 @@ test("durable exhaustion stops before any upstream request", async (t) => {
   assert.equal(fake.state.record.attempts, 349);
 });
 
-test("deployment requires durable quota and persists its private snapshot only after Pages succeeds", async () => {
+test("Cool Isle deployment mirrors public WeatherChart data without receiving the forecast secret", async () => {
   const workflow = await fs.readFile(workflowUrl, "utf8");
-  const refreshIndex = workflow.indexOf("Refresh hourly forecast data");
-  const recheckIndex = workflow.indexOf("Recheck the final static artifact and data");
-  const snapshotIndex = workflow.indexOf("Mark and snapshot the verified deployment candidate");
+  const restoreIndex = workflow.indexOf("Mirror the standalone WeatherChart public data");
+  const verifyIndex = workflow.indexOf("Verify site and live-data shape");
   const stageIndex = workflow.indexOf("Stage the public Pages artifact");
   const deployIndex = workflow.indexOf("- name: Deploy to GitHub Pages");
-  const cacheSaveIndex = workflow.indexOf("Persist the successfully deployed private snapshot");
-  assert.match(workflow, /contents:\s*write/);
-  assert.match(workflow, /WEATHERCHART_REQUIRE_DURABLE_QUOTA:\s*['"]true['"]/);
-  assert.match(workflow, /WEATHERCHART_QUOTA_TOKEN:\s*\$\{\{ github\.token \}\}/);
-  assert.match(workflow, /name:\s*MET_OFFICE_API_KEY/);
+  assert.match(workflow, /contents:\s*read/);
   assert.match(workflow, /name:\s*github-pages/);
-  assert.match(workflow, /confirm_quota_bootstrap/);
-  assert.match(workflow, /bootstrap-weather-quota\.mjs/);
-  assert.match(workflow, /WEATHERCHART_REQUIRE_LIVE_FORECAST:\s*['"]true['"]/);
-  assert.ok(refreshIndex > 0 && deployIndex > refreshIndex);
-  assert.ok(recheckIndex > refreshIndex);
-  assert.ok(snapshotIndex > recheckIndex && stageIndex > snapshotIndex);
-  assert.ok(cacheSaveIndex > deployIndex);
-  assert.doesNotMatch(workflow.slice(0, deployIndex), /actions\/cache\/save/);
+  assert.match(workflow, /https:\/\/brexatlas\.github\.io\/WeatherChartUK\/data\//);
+  assert.match(workflow, /cron:\s*['"]47 \* \* \* \*['"]/);
+  assert.ok(restoreIndex > 0 && verifyIndex > restoreIndex);
+  assert.ok(stageIndex > verifyIndex && deployIndex > stageIndex);
+  assert.doesNotMatch(workflow, /MET_OFFICE_API_KEY/);
+  assert.doesNotMatch(workflow, /update-weather-data\.mjs/);
+  assert.doesNotMatch(workflow, /WEATHERCHART_QUOTA_TOKEN/);
+  assert.doesNotMatch(workflow, /bootstrap-weather-quota\.mjs/);
+  assert.doesNotMatch(workflow, /actions\/cache\/save/);
   assert.match(workflow, /--exclude='\.weatherchart-state\/'/);
-  assert.doesNotMatch(workflow.slice(cacheSaveIndex), /if:\s*always\(\)/);
 });

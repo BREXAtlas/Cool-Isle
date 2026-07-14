@@ -15,6 +15,7 @@ import { hasSeriousLiveWarning, renderWarnings } from './warnings.js';
 import { initialiseNews } from './news.js';
 import { currentCommunityItems, initialiseCommunity } from './community.js';
 import { initialiseWeatherMap } from './map.js';
+import './privacy-choices.js';
 
 configureDeploymentLinks();
 initialiseNavigation();

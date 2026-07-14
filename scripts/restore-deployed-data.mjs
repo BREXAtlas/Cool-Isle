@@ -2,7 +2,7 @@ import { pathToFileURL } from "node:url";
 import { DATA_FILE_NAMES, REQUEST_TIMEOUT_MS, createPaths } from "./lib/constants.mjs";
 import { safeErrorCode, writeJsonAtomic } from "./lib/fs-json.mjs";
 
-const DEFAULT_BASE = "https://brexatlas.github.io/Cool-Isle/weatherchart/data/";
+const DEFAULT_BASE = "https://brexatlas.github.io/WeatherChartUK/data/";
 const MAX_DATA_FILE_BYTES = 2_000_000;
 
 function safeBaseUrl(value) {

@@ -16,7 +16,8 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="weatherchart/assets/css/privacy-choices.css">
+<script type="module" src="weatherchart/assets/js/privacy-choices.js"></script>
 <style>
 :root{
   --paper:#F4F8FA; --ink:#0E2A3C; --glacial:#BFE7F2; --relief:#0E7C9E;
@@ -225,7 +226,7 @@ footer a{color:var(--glacial)}
       <a href="#locator">AC Locator</a>
       <a href="blog.html">Guides &amp; Blog</a>
       <a href="winter.html">Winter Guide</a>
-      <a class="weatherchart-nav-link" href="weatherchart/">WeatherChart UK</a>
+      <a class="weatherchart-nav-link" href="https://brexatlas.github.io/WeatherChartUK/">WeatherChart UK</a>
       <a href="#about">About</a>
     </nav>
   </div>
@@ -246,7 +247,7 @@ footer a{color:var(--glacial)}
     <div class="cta-row">
       <a class="btn btn-amber" href="#shop">Beat the heat now</a>
       <a class="btn btn-ghost" href="#hacks">Free cooling hacks</a>
-      <a class="btn btn-weatherchart" href="weatherchart/">Open WeatherChart UK</a>
+      <a class="btn btn-weatherchart" href="https://brexatlas.github.io/WeatherChartUK/">Open WeatherChart UK</a>
     </div>
     <!-- LIVE HEAT BOARD -->
     <div class="heat-board" id="heatBoard" aria-live="polite"></div>
@@ -267,7 +268,7 @@ footer a{color:var(--glacial)}
         <strong id="weatherchartWarningCount">Official warning status loading…</strong>
         <span id="weatherchartSummary">Checking the latest published WeatherChart dataset.</span>
         <span id="weatherchartUpdated">Updates are checked hourly.</span>
-        <a class="btn btn-weatherchart" href="weatherchart/">See the full WeatherChart →</a>
+        <a class="btn btn-weatherchart" href="https://brexatlas.github.io/WeatherChartUK/">See the full WeatherChart →</a>
       </div>
     </div>
   </div>
@@ -494,14 +495,13 @@ footer a{color:var(--glacial)}
       <div><h4>CoolIsle UK</h4><p>Weather-ready living for British homes. Heat relief, winter warmth, rain-ready gear.</p></div>
       <div><h4>Gear guides</h4><p><a href="#shop">Cooling</a><br><a href="#winter">Winter warmth</a><br><a href="#shop">Rain-ready</a><br><a href="#shop">Hack kit</a></p></div>
       <div><h4>Learn</h4><p><a href="#hacks">Budget cooling hacks</a><br><a href="#trends">UK climate trends</a><br><a href="#locator">AC Locator</a><br><a href="#calculator">BTU calculator</a></p></div>
-      <div><h4>WeatherChart UK</h4><p><a href="weatherchart/"><strong>Open the forecast companion →</strong></a><br>Location weather, official warnings, charts, maps and explainers.</p></div>
+      <div><h4>WeatherChart UK</h4><p><a href="https://brexatlas.github.io/WeatherChartUK/"><strong>Open the forecast companion →</strong></a><br>Location weather, official warnings, charts, maps and explainers.</p></div>
       <div><h4>Official resources</h4><p><a href="https://www.metoffice.gov.uk" rel="noopener" target="_blank">Met Office</a><br><a href="https://www.gov.uk/guidance/weather-health-alerting-system" rel="noopener" target="_blank">UKHSA alerts</a><br><a href="https://www.nhs.uk/live-well/seasonal-health/" rel="noopener" target="_blank">NHS seasonal health</a><br><a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p></div>
     </div>
-    <p class="disclaimer">© 2026 CoolIsle UK. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Cool Isle does not sell products or process checkout. Product links go to third-party official seller or manufacturer pages without affiliate IDs; verify price, stock, compatibility and delivery there. Links to GOV.UK, NHS and Met Office imply no endorsement.</p>
+    <p class="disclaimer">© 2026 CoolIsle UK. <a href="cookies.html">Cookies &amp; privacy</a> · <a href="cookies.html" data-privacy-settings>Privacy choices</a>. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Cool Isle does not sell products or process checkout. Product links go to third-party official seller or manufacturer pages without affiliate IDs; verify price, stock, compatibility and delivery there. Links to GOV.UK, NHS and Met Office imply no endorsement.</p>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* Verified official retailer/manufacturer destinations; no affiliate IDs. */
 const HERO_SKUS = ["CI-SEAL-001","CI-DUAL-003","CI-TOWER-006"]; // the starter trio
@@ -509,7 +509,7 @@ const HERO_SKUS = ["CI-SEAL-001","CI-DUAL-003","CI-TOWER-006"]; // the starter t
 const PRODUCTS = [
  {sku:"CI-SEAL-001", name:"Portable AC Window Seal Kits", cat:"accessory", seller:"Pro Breeze", cta:"Browse at", meta:"Hinged-window seals and cooling spares; measure the window before ordering.", eco:true, buyUrl:"https://probreeze.com/collections/cooling-spare-parts"},
  {sku:"CI-DUAL-003", name:"Portable AC Spares & Venting Accessories", cat:"accessory", seller:"Appliances Direct", cta:"Browse at", meta:"Check the AC model, adaptor shape and hose diameter for compatibility.", buyUrl:"https://www.appliancesdirect.co.uk/ct/heating-and-air-conditioning/spare-parts-and-accessories"},
- {sku:"CI-TOWER-006", name:"Evaporative Air Coolers", cat:"ac", seller:"Argos", cta:"Browse at", meta:"These are not compressor air conditioners; compare suitability for humid weather.", eco:true, buyUrl:"https://www.argos.co.uk/browse/appliances/fans-heaters-and-dehumidifiers/fans/c%3A29439/type%3Aair-coolers/"},
+ {sku:"CI-TOWER-006", name:"Evaporative Air Coolers", cat:"ac", seller:"Argos", cta:"Browse at", meta:"These are not compressor air conditioners; compare suitability for humid weather.", eco:true, buyUrl:"https://www.argos.co.uk/sd/portable-air-cooler/"},
  {sku:"CI-HOSE-002", name:"AC Exhaust Hoses & Compatible Parts", cat:"accessory", seller:"Appliances Direct", cta:"Browse at", meta:"Match the hose diameter, thread direction and machine adaptor to your model.", buyUrl:"https://www.appliancesdirect.co.uk/ct/heating-and-air-conditioning/spare-parts-and-accessories"},
  {sku:"CI-MINIFAN-004", name:"Rechargeable Handheld & Desk Fan", cat:"ac", seller:"Argos", cta:"View at", meta:"A foldable personal fan; confirm charging cable and battery details at Argos.", eco:true, buyUrl:"https://www.argos.co.uk/product/8179191"},
  {sku:"CI-DESK-005", name:"USB Desk Fans", cat:"ac", seller:"Currys", cta:"Browse at", meta:"Compact personal airflow for a desk; compare size, noise and power connection.", eco:true, buyUrl:"https://www.currys.co.uk/appliances/fans-heating-and-air-treatment/heating-and-cooling/desk-fans"},
@@ -698,8 +698,8 @@ async function refreshWeatherChartPanel(){
  try{
    const check=Date.now();
    const [statusResponse,forecastResponse]=await Promise.all([
-     fetchWithTimeout(`weatherchart/data/status.json?check=${check}`,{cache:"no-store"},8000),
-     fetchWithTimeout(`weatherchart/data/forecast.json?check=${check}`,{cache:"no-store"},8000).catch(()=>null)
+     fetchWithTimeout(`https://brexatlas.github.io/WeatherChartUK/data/status.json?check=${check}`,{cache:"no-store"},8000),
+     fetchWithTimeout(`https://brexatlas.github.io/WeatherChartUK/data/forecast.json?check=${check}`,{cache:"no-store"},8000).catch(()=>null)
    ]);
    if(!statusResponse.ok)throw new Error("WeatherChart status unavailable");
    const status=await statusResponse.json();
@@ -778,8 +778,12 @@ document.addEventListener("visibilitychange",()=>{
  });
 })();
 
-/* ============ Leaflet UK map ============ */
+/* ============ Optional Leaflet UK map ============ */
+const LEAFLET_CSS_URL="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+const LEAFLET_SCRIPT_URL="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
 let mapDrawn=false;
+let ukMap=null;
+let leafletLoadPromise=null;
 const weatherMarkers=[];
 function weatherPopup(city){
  return typeof city.live==="number"
@@ -789,16 +793,77 @@ function weatherPopup(city){
 function refreshWeatherMarkers(){
  weatherMarkers.forEach(({marker,city})=>marker.setPopupContent(weatherPopup(city)));
 }
-function drawMap(){
- if(mapDrawn||typeof L==="undefined")return; mapDrawn=true;
- const map=L.map("ukmap",{scrollWheelZoom:false}).setView([54.3,-3.4],5);
- L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors",maxZoom:18}).addTo(map);
+function optionalMapAllowed(){
+ return document.documentElement.dataset.privacyChoice==="optional-allowed";
+}
+function showMapPlaceholder(){
+ const container=document.getElementById("ukmap");
+ if(!container)return;
+ container.classList.add("privacy-map-placeholder");
+ container.replaceChildren();
+ const content=document.createElement("div");
+ const message=document.createElement("p");
+ message.textContent="The live temperature list remains available. Allow the optional external map to load Leaflet and OpenStreetMap tiles.";
+ const button=document.createElement("button");
+ button.type="button";
+ button.dataset.privacySettings="";
+ button.textContent="Review privacy choices";
+ content.append(message,button);
+ container.append(content);
+}
+function loadLeaflet(){
+ if(window.L)return Promise.resolve(window.L);
+ if(leafletLoadPromise)return leafletLoadPromise;
+ leafletLoadPromise=new Promise((resolve,reject)=>{
+   if(!document.getElementById("coolisle-leaflet-css")){
+     const stylesheet=document.createElement("link");
+     stylesheet.id="coolisle-leaflet-css";
+     stylesheet.rel="stylesheet";
+     stylesheet.href=LEAFLET_CSS_URL;
+     stylesheet.crossOrigin="anonymous";
+     document.head.append(stylesheet);
+   }
+   const script=document.createElement("script");
+   script.id="coolisle-leaflet-script";
+   script.src=LEAFLET_SCRIPT_URL;
+   script.crossOrigin="anonymous";
+   script.addEventListener("load",()=>resolve(window.L),{once:true});
+   script.addEventListener("error",()=>{
+     leafletLoadPromise=null;
+     reject(new Error("Optional map library unavailable"));
+   },{once:true});
+   document.head.append(script);
+ });
+ return leafletLoadPromise;
+}
+function disableMap(){
+ if(ukMap){ukMap.remove();ukMap=null;}
+ mapDrawn=false;
+ weatherMarkers.length=0;
+ showMapPlaceholder();
+}
+async function drawMap(){
+ if(mapDrawn)return;
+ if(!optionalMapAllowed()){showMapPlaceholder();return;}
+ let leaflet;
+ try{leaflet=await loadLeaflet();}
+ catch{showMapPlaceholder();return;}
+ if(!optionalMapAllowed()){showMapPlaceholder();return;}
+ const container=document.getElementById("ukmap");
+ container.classList.remove("privacy-map-placeholder");
+ container.replaceChildren();
+ ukMap=leaflet.map(container,{scrollWheelZoom:false}).setView([54.3,-3.4],5);
+ mapDrawn=true;
+ leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors",maxZoom:18}).addTo(ukMap);
  CITIES.forEach(c=>{
-  const marker=L.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
-   .addTo(map).bindPopup(weatherPopup(c));
+  const marker=leaflet.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
+   .addTo(ukMap).bindPopup(weatherPopup(c));
   weatherMarkers.push({marker,city:c});
  });
 }
+window.addEventListener("privacychoicechange",event=>{
+ if(event.detail?.optionalMaps)drawMap();else disableMap();
+});
 setTimeout(drawMap, 2500); // fallback if weather fetch is slow
 
 /* ============ scroll reveal ============ */

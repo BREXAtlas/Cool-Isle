@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en-GB" data-page="home">
+<html lang="en-GB" data-page="home" data-consent-site="weatherchart">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self' https://github.com; script-src 'self' https://unpkg.com 'sha256-ztC+JTg0t/rMvzcZXZQvgIgoGBONTpGAXTjoTmt1HT8='; style-src 'self' https://unpkg.com 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://api.postcodes.io https://geocoding-api.open-meteo.com; font-src 'self'; manifest-src 'self'; media-src 'none'; worker-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self' https://github.com; script-src 'self' https://unpkg.com 'sha256-nBJkTt0o6NAhM6xkf0aM4WnOhOPb2n0YoM0DponOsaQ='; style-src 'self' https://unpkg.com 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://unpkg.com; connect-src 'self' https://api.postcodes.io https://geocoding-api.open-meteo.com; font-src 'self'; manifest-src 'self'; media-src 'none'; worker-src 'self'">
   <meta name="theme-color" content="#25245e">
   <meta name="description" content="WeatherChart UK is a playful, accessible companion for UK forecasts, warnings, explainers and public weather chatter.">
   <meta property="og:title" content="WeatherChart UK — What’s the sky up to?">
@@ -11,20 +11,20 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_GB">
   <meta property="og:site_name" content="WeatherChart UK">
-  <meta property="og:url" content="https://brexatlas.github.io/Cool-Isle/weatherchart/">
-  <meta property="og:image" content="https://brexatlas.github.io/Cool-Isle/weatherchart/assets/images/weatherchart-social.png">
+  <meta property="og:url" content="https://brexatlas.github.io/WeatherChartUK/">
+  <meta property="og:image" content="https://brexatlas.github.io/WeatherChartUK/assets/images/weatherchart-social.png">
   <meta property="og:image:alt" content="WeatherChart UK weather playground preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="WeatherChart UK — What’s the sky up to?">
   <meta name="twitter:description" content="A clear, family-friendly view of UK weather, with sources and timestamps always in sight.">
-  <meta name="twitter:image" content="https://brexatlas.github.io/Cool-Isle/weatherchart/assets/images/weatherchart-social.png">
+  <meta name="twitter:image" content="https://brexatlas.github.io/WeatherChartUK/assets/images/weatherchart-social.png">
   <meta name="twitter:image:alt" content="WeatherChart UK weather playground preview">
-  <link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/weatherchart/" data-canonical>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WeatherChart UK","alternateName":"WeatherChart","url":"https://brexatlas.github.io/Cool-Isle/weatherchart/","description":"A playful, accessible companion for UK forecasts, warnings, explainers and public weather chatter.","inLanguage":"en-GB"}</script>
+  <link rel="canonical" href="https://brexatlas.github.io/WeatherChartUK/" data-canonical>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WeatherChart UK","alternateName":"WeatherChart","url":"https://brexatlas.github.io/WeatherChartUK/","description":"A playful, accessible companion for UK forecasts, warnings, explainers and public weather chatter.","inLanguage":"en-GB"}</script>
   <link rel="icon" href="assets/icons/weatherchart-mark.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/weatherchart.css">
-  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/animations.css"><link rel="stylesheet" href="assets/css/privacy-choices.css">
   <title>WeatherChart UK — What’s the sky up to?</title>
 </head>
 <body>
@@ -55,7 +55,7 @@
         <a href="community.html">Community</a>
         <a href="explainers.html">Explainers</a>
         <a href="sources.html">Sources</a>
-        <a class="button button--small button--ghost" href="../index.html" data-cool-isle-link>Visit Cool Isle <span aria-hidden="true">↗</span></a>
+        <a class="button button--small button--ghost" href="https://brexatlas.github.io/Cool-Isle/" data-cool-isle-link>Visit Cool Isle <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -248,7 +248,7 @@
         <div class="map-layout">
           <div class="map-frame">
             <div id="weather-map" class="weather-map" role="region" aria-label="Interactive map of UK weather locations" data-weather-map>
-              <p class="map-placeholder">The map loads when it enters view. Use the location list below if maps are not convenient.</p>
+              <p class="map-placeholder">The optional map loads only after you allow it and it enters view. The location list below always remains available.</p>
             </div>
           </div>
           <aside class="map-key" aria-labelledby="map-key-title" aria-live="polite">
@@ -337,12 +337,13 @@
           <p class="eyebrow">Practical guides from our other side</p>
           <h2 id="cool-isle-title">Weather spotted. Next, get comfortable.</h2>
           <p>WeatherChart is not a shop. These clearly labelled Cool Isle guides may help you prepare for the day ahead.</p>
+          <p><a class="button button--ink" href="https://brexatlas.github.io/Cool-Isle/" data-cool-isle-link>Explore Cool Isle comfort guides</a></p>
         </div>
         <div class="guide-links">
-          <a href="../blog.html" data-cool-isle-path="blog.html"><span aria-hidden="true">☀</span><strong>Prepare for a heatwave</strong><small>Cool Isle guide</small></a>
-          <a href="../winter.html" data-cool-isle-path="winter.html"><span aria-hidden="true">❄</span><strong>Winter-ready guide</strong><small>Cool Isle guide</small></a>
-          <a href="../index.html#hacks" data-cool-isle-path="index.html#hacks"><span aria-hidden="true">⌁</span><strong>Cooling hacks</strong><small>Cool Isle guide</small></a>
-          <a href="../winter.html#draughts" data-cool-isle-path="winter.html#draughts"><span aria-hidden="true">⌂</span><strong>Draught-proofing</strong><small>Cool Isle guide</small></a>
+          <a href="https://brexatlas.github.io/Cool-Isle/blog.html" data-cool-isle-path="blog.html"><span aria-hidden="true">☀</span><strong>Prepare for a heatwave</strong><small>Cool Isle guide</small></a>
+          <a href="https://brexatlas.github.io/Cool-Isle/winter.html" data-cool-isle-path="winter.html"><span aria-hidden="true">❄</span><strong>Winter-ready guide</strong><small>Cool Isle guide</small></a>
+          <a href="https://brexatlas.github.io/Cool-Isle/index.html#hacks" data-cool-isle-path="index.html#hacks"><span aria-hidden="true">⌁</span><strong>Cooling hacks</strong><small>Cool Isle guide</small></a>
+          <a href="https://brexatlas.github.io/Cool-Isle/winter.html#draughts" data-cool-isle-path="winter.html#draughts"><span aria-hidden="true">⌂</span><strong>Draught-proofing</strong><small>Cool Isle guide</small></a>
         </div>
       </div>
     </section>
@@ -366,7 +367,8 @@
         <a href="sources.html">Sources &amp; methodology</a>
         <a href="privacy.html">Privacy &amp; corrections</a>
         <a href="community.html">Community approach</a>
-        <a href="../index.html" data-cool-isle-link>Back to Cool Isle</a>
+        <a href="https://brexatlas.github.io/Cool-Isle/" data-cool-isle-link>Back to Cool Isle</a>
+        <a href="cookies.html">Cookies &amp; privacy</a><a href="cookies.html" data-privacy-settings>Privacy choices</a>
       </nav>
       <p class="site-footer__fineprint" data-footer-mode-copy>Weather data remains subject to source times, provider limitations and current official warnings.</p>
     </div>
