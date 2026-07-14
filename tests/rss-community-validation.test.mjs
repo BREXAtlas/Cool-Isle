@@ -82,10 +82,12 @@ test("warning updater publishes complete feed items and fails closed on malforme
     now: () => now,
     fetchImpl: async (url) => response(String(url).includes("WarningsRSS") ? "<html>temporary error</html>" : newsXml),
   });
-  const preserved = await readJson(second.paths.warningsPath);
+  const unavailable = await readJson(second.paths.warningsPath);
   const status = await readJson(second.paths.statusPath);
-  assert.equal(preserved.sample, true);
-  assert.equal(preserved.warnings.length, 0);
+  assert.equal(unavailable.sample, false);
+  assert.equal(unavailable.unavailable, true);
+  assert.equal(unavailable.datasetState, "source-unavailable");
+  assert.equal(unavailable.warnings.length, 0);
   assert.equal(status.failedSources.includes("met-office-warnings-rss"), true);
 });
 
@@ -225,8 +227,8 @@ test("restoring last-valid data never rolls back already reserved quota attempts
     quotaDayUtc: "2026-07-13",
     attempts: 12,
     callsUsed: 12,
-    limit: 300,
-    limitPerUtcDay: 300,
+    limit: 350,
+    limitPerUtcDay: 350,
     callsMadeThisRun: 12,
     updatedAt: now.toISOString(),
     hardStopEnabled: true,

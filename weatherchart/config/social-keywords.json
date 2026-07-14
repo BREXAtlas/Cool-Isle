@@ -6,6 +6,14 @@
     "youtube": "UK weather rain wind snow storm heatwave forecast",
     "x": "(#UKWeather OR #WeatherAware OR \"heatwave UK\" OR \"snow UK\" OR \"rain Glasgow\") -is:retweet lang:en"
   },
+  "providerSources": {
+    "mastodon": [
+      {
+        "instance": "https://mastodon.social",
+        "hashtag": "UKWeather"
+      }
+    ]
+  },
   "allowedWeatherKeywords": [
     "weather",
     "forecast",
@@ -95,6 +103,7 @@
     "youtube": 8,
     "x": 10,
     "tiktok": 6,
+    "mastodon": 8,
     "total": 24
   },
   "maximumAgeHours": 48,

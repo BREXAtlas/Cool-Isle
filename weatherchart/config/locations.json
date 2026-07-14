@@ -3,7 +3,7 @@
   "updatedAt": "2026-07-13T00:00:00.000Z",
   "description": "Priority locations used for the WeatherChart UK cached forecast bundle.",
   "defaultLocationId": "london",
-  "maximumDailyGlobalSpotCalls": 300,
+  "maximumDailyGlobalSpotCalls": 350,
   "refreshScheduleMinuteUtc": 17,
   "locations": [
     {

@@ -1,5 +1,6 @@
 import {
   DAILY_ATTEMPT_LIMIT,
+  LEGACY_DAILY_ATTEMPT_LIMIT,
   REQUIRED_BATCH_SIZE,
 } from "./constants.mjs";
 import { readJsonState, writeJsonAtomic } from "./fs-json.mjs";
@@ -33,15 +34,23 @@ function validateCandidate(candidate, label, today) {
   if (!Number.isInteger(attemptsValue) || attemptsValue < 0 || attemptsValue > DAILY_ATTEMPT_LIMIT) {
     throw new Error(`${label} has an invalid attempt count`);
   }
-  if (limitValue !== DAILY_ATTEMPT_LIMIT) {
+  if (![DAILY_ATTEMPT_LIMIT, LEGACY_DAILY_ATTEMPT_LIMIT].includes(limitValue)) {
     throw new Error(`${label} does not enforce the ${DAILY_ATTEMPT_LIMIT}-attempt limit`);
   }
   return {
     ...candidate,
     version: 1,
     utcDay: utcDayValue,
-    attempts: attemptsValue,
-    limit: limitValue,
+    attempts:
+      limitValue === LEGACY_DAILY_ATTEMPT_LIMIT &&
+      (candidate.safe === false || /quarantine/i.test(String(candidate.source ?? "")))
+        ? DAILY_ATTEMPT_LIMIT
+        : attemptsValue,
+    limit: DAILY_ATTEMPT_LIMIT,
+    unsafe: candidate.safe === false || /quarantine/i.test(String(candidate.source ?? "")),
+    ...(limitValue === LEGACY_DAILY_ATTEMPT_LIMIT
+      ? { migratedFromLimit: LEGACY_DAILY_ATTEMPT_LIMIT }
+      : {}),
   };
 }
 
@@ -248,6 +257,10 @@ export async function openQuotaLedger({ ledgerPath, statusPath, now = () => new 
     } catch {
       unsafeReason = "quota-state-unsafe";
     }
+  }
+
+  if (!unsafeReason && validated.some((candidate) => candidate.utcDay === today && candidate.unsafe)) {
+    unsafeReason = "quota-state-quarantined";
   }
 
   if (unsafeReason) {

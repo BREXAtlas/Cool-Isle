@@ -1,7 +1,6 @@
 {
   "version": 1,
   "updatedAt": "2026-07-13T00:00:00.000Z",
-  "sample": true,
   "enabled": false,
   "mode": "manual-curation-only",
   "policy": "Publish only a manually reviewed public TikTok URL after oEmbed availability, permission, expiry, location, and family-safety checks.",

@@ -12,6 +12,7 @@ import {
   platformCap,
   requestTimeout,
   safeAdapterErrorCode,
+  shortPublicExcerpt,
 } from "./common.mjs";
 
 const TIKTOK_OEMBED_ENDPOINT = "https://www.tiktok.com/oembed";
@@ -78,7 +79,7 @@ export async function fetchTikTokCommunity({
       result.audit.fetched += 1;
       const title = cleanPublicText(item.title ?? metadata?.title, 180);
       const author = cleanPublicText(metadata?.author_name ?? item.authorDisplayName ?? account, 100);
-      const excerpt = cleanPublicText(item.excerpt ?? metadata?.title, 220);
+      const excerpt = shortPublicExcerpt(item.excerpt ?? metadata?.title, 220);
       if (!title || !author) {
         countExclusion(result, "invalid-payload");
         continue;
@@ -96,7 +97,10 @@ export async function fetchTikTokCommunity({
       result.items.push({
         id: cleanPublicText(item.id, 100) || `tiktok-${new URL(directUrl).pathname.split("/").at(-1)}`,
         platform: "tiktok",
+        sourceName: "TikTok",
+        sourceHost: "www.tiktok.com",
         authorDisplayName: author,
+        authorHandle: account ? `@${account}` : "",
         title,
         excerpt,
         url: directUrl,

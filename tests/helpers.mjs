@@ -24,8 +24,11 @@ export async function temporaryRoot(now = new Date("2026-07-13T18:00:00Z")) {
     items: [],
   });
   await writeJsonAtomic(paths.communityPath, {
-    sample: true,
+    schemaVersion: 1,
+    sample: false,
+    datasetState: "no-current-posts",
     generatedAt: now.toISOString(),
+    source: { method: "test public sources", scrapingUsed: false },
     items: [],
   });
   await writeJsonAtomic(paths.statusPath, {
@@ -51,7 +54,7 @@ export function quotaFor(now, attempts) {
     version: 1,
     utcDay: now.toISOString().slice(0, 10),
     attempts,
-    limit: 300,
+    limit: 350,
     updatedAt: now.toISOString(),
     lastAttemptAt: null,
     source: "test",

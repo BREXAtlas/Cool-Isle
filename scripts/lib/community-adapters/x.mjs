@@ -12,6 +12,7 @@ import {
   platformCap,
   requestTimeout,
   safeAdapterErrorCode,
+  shortPublicExcerpt,
 } from "./common.mjs";
 
 const X_RECENT_SEARCH_ENDPOINT = "https://api.x.com/2/tweets/search/recent";
@@ -92,9 +93,12 @@ export async function fetchXCommunity({
       result.items.push({
         id: `x-${id}`,
         platform: "x",
+        sourceName: "X",
+        sourceHost: "x.com",
         authorDisplayName: authorName || "X account",
+        authorHandle: `@${username}`,
         title: `Weather post by ${authorName || `@${username}`}`,
-        excerpt: text.slice(0, 220),
+        excerpt: shortPublicExcerpt(text, 220),
         url: `https://x.com/${encodeURIComponent(username)}/status/${encodeURIComponent(id)}`,
         publishedAt: new Date(tweet.created_at).toISOString(),
         weatherKeywords,

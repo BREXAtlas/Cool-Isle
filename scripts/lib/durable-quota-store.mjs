@@ -1,5 +1,6 @@
 import {
   DAILY_ATTEMPT_LIMIT,
+  LEGACY_DAILY_ATTEMPT_LIMIT,
   REQUEST_TIMEOUT_MS,
 } from "./constants.mjs";
 import { randomUUID } from "node:crypto";
@@ -45,7 +46,10 @@ function validateDurableRecord(value, today) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw durableError("durable-quota-state-invalid", "Durable quota state is not an object");
   }
-  if (value.version !== 2 || value.limit !== DAILY_ATTEMPT_LIMIT) {
+  if (
+    value.version !== 2 ||
+    ![DAILY_ATTEMPT_LIMIT, LEGACY_DAILY_ATTEMPT_LIMIT].includes(value.limit)
+  ) {
     throw durableError("durable-quota-state-invalid", "Durable quota state has an invalid schema");
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value.utcDay ?? "") || value.utcDay > today) {
@@ -83,7 +87,18 @@ function validateDurableRecord(value, today) {
   if (value.reservations.some(({ attemptsAfter }) => attemptsAfter > value.attempts)) {
     throw durableError("durable-quota-state-invalid", "Durable quota count is behind its reservations");
   }
-  return value;
+  return value.limit === LEGACY_DAILY_ATTEMPT_LIMIT
+    ? {
+        ...value,
+        // Raising the ceiling must never turn an old missing-state quarantine
+        // into spendable headroom.
+        attempts: value.source === "missing-durable-state-quarantine"
+          ? DAILY_ATTEMPT_LIMIT
+          : value.attempts,
+        limit: DAILY_ATTEMPT_LIMIT,
+        migratedFromLimit: LEGACY_DAILY_ATTEMPT_LIMIT,
+      }
+    : value;
 }
 
 function reservationResult(record, reservation, sha) {
@@ -214,7 +229,9 @@ export class GitHubContentsQuotaStore {
 
   async writeState(record, sha) {
     const body = {
-      message: `Reserve Met Office quota for ${record.utcDay}`,
+      message: record.source === "operator-confirmed-bootstrap"
+        ? `Initialize Met Office quota for ${record.utcDay}`
+        : `Reserve Met Office quota for ${record.utcDay}`,
       content: Buffer.from(`${JSON.stringify(record, null, 2)}\n`, "utf8").toString("base64"),
       branch: this.branch,
     };
@@ -280,6 +297,81 @@ export class GitHubContentsQuotaStore {
       reservedAt: quarantinedAt,
     };
     throw error;
+  }
+
+  async bootstrapCurrentDay({ day, attempts, actor = process.env.GITHUB_ACTOR ?? "unknown" } = {}) {
+    assertConfiguration(this);
+    const operationDay = utcDay(this.now());
+    if (day !== operationDay) {
+      throw durableError(
+        "durable-quota-bootstrap-day-mismatch",
+        "The confirmed bootstrap day must equal the current UTC day",
+      );
+    }
+    if (!Number.isInteger(attempts) || attempts < 0 || attempts > DAILY_ATTEMPT_LIMIT) {
+      throw durableError(
+        "durable-quota-bootstrap-count-invalid",
+        "The confirmed bootstrap count is invalid",
+      );
+    }
+    await this.ensureBranch();
+    const current = await this.readState(operationDay);
+    const replaceableQuarantine =
+      current.state === "valid" &&
+      current.record.utcDay === operationDay &&
+      current.record.source === "missing-durable-state-quarantine" &&
+      current.record.reservations.length === 0;
+    if (current.state !== "missing" && !replaceableQuarantine) {
+      throw durableError(
+        "durable-quota-bootstrap-refused",
+        "Bootstrap cannot replace an active or previously bootstrapped quota ledger",
+      );
+    }
+
+    const initialisedAt = this.now().toISOString();
+    if (utcDay(initialisedAt) !== operationDay) {
+      throw durableError("utc-day-changed", "UTC day changed before quota bootstrap");
+    }
+    const record = {
+      version: 2,
+      utcDay: operationDay,
+      attempts,
+      limit: DAILY_ATTEMPT_LIMIT,
+      updatedAt: initialisedAt,
+      source: "operator-confirmed-bootstrap",
+      reservations: [],
+      bootstrapAudit: {
+        method: "workflow-dispatch-operator-confirmed",
+        actor: String(actor).replace(/[^A-Za-z0-9_.-]/g, "").slice(0, 100) || "unknown",
+        workflowRunId: String(process.env.GITHUB_RUN_ID ?? "local").slice(0, 100),
+        confirmedAttempts: attempts,
+        confirmedUtcDay: operationDay,
+        initialisedAt,
+        replacedQuarantine: replaceableQuarantine,
+      },
+    };
+    const written = await this.writeState(record, current.sha);
+    if (!written.ok) {
+      throw durableError(
+        "durable-quota-bootstrap-write-failed",
+        "The operator-confirmed quota bootstrap could not be written",
+      );
+    }
+    const confirmed = await this.readState(operationDay);
+    if (
+      confirmed.state !== "valid" ||
+      confirmed.record.utcDay !== operationDay ||
+      confirmed.record.attempts !== attempts ||
+      confirmed.record.limit !== DAILY_ATTEMPT_LIMIT ||
+      confirmed.record.source !== "operator-confirmed-bootstrap" ||
+      confirmed.record.bootstrapAudit?.confirmedAttempts !== attempts
+    ) {
+      throw durableError(
+        "durable-quota-bootstrap-write-unconfirmed",
+        "The operator-confirmed quota bootstrap could not be read back",
+      );
+    }
+    return { day: operationDay, attempts, limit: DAILY_ATTEMPT_LIMIT, confirmed: true };
   }
 
   async reserveBatch({ size, minimumAttempts = null } = {}) {

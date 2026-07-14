@@ -47,19 +47,19 @@ function addPointSeries(group, data, key, xFor, yFor, className, label) {
   });
 }
 
-export function renderHourlyChart(location, { sample = false } = {}) {
+export function renderHourlyChart(location) {
   const svg = document.querySelector('[data-hourly-chart]');
   const table = document.querySelector('[data-hourly-table]');
   const tableLocation = document.querySelector('[data-table-location]');
   if (!svg || !table) return;
   const data = (location.hourly || []).slice(0, 24);
   svg.replaceChildren(
-    svgElement('title', { id: 'chart-title' }, `Twenty-four-hour ${sample ? 'sample ' : ''}weather chart for ${location.name}`),
+    svgElement('title', { id: 'chart-title' }, `Twenty-four-hour weather chart for ${location.name}`),
     svgElement('desc', { id: 'chart-desc' }, 'Temperature, feels-like temperature, precipitation probability, wind and gusts. Every chart point can receive keyboard focus, and the same information follows as a table.')
   );
 
   if (!data.length) {
-    svg.append(svgElement('text', { x: 40, y: 70, class: 'chart-axis-label' }, `No hourly ${sample ? 'sample ' : ''}forecast is available.`));
+    svg.append(svgElement('text', { x: 40, y: 70, class: 'chart-axis-label' }, 'No hourly forecast is available.'));
     table.replaceChildren();
     return;
   }
@@ -150,7 +150,7 @@ export function renderHourlyChart(location, { sample = false } = {}) {
   if (tableLocation) tableLocation.textContent = location.name;
   const caption = table.closest('table')?.querySelector('caption');
   if (caption?.hasAttribute('data-hourly-caption')) {
-    caption.firstChild.textContent = sample ? 'Hourly sample forecast for ' : 'Hourly forecast for ';
+    caption.firstChild.textContent = 'Hourly forecast for ';
   }
   data.forEach((item) => {
     const row = document.createElement('tr');

@@ -99,11 +99,17 @@ export function sanitiseCommunityItem(item, { allowlist = {}, blocklist = {}, no
         longitude: null,
       };
   const authorDisplayName = String(item.authorDisplayName ?? item.author ?? "Public contributor").slice(0, 100);
+  const sourceHost = new URL(safeUrl.url).hostname.toLowerCase();
+  const sourceName = String(item.sourceName ?? safeUrl.platform).trim().slice(0, 60);
+  const authorHandle = String(item.authorHandle ?? "").trim().slice(0, 180);
   return {
     id: String(item.id ?? stableId(safeUrl.url)).slice(0, 100),
     platform: safeUrl.platform,
     author: authorDisplayName,
     authorDisplayName,
+    authorHandle,
+    sourceName,
+    sourceHost,
     title,
     excerpt,
     url: safeUrl.url,

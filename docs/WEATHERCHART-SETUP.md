@@ -14,8 +14,8 @@ The credential pasted into the original task must be considered exposed even tho
 
 1. Reset/revoke it in the Met Office Weather DataHub account.
 2. Create a replacement dedicated to this workflow.
-3. In `BREXAtlas/Cool-Isle`, open **Settings → Secrets and variables → Actions**.
-4. Create the repository secret `MET_OFFICE_API_KEY` with the replacement value.
+3. In `BREXAtlas/Cool-Isle`, open **Settings → Environments** and create or select the environment named exactly `MET_OFFICE_API_KEY`.
+4. Add an environment secret named exactly `MET_OFFICE_API_KEY` with the replacement value. The data-preparation job uses this environment; the separate deploy job continues to use `github-pages`.
 5. Do not create a repository variable with the value and do not prefix it for client exposure.
 
 Optional integrations use `YOUTUBE_API_KEY` and `X_BEARER_TOKEN` as Actions secrets. `WEATHERCHART_DEPLOY_TOKEN` is intentionally unused until the owner confirms the second repository and cross-repository deployment.
@@ -24,15 +24,16 @@ The hourly workflow uses the automatically scoped `github.token` for a single pu
 
 ## Data modes
 
-- With `MET_OFFICE_API_KEY`: the automation may generate transformed Global Spot hourly data, subject to a GitHub-hosted durable 300-attempt UTC-day cap.
-- Without it: the generator retains valid prior data or emits explicitly labelled sample/fallback data.
+- With `MET_OFFICE_API_KEY`: the automation generates transformed Global Spot hourly data, subject to a GitHub-hosted durable 350-attempt UTC-day cap.
+- If Met Office is unavailable, unconfigured, or stopped by its quota guard: the generator requests a complete, current twelve-location Open-Meteo batch and labels it as an indicative fallback. If neither live provider succeeds, production deployment stops and retains the previously deployed live site.
+- Synthetic fixtures remain development/test inputs only. Production validation and the browser both reject a synthetic forecast.
 - In the browser: the private API is never called. The UI reads `weatherchart/data/*.json` only.
 
 ## Manual data check
 
 Run the project’s validation and test scripts before generating data. A production-key run must use the workflow's durable quota branch and 55-minute freshness gate. Local runs use an atomic private ledger but are not a substitute for the shared production guard. Never bypass the guard to “just test” a production key.
 
-On first enablement, or after deletion of the durable quota file, expect the current UTC day to be quarantined at 300 with zero new Met Office calls. Normal reservations begin after the next 00:00 UTC reset. This intentional delay prevents an older cache or deployed status file from recreating a dangerously low same-day count.
+On first enablement, or after deletion of the durable quota file, expect the current UTC day to be quarantined at 350 with zero new Met Office calls. Normal reservations begin after the next 00:00 UTC reset. An operator who has independently verified the actual current-day count can instead use the one-time manual bootstrap documented in `WEATHERCHART-DEPLOYMENT.md`; scheduled runs can never invoke it.
 
 ## Adding community content
 

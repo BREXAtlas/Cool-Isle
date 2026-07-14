@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updatedAt": "2026-07-13T00:00:00.000Z",
-  "policy": "Official YouTube and X API results may pass strict automated family-safety gates; TikTok and manual links require human review. An allowlist match never replaces content moderation.",
+  "policy": "Official YouTube and X API results and public Mastodon hashtag-timeline results may pass strict automated family-safety gates; TikTok and manual links require human review. An allowlist match never replaces content moderation.",
   "allowedUrlSchemes": [
     "https"
   ],

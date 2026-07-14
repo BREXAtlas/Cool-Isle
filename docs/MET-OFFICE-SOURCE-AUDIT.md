@@ -28,6 +28,6 @@ Global Spot is supplied under the Met Office Weather DataHub Terms and Condition
 - identifies Met Office as a data supplier and displays “Powered by Met Office data” beside derived views;
 - does not imply sponsorship, approval, partnership, or endorsement;
 - does not expose a general-purpose proxy or republish the upstream GeoJSON as received; and
-- stops at the user’s stricter 300-attempt daily ceiling even though the reviewed free plan permits 360 calls. A complete twelve-call batch is pre-reserved on a dedicated GitHub state branch and confirmed before the first provider request; missing or unconfirmed durable state makes no provider request.
+- stops at the user-selected 350-attempt daily ceiling. A complete twelve-call batch is pre-reserved on a dedicated GitHub state branch and confirmed before the first provider request; missing or unconfirmed durable state makes no Met Office request and activates the separately attributed live fallback.
 
 The account holder should retain the accepted order confirmation and current product terms as the authoritative licence record.

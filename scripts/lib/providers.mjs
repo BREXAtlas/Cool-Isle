@@ -1,4 +1,8 @@
-import { MET_OFFICE_HOURLY_ENDPOINT, REQUEST_TIMEOUT_MS } from "./constants.mjs";
+import {
+  MET_OFFICE_HOURLY_ENDPOINT,
+  OPEN_METEO_FORECAST_ENDPOINT,
+  REQUEST_TIMEOUT_MS,
+} from "./constants.mjs";
 import { safeErrorCode } from "./fs-json.mjs";
 import { buildMockForecast, deriveDaily, normaliseMetOfficeForecast } from "./weather.mjs";
 
@@ -92,7 +96,7 @@ export class OpenMeteoFallbackProvider {
 
   async fetchLocation(location, now = new Date()) {
     if (!this.enabled) throw providerError("Open-Meteo fallback is disabled", "open-meteo-fallback-disabled");
-    const url = new URL("https://api.open-meteo.com/v1/forecast");
+    const url = new URL(OPEN_METEO_FORECAST_ENDPOINT);
     url.searchParams.set("latitude", String(location.latitude));
     url.searchParams.set("longitude", String(location.longitude));
     url.searchParams.set("hourly", [
@@ -118,7 +122,12 @@ export class OpenMeteoFallbackProvider {
       const status = Number(response?.status);
       throw providerError("Open-Meteo fallback returned an error", Number.isInteger(status) ? `open-meteo-http-${status}` : "open-meteo-http-error");
     }
-    const payload = await response.json();
+    let payload;
+    try {
+      payload = await response.json();
+    } catch {
+      throw providerError("Open-Meteo fallback returned malformed JSON", "open-meteo-invalid-json");
+    }
     const hourly = payload?.hourly || {};
     if (!Array.isArray(hourly.time) || !hourly.time.length) {
       throw providerError("Open-Meteo fallback returned no hourly periods", "open-meteo-invalid-payload");
@@ -142,7 +151,11 @@ export class OpenMeteoFallbackProvider {
         precipitationMm: rainfallMm,
         humidityPercent: finite(hourly.relative_humidity_2m?.[index]),
         windKph,
+        windSpeedMps: windKph === null ? null : Math.round((windKph / 3.6) * 100) / 100,
+        windSpeedMph: windKph === null ? null : Math.round((windKph * 0.6213711922) * 10) / 10,
         gustKph,
+        windGustMps: gustKph === null ? null : Math.round((gustKph / 3.6) * 100) / 100,
+        windGustMph: gustKph === null ? null : Math.round((gustKph * 0.6213711922) * 10) / 10,
         windDirectionDegrees: finite(hourly.wind_direction_10m?.[index]),
         visibilityM,
         visibilityKm: visibilityM === null ? null : Math.round(visibilityM / 100) / 10,
@@ -153,13 +166,17 @@ export class OpenMeteoFallbackProvider {
         dewPointC: finite(hourly.dew_point_2m?.[index]),
       };
     });
-    const current = periods.find(({ time }) => Date.parse(time) >= now.getTime()) ?? periods.at(-1);
+    const futurePeriods = periods.filter(({ time }) => Date.parse(time) >= now.getTime());
+    const displayHourly = (futurePeriods.length ? futurePeriods : periods.slice(-24)).slice(0, 24);
+    const current = displayHourly[0] ?? periods.at(-1);
     return {
       ...location,
       sourcePoint: { latitude: finite(payload.latitude), longitude: finite(payload.longitude), name: null },
       current: current ? { ...current, observedAt: current.time, sunrise: null, sunset: null } : null,
-      hourly: periods,
-      daily: deriveDaily(periods),
+      hourly: displayHourly,
+      // Daily summaries retain the complete three-day response even though the
+      // public hourly payload contains only the next 24 useful periods.
+      daily: deriveDaily(periods, { conditionForWeatherCode: wmoCondition }),
     };
   }
 }

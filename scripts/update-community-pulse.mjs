@@ -13,10 +13,9 @@ export async function runCommunityUpdate({
 } = {}) {
   const generatedAt = now();
   const paths = createPaths(rootDir);
-  const [status, previous, sample, curated, keywords, allowlist, blocklist] = await Promise.all([
+  const [status, previous, curated, keywords, allowlist, blocklist] = await Promise.all([
     readStatus(paths.statusPath, generatedAt),
     readJson(paths.communityPath, null),
-    readJson(paths.sampleCommunityPath, null),
     readJson(paths.curatedTikTokPath, {}),
     readJson(paths.socialKeywordsPath, {}),
     readJson(paths.socialAllowlistPath, {}),
@@ -24,7 +23,6 @@ export async function runCommunityUpdate({
   ]);
 
   const previousItems = asArray(previous, "items");
-  const sampleItems = asArray(sample, "items");
   const adapters = await runCommunityAdapters({
     env,
     fetchImpl,
@@ -41,11 +39,7 @@ export async function runCommunityUpdate({
     const sourceResult = adapterByPlatform.get(item?.platform);
     return !sourceResult || sourceResult.state === "disabled" || sourceResult.state === "error";
   });
-  const candidates = liveItems.length || previous?.sample === false
-    ? [...liveItems, ...preservedPreviousLiveItems]
-    : previousItems.length
-      ? previousItems
-      : sampleItems;
+  const candidates = [...liveItems, ...preservedPreviousLiveItems];
   const totalCap = Math.max(1, Math.min(Number(keywords?.perPlatformCaps?.total) || 24, 40));
   const items = normaliseCommunityItems(
     candidates,
@@ -54,16 +48,15 @@ export async function runCommunityUpdate({
 
   const hasLiveItems = liveItems.length > 0;
   const hasPreservedLiveItems = preservedPreviousLiveItems.length > 0 && items.length > 0;
-  const liveDataset = hasLiveItems || hasPreservedLiveItems;
   const output = {
     schemaVersion: 1,
-    sample: !liveDataset,
-    datasetState: hasLiveItems ? "live-api-and-curated" : hasPreservedLiveItems ? "preserved-live" : items.length ? "sample-or-preserved" : "fallback-empty",
+    sample: false,
+    datasetState: hasLiveItems ? "live-public-posts" : hasPreservedLiveItems ? "preserved-live" : "no-current-posts",
     generatedAt: generatedAt.toISOString(),
     expiresAfterHours: 48,
     notice: "Public posts are shown for local flavour and may be inaccurate. Use the official forecast and warnings for decisions.",
     source: {
-      method: "official provider APIs and manually curated public links",
+      method: "documented public platform APIs, official provider APIs and manually curated public links",
       scrapingUsed: false,
     },
     audit: adapters.audit,
@@ -79,7 +72,7 @@ export async function runCommunityUpdate({
   recordSource(status, "community-aggregation", "success");
   await writeStatus(paths.statusPath, status, generatedAt);
   return {
-    outcome: hasLiveItems ? "live" : hasPreservedLiveItems ? "preserved" : "fallback",
+    outcome: hasLiveItems ? "live" : hasPreservedLiveItems ? "preserved" : "empty",
     itemCount: items.length,
     audit: adapters.audit,
   };

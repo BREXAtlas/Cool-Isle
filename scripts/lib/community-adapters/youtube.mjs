@@ -11,6 +11,7 @@ import {
   platformCap,
   requestTimeout,
   safeAdapterErrorCode,
+  shortPublicExcerpt,
 } from "./common.mjs";
 
 const YOUTUBE_SEARCH_ENDPOINT = "https://www.googleapis.com/youtube/v3/search";
@@ -66,7 +67,7 @@ export async function fetchYouTubeCommunity({
       const videoId = cleanPublicText(source?.id?.videoId, 80);
       const snippet = source?.snippet;
       const title = cleanPublicText(snippet?.title, 180);
-      const excerpt = cleanPublicText(snippet?.description, 220);
+      const excerpt = shortPublicExcerpt(snippet?.description, 220);
       const publishedAt = snippet?.publishedAt;
       const channelId = cleanPublicText(snippet?.channelId, 100);
       const channelTitle = cleanPublicText(snippet?.channelTitle, 100);
@@ -92,6 +93,8 @@ export async function fetchYouTubeCommunity({
       result.items.push({
         id: `youtube-${videoId}`,
         platform: "youtube",
+        sourceName: "YouTube",
+        sourceHost: "www.youtube.com",
         authorDisplayName: channelTitle || "YouTube creator",
         title,
         excerpt,

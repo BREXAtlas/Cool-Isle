@@ -1,6 +1,8 @@
 import {
   MET_OFFICE_PRODUCT_URL,
   MET_OFFICE_TERMS_URL,
+  OPEN_METEO_TERMS_URL,
+  OPEN_METEO_URL,
   WEATHERCHART_SCHEMA_VERSION,
 } from "./constants.mjs";
 
@@ -120,7 +122,7 @@ function minFinite(values) {
   return finite.length ? Math.min(...finite) : null;
 }
 
-export function deriveDaily(hourly) {
+export function deriveDaily(hourly, { conditionForWeatherCode = conditionForCode } = {}) {
   const groups = new Map();
   for (const period of hourly) {
     const date = ukDateKey(period.time);
@@ -144,7 +146,7 @@ export function deriveDaily(hourly) {
     const maxWindKph = maxFinite(periods.map(({ windKph }) => windKph));
     const maxGustKph = maxFinite(periods.map(({ gustKph }) => gustKph));
     const weatherCode = periods.find(({ weatherCode }) => weatherCode != null)?.weatherCode ?? null;
-    const condition = conditionForCode(weatherCode);
+    const condition = conditionForWeatherCode(weatherCode);
     return {
       date,
       derivedFrom: "hourly",
@@ -289,8 +291,46 @@ export function buildOfficialForecast(locations, generatedAt = new Date()) {
   };
 }
 
+export function buildOpenMeteoForecast(locations, generatedAt = new Date()) {
+  return {
+    schemaVersion: WEATHERCHART_SCHEMA_VERSION,
+    generatedAt: generatedAt.toISOString(),
+    dataStatus: "live-fallback",
+    datasetState: "live-fallback",
+    sample: false,
+    fallback: true,
+    source: {
+      id: "open-meteo-forecast",
+      name: "Open-Meteo",
+      product: "Forecast API",
+      url: OPEN_METEO_URL,
+      termsUrl: OPEN_METEO_TERMS_URL,
+      licence: "CC BY 4.0",
+      label: "Live Open-Meteo indicative forecast",
+      attribution: "Weather data by Open-Meteo.com.",
+    },
+    units: {
+      temperature: "°C",
+      precipitation: "mm",
+      precipitationProbability: "%",
+      windSpeed: "km/h",
+      visibility: "m",
+      pressure: "hPa",
+    },
+    locations,
+  };
+}
+
 export function isOfficialForecast(forecast) {
   return forecast?.source?.id === "met-office-global-spot-hourly" && forecast?.sample === false;
+}
+
+export function isOpenMeteoForecast(forecast) {
+  return forecast?.source?.id === "open-meteo-forecast" && forecast?.sample === false;
+}
+
+export function isLiveForecast(forecast) {
+  return isOfficialForecast(forecast) || isOpenMeteoForecast(forecast);
 }
 
 export function officialForecastTimestamp(forecast, status) {

@@ -14,10 +14,14 @@ const basisLabels = Object.freeze({
   platform_geotag: 'Platform geotag',
   author_explicit: 'Location named by author',
   keyword_only: 'Matched by search words',
-  unknown: 'Location not verified',
-  'sample region only': 'Sample region only',
-  'sample city area': 'Sample city area',
-  'sample county': 'Sample county'
+  unknown: 'Location not verified'
+});
+
+const platformLabels = Object.freeze({
+  youtube: 'YouTube',
+  x: 'X',
+  tiktok: 'TikTok',
+  mastodon: 'Mastodon'
 });
 
 function unique(values) {
@@ -74,8 +78,8 @@ function numericValue(record, ...keys) {
   return null;
 }
 
-function comparisonFor(item, forecast, sample) {
-  const dataset = sample ? 'cached sample' : 'available forecast';
+function comparisonFor(item, forecast) {
+  const dataset = 'cached forecast';
   if (!forecast) return `No matching ${dataset} point is available, so WeatherChart makes no comparison.`;
   const period = nearestForecastPeriod(item, forecast);
   if (!period) return `No ${dataset} period is available for this post's UK calendar date, so WeatherChart makes no comparison.`;
@@ -114,13 +118,36 @@ function safeActionFor(forecast, seriousWarning, period = null) {
   return 'Check the current official forecast before heading out.';
 }
 
+export function currentCommunityItems(data, now = Date.now()) {
+  const checkedAt = now instanceof Date ? now.getTime() : Number(now);
+  if (data?.sample !== false || !Number.isFinite(checkedAt) || !Array.isArray(data?.items)) return [];
+  return data.items.filter((item) =>
+    item.familySafe === true
+    && ['approved', 'manually-approved', 'automated-filtered'].includes(item.reviewStatus)
+    && Number.isFinite(Date.parse(item.publishedAt))
+    && Number.isFinite(Date.parse(item.expiresAt))
+    && Date.parse(item.expiresAt) > checkedAt
+  );
+}
+
 export function initialiseCommunity(data, forecasts = [], { limit = Infinity, seriousWarning = false } = {}) {
   const container = document.querySelector('[data-community-list]');
-  if (!container) return;
+  if (!container) return { itemCount: 0 };
+  const section = container.closest('[data-community-section]');
   const platformSelect = document.querySelector('[data-community-filters] [data-filter="platform"]');
   const citySelect = document.querySelector('[data-community-filters] [data-filter="city"]');
   const weatherSelect = document.querySelector('[data-community-filters] [data-filter="weather"]');
-  const items = (data?.items || []).filter((item) => item.familySafe !== false && item.reviewStatus !== 'blocked');
+  const filters = container.parentElement?.querySelector('[data-community-filters]');
+  const items = currentCommunityItems(data);
+
+  if (!items.length) {
+    container.replaceChildren();
+    if (section) section.hidden = true;
+    if (filters) filters.hidden = true;
+    return { itemCount: 0 };
+  }
+  if (section) section.hidden = false;
+  if (filters) filters.hidden = false;
   fillSelect(platformSelect, unique(items.map((item) => item.platform)), 'All platforms');
   fillSelect(citySelect, unique(items.map((item) => item.location?.label)), 'All cities');
   fillSelect(weatherSelect, unique(items.flatMap((item) => item.keywords || [])), 'All weather');
@@ -136,7 +163,7 @@ export function initialiseCommunity(data, forecasts = [], { limit = Infinity, se
     ).slice(0, limit);
     container.replaceChildren();
     if (!visible.length) {
-      container.append(makeElement('p', { className: 'empty-state', text: `No family-safe ${data?.sample ? 'sample ' : ''}cards match those filters.` }));
+      container.append(makeElement('p', { className: 'empty-state', text: 'No current public posts match those filters.' }));
       return;
     }
 
@@ -145,26 +172,35 @@ export function initialiseCommunity(data, forecasts = [], { limit = Infinity, se
       const period = nearestForecastPeriod(item, forecast);
       const card = makeElement('article', { className: 'community-card' });
       const top = makeElement('div', { className: 'community-card__topline' });
+      const platformName = platformLabels[item.platform] || item.sourceName || 'Public source';
       top.append(
-        makeElement('span', { className: 'platform-badge', text: item.platform || 'public post' }),
-        makeElement('time', { className: 'community-card__date', text: formatUkDateTime(item.publishedAt, { dateOnly: true }), attributes: { datetime: item.publishedAt } })
+        makeElement('span', { className: 'platform-badge', text: platformName }),
+        makeElement('time', { className: 'community-card__date', text: formatUkDateTime(item.publishedAt), attributes: { datetime: item.publishedAt } })
       );
       const title = makeElement('h3', { text: item.title || 'Public weather post' });
-      const author = makeElement('p', { className: 'community-card__author', text: `${item.author || 'Public account'} · ${item.location?.label || 'Location not verified'}` });
+      const handle = item.authorHandle ? ` (${item.authorHandle})` : '';
+      const author = makeElement('p', {
+        className: 'community-card__author',
+        text: `Author: ${item.author || 'Public account'}${handle} · Place: ${item.location?.label || 'Location not verified'}`
+      });
+      const source = makeElement('p', {
+        className: 'community-card__author',
+        text: `Source: ${item.sourceName || platformName}${item.sourceHost ? ` on ${item.sourceHost}` : ''}`
+      });
       const confidence = makeElement('span', {
         className: 'confidence-badge',
         text: `${basisLabels[item.location?.basis] || 'Location not verified'} · ${item.location?.confidence || 'unknown'} confidence`
       });
       const excerpt = makeElement('p', { className: 'community-card__excerpt', text: item.excerpt || 'No permitted excerpt is available.' });
       const comparison = makeElement('p', { className: 'community-card__comparison' });
-      comparison.append(makeElement('strong', { text: 'Weather context' }), document.createTextNode(comparisonFor(item, forecast, Boolean(data.sample))));
+      comparison.append(makeElement('strong', { text: 'Weather context' }), document.createTextNode(comparisonFor(item, forecast)));
       const action = makeElement('p', { className: 'community-card__action' });
       action.append(makeElement('strong', { text: 'Based on the forecast' }), document.createTextNode(safeActionFor(forecast, seriousWarning, period)));
       const footer = makeElement('div', { className: 'community-card__footer' });
       const url = safeExternalLink(item.url);
-      if (url) footer.append(makeElement('a', { text: data.sample ? 'Platform reference ↗' : 'View original ↗', attributes: { href: url, rel: 'external noopener' } }));
+      if (url) footer.append(makeElement('a', { text: `View original on ${platformName} ↗`, attributes: { href: url, rel: 'external noopener' } }));
       footer.append(makeElement('a', { text: 'Report this card', attributes: { href: 'privacy.html#corrections' } }));
-      card.append(top, title, author, confidence, excerpt, comparison, action, footer);
+      card.append(top, title, author, source, confidence, excerpt, comparison, action, footer);
       container.append(card);
     });
   };
@@ -173,4 +209,5 @@ export function initialiseCommunity(data, forecasts = [], { limit = Infinity, se
   if (citySelect) citySelect.onchange = render;
   if (weatherSelect) weatherSelect.onchange = render;
   render();
+  return { itemCount: items.length };
 }

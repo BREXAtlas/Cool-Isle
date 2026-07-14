@@ -4,8 +4,9 @@ import test from "node:test";
 
 import { conditionPresentation, interpretationsFor } from "../weatherchart/assets/js/forecast.js";
 import { getFreshness } from "../weatherchart/assets/js/api.js";
-import { nearestForecastPeriod } from "../weatherchart/assets/js/community.js";
+import { currentCommunityItems, nearestForecastPeriod } from "../weatherchart/assets/js/community.js";
 import { geocodeUkQuery, nearestLocation } from "../weatherchart/assets/js/location-search.js";
+import { newsDisplayState } from "../weatherchart/assets/js/news.js";
 import { DEFAULT_LOCATIONS } from "../scripts/lib/constants.mjs";
 import { deriveDaily, normaliseMetOfficeForecast } from "../scripts/lib/weather.mjs";
 
@@ -51,6 +52,25 @@ test("community comparison selects the nearest period on the post's UK calendar 
   assert.equal(period.time, "2026-07-14T00:00:00Z");
 });
 
+test("community display and map omit expired or non-live cards", () => {
+  const checkedAt = new Date("2026-07-13T18:00:00Z");
+  const base = {
+    familySafe: true,
+    reviewStatus: "automated-filtered",
+    publishedAt: "2026-07-13T17:00:00Z",
+  };
+  const items = currentCommunityItems({
+    sample: false,
+    items: [
+      { ...base, id: "current", expiresAt: "2026-07-14T17:00:00Z" },
+      { ...base, id: "expired", expiresAt: "2026-07-13T17:30:00Z" },
+      { ...base, id: "blocked", expiresAt: "2026-07-14T17:00:00Z", reviewStatus: "blocked" },
+    ],
+  }, checkedAt);
+  assert.deepEqual(items.map(({ id }) => id), ["current"]);
+  assert.deepEqual(currentCommunityItems({ sample: true, items: [{ ...base, id: "sample", expiresAt: "2026-07-14T17:00:00Z" }] }, checkedAt), []);
+});
+
 test("serious-warning interpretation removes playful copy and animated scene choices", () => {
   const cards = interpretationsFor({ current: { feelsLikeC: 5, gustKph: 60 }, hourly: [] }, { suppressHumour: true });
   assert.equal(cards.length, 8);
@@ -82,4 +102,10 @@ test("freshness labels change at the two-hour and six-hour thresholds", (t) => {
   assert.equal(getFreshness("2026-07-13T16:00:00Z").state, "stale");
   assert.equal(getFreshness("2026-07-13T12:00:00Z").state, "critical");
   assert.equal(getFreshness(null).state, "unknown");
+});
+
+test("news display distinguishes retained dated cards from a live refresh", () => {
+  assert.equal(newsDisplayState({ sample: false, preserved: true, items: [] }), "preserved");
+  assert.equal(newsDisplayState({ sample: false, unavailable: true, items: [] }), "unavailable");
+  assert.equal(newsDisplayState({ sample: false, items: [] }), "live");
 });

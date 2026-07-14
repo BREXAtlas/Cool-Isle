@@ -13,7 +13,7 @@ The section also states that public posts may be inaccurate and that official fo
 - Official YouTube Data API with GB/English, recent-window, strict safe-search and embeddable-video filters.
 - Official X recent-search API only at the account’s available access level.
 - TikTok’s supported oEmbed endpoint for manually approved public URLs.
-- Optional Bluesky or Mastodon public APIs only after current terms are reviewed.
+- Mastodon’s documented public hashtag-timeline API on the reviewed `mastodon.social` instance.
 - Manually curated public links when an API is unavailable.
 
 The project must not scrape platform pages, evade login or rate limits, inspect private profiles/messages, recover deleted content, extract EXIF location, or automate a browser to mimic an unauthorised API.
@@ -23,16 +23,19 @@ The project must not scrape platform pages, evade login or rate limits, inspect 
 - `scripts/lib/community-adapters/youtube.mjs` makes one official `search.list` request when `YOUTUBE_API_KEY` is present. The key is sent in the `X-Goog-Api-Key` header, never a URL or generated file; the request uses GB/English relevance, strict SafeSearch, embeddable-video and 48-hour filters.
 - `scripts/lib/community-adapters/x.mjs` makes one official recent-search request when `X_BEARER_TOKEN` is present. It requests only the public post, author and coarse place fields needed by the cards.
 - `scripts/lib/community-adapters/tiktok.mjs` checks only URLs in `weatherchart/config/curated-tiktok.json` and discards returned embed HTML and thumbnail URLs after validating public availability.
+- `scripts/lib/community-adapters/mastodon.mjs` makes one unauthenticated request to the documented public `#UKWeather` hashtag timeline on `mastodon.social`. It accepts only direct canonical `mastodon.social` post links from public, non-sensitive, non-bot, non-reply, non-reblog, recent English posts that explicitly name a configured coarse UK place. Federated results on unreviewed source hosts are excluded.
 - All requests are single-attempt with an eight-second default timeout. A disabled or failed source preserves only its unexpired prior cards; a successful refresh replaces that source so removed items do not linger.
 - `weatherchart/config/social-keywords.json` controls discovery terms, explicit city aliases, retention, timeouts and per-platform/total caps. Account allowlists and blocklists live in the corresponding social config files.
 - The generated audit contains aggregate counters and controlled reason codes only. It never contains blocked post text, API queries, precise coordinates or credentials.
 
-Official contracts: [YouTube search.list](https://developers.google.com/youtube/v3/docs/search/list), [X recent search](https://docs.x.com/x-api/posts/search/quickstart/recent-search), and [TikTok oEmbed](https://developers.tiktok.com/doc/embed-videos/).
+Official contracts: [YouTube search.list](https://developers.google.com/youtube/v3/docs/search/list), [X recent search](https://docs.x.com/x-api/posts/search/quickstart/recent-search), [TikTok oEmbed](https://developers.tiktok.com/doc/embed-videos/), and [Mastodon hashtag timelines](https://docs.joinmastodon.org/methods/timelines/#tag).
+
+No synthetic community fallback is published. If no current post passes every gate, the generated dataset remains live-mode and empty, and both card sections stay hidden.
 
 ## Location rules
 
 - Publish city or region only.
-- Use a city only when the platform supplies a public geotag or the author explicitly names it. Keyword-only matches are labelled “Matched by search words” and are not treated as proof that the author was there.
+- Use a city only when the platform supplies a public geotag or the author explicitly names the place. Mastodon posts without an explicit configured coarse place are withheld.
 - Never infer location from landmarks, images, home/school/work details, or hidden metadata.
 - Do not map unknown-location items. Use coarse city-centre markers, not a post’s coordinates.
 - Suppress content that may expose a minor’s precise location.
@@ -59,7 +62,7 @@ The update job records an internal exclusion reason without storing blocked post
 
 - No autoplay and no comments/accounts on WeatherChart.
 - Video uses a click-to-load privacy facade.
-- Link to the original platform and do not alter the source post.
+- Show the platform, public author name/handle, UK publication time and source host, then link directly to the original platform post.
 - Weather comparisons are cautious (“mentions” / “available forecast does not confirm”), never presented as definitive fact-checking without supporting data.
 - Suggested actions come from official/fallback forecast data, not the post.
 - Playful copy is suppressed when an Amber or Red warning is active.

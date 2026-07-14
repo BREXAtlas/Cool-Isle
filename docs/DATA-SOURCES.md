@@ -3,12 +3,14 @@
 ## Forecast hierarchy
 
 1. **Met Office Weather DataHub Global Spot** — preferred official source for the twelve cached UK locations. Server-side workflow only; hourly product; transformed before publishing.
-2. **Open-Meteo** — an implemented but opt-in indicative forecast adapter. It is disabled in the production workflow by default and can never be labelled Met Office or official. Its geocoding endpoint is used for uncached UK place searches.
-3. **Mock/sample fixtures** — local development and no-secret demonstration only. The interface must show a visible “Sample data” state and must not describe it as live.
+2. **Open-Meteo** — active live indicative fallback for the same twelve points whenever Met Office is unavailable, unconfigured, or quota-stopped. It is always attributed and can never be labelled Met Office or official. Its geocoding endpoint is also used for uncached UK place searches.
+3. **Mock fixtures** — development and automated tests only. Production validation and the browser reject synthetic forecast data.
 
 The browser reads generated JSON and never receives a private provider credential. Units are explicit in the normalised data. The selected configured-city ID may appear in the page URL, but no preference or searched coordinate is stored locally; browser geolocation is requested only after the user presses the location button and is discarded after nearest-point matching.
 
-The provider boundary is implemented by `MetOfficeProvider`, `OpenMeteoFallbackProvider`, and `MockProvider`. They return the same per-location schema, so a future approved server-side proxy can add arbitrary cached coordinates without rewriting the browser UI. Production currently uses only the Met Office provider after a durable quota reservation; the Open-Meteo forecast adapter remains opt-in.
+The provider boundary is implemented by `MetOfficeProvider`, `OpenMeteoFallbackProvider`, and `MockProvider`. They return the same per-location schema, so a future approved server-side proxy can add arbitrary cached coordinates without rewriting the browser UI. Production prefers Met Office after a durable quota reservation and automatically requests a complete Open-Meteo fallback batch when the official path cannot run. No provider request is retried. The public fallback payload keeps the next 24 hourly periods plus daily summaries derived from the complete three-day response.
+
+The free Open-Meteo API is presently suitable only while this site remains non-commercial. Before adding ads, affiliate links, subscriptions, checkout, or other monetisation, disable the fallback or move it to an appropriate paid Open-Meteo plan and re-check the current terms.
 
 Land Observations and Weather DataHub Map Images were reviewed but are not enabled. They are separate products with their own subscription/usage and licence decisions; adding them would not be silently charged against or confused with the Global Spot integration. The first release uses forecast points plus Leaflet/OpenStreetMap rather than copying Met Office website maps or sample images.
 
@@ -26,14 +28,14 @@ No article page is crawled, mirrored, framed, or copied. New unreviewed RSS item
 
 ## Community weather
 
-Optional adapters are permitted only for configured official APIs or supported public embeds:
+Community adapters use configured official APIs, supported public embeds, or documented public endpoints:
 
 - YouTube Data API and privacy-enhanced, click-to-load embeds;
 - X recent-search API, or outbound search/curated links when access is unavailable;
 - TikTok oEmbed for a manually moderated list of public video URLs;
-- Bluesky or Mastodon only after current terms and moderation controls are reviewed.
+- Mastodon’s public `#UKWeather` hashtag timeline on `mastodon.social`, filtered to direct local canonical posts with explicit coarse UK place text.
 
-The default build is useful without social keys and uses no unauthorised scraper. See `SOCIAL-SOURCES-AND-MODERATION.md`.
+The Mastodon source needs no secret, uses one documented API request per refresh, and is useful when optional YouTube/X keys are absent. No page is scraped. Every accepted card attributes the platform, author, time and direct source; if no post passes moderation, the site omits the card sections instead of publishing sample content. See `SOCIAL-SOURCES-AND-MODERATION.md`.
 
 ## Map
 
@@ -45,5 +47,5 @@ Leaflet displays OpenStreetMap tiles with visible contributor attribution. Warni
 - Browser JSON check: at load, every 60 minutes, and after returning to a stale tab.
 - Stale label: after two hours.
 - Strong stale warning: after six hours.
-- Production quota guard: reserve and confirm all twelve pending Global Spot calls on the dedicated GitHub state branch before the first request; hard stop at 300 reserved calls per UTC day.
-- On any source or validation failure, preserve the last valid dataset and report the failed source.
+- Production quota guard: reserve and confirm all twelve pending Global Spot calls on the dedicated GitHub state branch before the first request; hard stop at 350 reserved calls per UTC day.
+- On a Met Office failure or quota stop, publish a fresh attributed Open-Meteo batch. If neither live provider succeeds, preserve the last valid live dataset and report both failed sources; production never deploys a synthetic forecast.

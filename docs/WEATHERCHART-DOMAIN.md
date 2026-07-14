@@ -20,7 +20,9 @@ Cool Isle’s current Pages settings, root CNAME state, and deployment remain in
 Do not enable cross-repository publishing until all are confirmed:
 
 - `BREXAtlas/WeatherChart-UK` exists and is owner-approved;
-- GitHub Pages is enabled there with GitHub Actions as the source;
+- GitHub Pages is enabled there with **Deploy from a branch**, using `main` and
+  `/(root)` (the publisher copies static files to `main` but does not install a
+  target-side Pages Actions workflow);
 - `WEATHERCHART_DEPLOY_TOKEN` is configured with only the needed repository scope;
 - the organisation/account verifies control of `weatherchart.uk`;
 - the DNS owner confirms the intended apex and `www` behaviour; and

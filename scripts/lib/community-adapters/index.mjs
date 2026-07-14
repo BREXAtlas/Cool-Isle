@@ -1,3 +1,4 @@
+import { fetchMastodonCommunity } from "./mastodon.mjs";
 import { fetchTikTokCommunity } from "./tiktok.mjs";
 import { fetchXCommunity } from "./x.mjs";
 import { fetchYouTubeCommunity } from "./youtube.mjs";
@@ -37,9 +38,13 @@ export async function runCommunityAdapters({
     fetchYouTubeCommunity({ ...options, apiKey: env.YOUTUBE_API_KEY }),
     fetchXCommunity({ ...options, bearerToken: env.X_BEARER_TOKEN }),
     fetchTikTokCommunity({ ...options, curated: curatedTikTok }),
+    fetchMastodonCommunity(options),
   ]);
   const totalCap = Math.max(1, Math.min(Number(keywords?.perPlatformCaps?.total) || 24, 40));
-  const items = results.flatMap((result) => result.items).slice(0, totalCap);
+  const items = results
+    .flatMap((result) => result.items)
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .slice(0, totalCap);
   const acceptedBeforeTotalCap = results.reduce((sum, result) => sum + result.audit.accepted, 0);
   const excluded = mergeExclusions(results);
   if (acceptedBeforeTotalCap > totalCap) excluded["total-cap"] = acceptedBeforeTotalCap - totalCap;

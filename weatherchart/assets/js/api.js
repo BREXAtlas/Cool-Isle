@@ -14,11 +14,29 @@ function validateRoot(name, value) {
   if (name === 'forecast' && !Array.isArray(value.locations)) {
     throw new TypeError('Forecast data has no locations list.');
   }
+  if (name === 'forecast' && value.sample !== false) {
+    throw new TypeError('Synthetic forecast data is not displayed in live mode.');
+  }
+  if (
+    name === 'forecast' &&
+    !['met-office-global-spot-hourly', 'open-meteo-forecast'].includes(value.source?.id)
+  ) {
+    throw new TypeError('Forecast data does not identify an approved live provider.');
+  }
   if (name === 'warnings' && !Array.isArray(value.warnings)) {
     throw new TypeError('Warning data has no warnings list.');
   }
   if (['news', 'community'].includes(name) && !Array.isArray(value.items)) {
     throw new TypeError(`${name} data has no items list.`);
+  }
+  if (['warnings', 'news'].includes(name) && value.sample !== false) {
+    throw new TypeError(`${name} synthetic data is not displayed in live mode.`);
+  }
+  if (
+    name === 'community'
+    && (value.sample !== false || !['live-public-posts', 'preserved-live', 'no-current-posts'].includes(value.datasetState))
+  ) {
+    throw new TypeError('Community data is not a valid current public-post dataset.');
   }
   return value;
 }
@@ -73,7 +91,7 @@ export async function loadDataBundle() {
   return { bundle, failures, memoryFallbacks, checkedAt: new Date() };
 }
 
-export function getFreshness(generatedAt, isSample = false) {
+export function getFreshness(generatedAt) {
   if (generatedAt === null || generatedAt === undefined || generatedAt === '') {
     return { state: 'unknown', label: 'Update time unavailable', ageMs: Infinity };
   }
@@ -90,9 +108,6 @@ export function getFreshness(generatedAt, isSample = false) {
   }
   if (ageMs >= STALE_AFTER_MS) {
     return { state: 'stale', label: `Data is stale (${hours}h old)`, ageMs };
-  }
-  if (isSample) {
-    return { state: 'sample', label: `Sample file checked ${minutes} min ago`, ageMs };
   }
   return { state: 'fresh', label: `Updated ${minutes} min ago`, ageMs };
 }

@@ -1,7 +1,10 @@
 import path from "node:path";
 
 export const WEATHERCHART_SCHEMA_VERSION = 1;
-export const DAILY_ATTEMPT_LIMIT = 300;
+export const DAILY_ATTEMPT_LIMIT = 350;
+// Accepted only while migrating an already-audited durable record. Every new
+// write uses DAILY_ATTEMPT_LIMIT, so the legacy value disappears naturally.
+export const LEGACY_DAILY_ATTEMPT_LIMIT = 300;
 export const REQUIRED_BATCH_SIZE = 12;
 export const FRESHNESS_WINDOW_MS = 55 * 60 * 1000;
 export const STALE_AFTER_MS = 2 * 60 * 60 * 1000;
@@ -18,9 +21,12 @@ export const MET_OFFICE_PRODUCT_URL =
 export const MET_OFFICE_TERMS_URL =
   "https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/met-office-weatherdatahub-terms-and-conditions.pdf";
 export const MET_OFFICE_WARNINGS_RSS =
-  "https://weather.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/UK";
+  "https://www.metoffice.gov.uk/public/data/PWSCache/WarningsRSS/Region/UK";
 export const MET_OFFICE_NEWS_RSS =
   "https://www.metoffice.gov.uk/feed/syndication/news-rss.xml";
+export const OPEN_METEO_FORECAST_ENDPOINT = "https://api.open-meteo.com/v1/forecast";
+export const OPEN_METEO_URL = "https://open-meteo.com/";
+export const OPEN_METEO_TERMS_URL = "https://open-meteo.com/en/terms";
 
 export const DATA_FILE_NAMES = [
   "forecast.json",
@@ -68,7 +74,6 @@ export function createPaths(rootDir = process.cwd()) {
     socialAllowlistPath: path.join(weatherchartDir, "config", "social-allowlist.json"),
     socialBlocklistPath: path.join(weatherchartDir, "config", "social-blocklist.json"),
     sampleForecastPath: path.join(dataDir, "sample", "forecast.json"),
-    sampleCommunityPath: path.join(dataDir, "sample", "community.json"),
     quotaLedgerPath: path.join(stateDir, "quota-ledger.json"),
   };
 }

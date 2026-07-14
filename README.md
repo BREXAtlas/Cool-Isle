@@ -34,11 +34,14 @@ Fans before coolers, coolers before compressors, insulation before everything. W
 
 Deploys automatically to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`. The same serialised workflow also checks WeatherChart data around minute 17 of each hour and supports manual dispatch. Set **Settings → Pages → Source → GitHub Actions** once.
 
+For a future standalone `weatherchart.uk` deployment, follow the exact
+[GoDaddy and GitHub Pages DNS checklist](docs/GODADDY-GITHUB-PAGES-DNS.md).
+
 ## WeatherChart UK
 
 [WeatherChart UK](https://brexatlas.github.io/Cool-Isle/weatherchart/) is a connected but visually separate, family-friendly forecast companion. It reads generated first-party JSON, provides 12 cached UK locations, plain-English deterministic interpretations, accessible charts and tables, official-warning links, severe-weather news, a coarse weather map, and moderated public-weather context. It is independent and is not affiliated with or endorsed by the Met Office.
 
-The committed dataset is synthetic and clearly labelled. With a valid server-side `MET_OFFICE_API_KEY`, the hourly workflow can replace it with normalised Met Office Global Spot hourly data. The browser never receives that key and never calls Weather DataHub directly.
+The committed dataset contains a current, validated live Open-Meteo forecast fallback. With a valid server-side `MET_OFFICE_API_KEY`, the hourly workflow prefers normalised Met Office Global Spot hourly data. The browser never receives that key or calls Weather DataHub directly, and production validation rejects synthetic forecast data.
 
 ### Local development and tests
 
@@ -54,11 +57,11 @@ python -m http.server 8000
 
 Then open `http://localhost:8000/` for Cool Isle and `http://localhost:8000/weatherchart/` for WeatherChart. Opening the HTML through `file://` will not work reliably because the subsite fetches local JSON modules.
 
-### Data updates, keys and the 300-call ceiling
+### Live data updates, keys and the 350-call ceiling
 
 Copy `.env.example` only for local server-side testing and keep the resulting `.env` untracked. In GitHub, store the replacement Met Office credential as the Actions secret `MET_OFFICE_API_KEY`; optional YouTube and X credentials use the documented Actions-secret names. Never place credentials in HTML, browser JavaScript, generated JSON, screenshots, logs or pull-request text.
 
-The Global Spot updater fetches 12 priority locations no more often than every 55 minutes, reserves the complete batch on the dedicated `weatherchart-quota-state` branch before making any request, confirms that write, performs no automatic retries, serialises runs, and stops before a shared UTC-day total of 300. A normal 24-hour schedule therefore reserves at most 288 calls. Failed or unused reserved attempts still count. Missing, contradictory or malformed durable state is quarantined at 300 for the current UTC day while the last valid/sample bundle stays available; first-time live requests therefore begin after the next 00:00 UTC reset.
+The Global Spot updater fetches 12 priority locations no more often than every 55 minutes, reserves the complete batch on the dedicated `weatherchart-quota-state` branch before making any request, confirms that write, performs no automatic retries, serialises runs, and stops before a shared UTC-day total of 350. A normal 24-hour schedule therefore reserves at most 288 calls, leaving 62 attempts of safety headroom. Failed or unused reserved attempts still count. Missing, contradictory or malformed durable state is quarantined at 350 for the current UTC day while a validated live forecast is retained or refreshed from the attributed Open-Meteo fallback. An auditable manual workflow bootstrap can initialise a genuinely missing current-day ledger from an operator-verified count.
 
 Warnings and news use official Met Office RSS feeds; article bodies and Met Office images are not copied. Community adapters use supported APIs, oEmbed or manually reviewed public links—never page scraping. Cards expose city/region only, show location confidence, expire quickly and remain explicitly unverified.
 

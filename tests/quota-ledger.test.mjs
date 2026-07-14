@@ -16,7 +16,7 @@ test("missing quota state quarantines the current UTC day without allowing calls
   const quota = await openQuotaLedger({ ledgerPath: paths.quotaLedgerPath, statusPath: paths.statusPath, now: () => now });
   assert.equal(quota.safe, false);
   assert.equal(quota.canStartBatch(), false);
-  assert.equal(quota.snapshot().attempts, 300);
+  assert.equal(quota.snapshot().attempts, 350);
   assert.equal((await readJson(paths.quotaLedgerPath)).source, "quarantine");
 });
 
@@ -31,7 +31,7 @@ test("a valid previous-day ledger resets safely at midnight UTC", async (t) => {
   assert.equal(quota.safe, true);
   assert.equal(quota.snapshot().utcDay, "2026-07-14");
   assert.equal(quota.snapshot().attempts, 0);
-  assert.equal(quota.remaining, 300);
+  assert.equal(quota.remaining, 350);
 });
 
 test("the highest trustworthy current-day count wins and reservations persist first", async (t) => {
@@ -50,7 +50,7 @@ test("the highest trustworthy current-day count wins and reservations persist fi
   assert.equal(quota.snapshot().callsMadeThisRun, 1);
 });
 
-test("the committed sample status quota aliases restore without quarantine", async (t) => {
+test("a legacy 300-limit status migrates to the 350 ceiling without lowering its count", async (t) => {
   const now = new Date("2026-07-13T18:00:00Z");
   const { rootDir, paths } = await temporaryRoot(now);
   t.after(() => removeRoot(rootDir));
@@ -68,15 +68,40 @@ test("the committed sample status quota aliases restore without quarantine", asy
 
   const quota = await openQuotaLedger({ ledgerPath: paths.quotaLedgerPath, statusPath: paths.statusPath, now: () => now });
   assert.equal(quota.safe, true);
+  assert.equal(quota.snapshot().limit, 350);
   assert.equal(quota.snapshot().attempts, 0);
   assert.equal(quota.canStartBatch(12), true);
+});
+
+test("a current-day unsafe legacy status remains quarantined at the new ceiling", async (t) => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const { rootDir, paths } = await temporaryRoot(now);
+  t.after(() => removeRoot(rootDir));
+  await import("node:fs/promises").then(({ default: fs }) => fs.rm(paths.quotaLedgerPath, { force: true }));
+  const status = await readJson(paths.statusPath);
+  status.quota = {
+    quotaDayUtc: "2026-07-13",
+    limitPerUtcDay: 300,
+    callsUsed: 300,
+    safe: false,
+    reason: "durable-quota-bootstrap-quarantined",
+  };
+  await writeJsonAtomic(paths.statusPath, status);
+  const quota = await openQuotaLedger({
+    ledgerPath: paths.quotaLedgerPath,
+    statusPath: paths.statusPath,
+    now: () => now,
+  });
+  assert.equal(quota.safe, false);
+  assert.equal(quota.snapshot().attempts, 350);
+  assert.equal(quota.canStartBatch(12), false);
 });
 
 test("fewer than twelve remaining calls cannot start a location batch", async (t) => {
   const now = new Date("2026-07-13T18:00:00Z");
   const { rootDir, paths } = await temporaryRoot(now);
   t.after(() => removeRoot(rootDir));
-  await seedPrivateLedger(paths, now, 289);
+  await seedPrivateLedger(paths, now, 339);
 
   const quota = await openQuotaLedger({ ledgerPath: paths.quotaLedgerPath, statusPath: paths.statusPath, now: () => now });
   assert.equal(quota.remaining, 11);

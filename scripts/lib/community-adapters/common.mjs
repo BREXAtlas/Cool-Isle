@@ -25,6 +25,14 @@ export function cleanPublicText(value, maximum = 500) {
     .slice(0, maximum);
 }
 
+export function shortPublicExcerpt(value, maximum = 220) {
+  const limit = Math.max(40, Math.min(Number(maximum) || 220, 500));
+  const text = cleanPublicText(value, 2_000);
+  if (text.length <= limit) return text;
+  const boundary = text.slice(0, limit - 1).replace(/\s+\S*$/, "").trimEnd();
+  return `${boundary || text.slice(0, limit - 1).trimEnd()}…`;
+}
+
 export function createAdapterResult(platform, state = "disabled") {
   return {
     platform,

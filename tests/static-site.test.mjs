@@ -258,6 +258,71 @@ test("Cool Isle and every WeatherChart page expose a clear two-way link", async 
   assert.match(deploymentConfig, /data-cool-isle-link/);
 });
 
+test("Cool Isle commerce cards use disclosed external seller destinations", async () => {
+  const home = await read(path.join(ROOT, "index.html"));
+  const winter = await read(path.join(ROOT, "winter.html"));
+  const commerceSource = home + "\n" + winter;
+
+  assert.doesNotMatch(commerceSource, /Add to basket|Join (?:the )?(?:winter )?list/i);
+  assert.doesNotMatch(home, /buyUrl\s*:\s*["']#["']/i);
+  assert.match(home, /Cool Isle does not sell products or process checkout/i);
+  assert.match(winter, /Cool Isle does not sell products or process checkout/i);
+
+  const productsBlock = home.match(/const PRODUCTS = \[([\s\S]*?)\n\];/)?.[1] ?? "";
+  const productUrls = [...productsBlock.matchAll(/buyUrl\s*:\s*"([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(productUrls.length, 16, "Every Cool Isle product card needs one seller destination");
+  const allowedHosts = new Set([
+    "probreeze.com",
+    "www.appliancesdirect.co.uk",
+    "www.argos.co.uk",
+    "www.currys.co.uk",
+    "www.decathlon.co.uk",
+    "www.diy.com",
+    "www.drysure.co.uk",
+    "www.dunelm.com",
+    "www.meaco.com",
+  ]);
+  for (const destination of productUrls) {
+    const url = new URL(destination);
+    assert.equal(url.protocol, "https:", "Commerce destination must use HTTPS: " + destination);
+    assert.equal(allowedHosts.has(url.hostname), true, "Unexpected commerce host: " + url.hostname);
+    assert.equal(url.search, "", "Commerce destination contains a query or affiliate parameter: " + destination);
+  }
+
+  assert.match(home, /<a class="buy" href="\$\{p\.buyUrl\}" target="_blank" rel="noopener noreferrer nofollow"/);
+  const winterCards = winter.match(/<div class="kit">([\s\S]*?)<\/div>\s*<p class="note">/)?.[1] ?? "";
+  const winterLinks = winterCards.match(/<a\b[^>]*>/gi) ?? [];
+  assert.equal(winterLinks.length, 4, "Winter page should expose four honest seller links");
+  for (const tag of winterLinks) {
+    assert.match(getAttribute(tag, "href") ?? "", /^https:\/\//);
+    assert.equal(getAttribute(tag, "target"), "_blank");
+    assert.equal(getAttribute(tag, "rel"), "noopener noreferrer nofollow");
+  }
+});
+
+test("community surfaces publish attributed live posts only and start hidden when empty", async () => {
+  const communityData = JSON.parse(await read(path.join(WEATHERCHART, "data", "community.json")));
+  const communityPage = await read(path.join(WEATHERCHART, "community.html"));
+  const weatherHome = await read(path.join(WEATHERCHART, "index.html"));
+  const communityClient = await read(path.join(WEATHERCHART, "assets", "js", "community.js"));
+
+  assert.equal(communityData.sample, false);
+  assert.ok(["live-public-posts", "preserved-live", "no-current-posts"].includes(communityData.datasetState));
+  assert.equal(communityData.source?.scrapingUsed, false);
+  assert.doesNotMatch(JSON.stringify(communityData), /sample-community|demo contributor|synthetic report/i);
+  for (const item of communityData.items) {
+    assert.ok(item.platform && item.author && item.sourceName && item.sourceHost && item.publishedAt);
+    assert.match(item.url, /^https:\/\//);
+    assert.equal(item.familySafe, true);
+    assert.equal(item.location?.latitude, null);
+    assert.equal(item.location?.longitude, null);
+  }
+  assert.match(communityPage, /Checking current public posts/);
+  assert.match(communityPage, /data-community-section hidden/);
+  assert.match(weatherHome, /data-community-section hidden/);
+  assert.match(communityClient, /View original on/);
+});
+
 test("WeatherChart metadata, CSP and WebSite structured data are complete", async () => {
   const titles = new Set();
   const canonicalUrls = new Set();

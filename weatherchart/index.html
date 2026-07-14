@@ -30,8 +30,8 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to the weather</a>
   <div class="demo-banner" role="region" aria-label="Page status">
-    <span class="demo-banner__badge" data-mode-badge>Sample mode</span>
-    <span data-mode-copy>Illustrative data — not live weather. Check official sources before making decisions.</span>
+    <span class="demo-banner__badge" data-mode-badge>Checking live data</span>
+    <span data-mode-copy>Loading the latest source-labelled forecast and provider status.</span>
   </div>
 
   <header class="site-header" data-site-header>
@@ -90,7 +90,7 @@
           <button class="button button--location" type="button" data-use-location>
             <span aria-hidden="true">⌖</span> Use my location
           </button>
-          <p class="microcopy" data-location-privacy-copy>We ask only after you choose this button, find the nearest sample city in your browser, then discard your coordinates.</p>
+          <p class="microcopy" data-location-privacy-copy>We ask only after you choose this button, find the nearest forecast location in your browser, then discard your coordinates.</p>
         </div>
 
         <aside class="national-card reveal" aria-labelledby="national-heading">
@@ -101,15 +101,15 @@
           <h2 id="national-heading">Around the UK</h2>
           <p class="national-card__summary" data-national-summary>Opening the weather data…</p>
           <dl class="national-stats">
-            <div><dt data-national-high-label>Warmest sample</dt><dd data-national-high>—</dd></div>
-            <div><dt data-warning-count-label>Illustrative warnings</dt><dd data-warning-count>—</dd></div>
-            <div><dt data-location-count-label>Sample cities</dt><dd data-location-count>12</dd></div>
+            <div><dt data-national-high-label>Warmest location</dt><dd data-national-high>—</dd></div>
+            <div><dt data-warning-count-label>Active warnings</dt><dd data-warning-count>—</dd></div>
+            <div><dt data-location-count-label>Forecast locations</dt><dd data-location-count>12</dd></div>
           </dl>
           <div class="update-block">
-            <p><strong data-generated-label>Sample generated</strong> <time data-generated-at>—</time></p>
+            <p><strong data-generated-label>Data generated</strong> <time data-generated-at>—</time></p>
             <p><strong>Next check around</strong> <time data-next-check>—</time></p>
           </div>
-          <button class="text-button" type="button" data-refresh><span data-refresh-label>Check the sample file again</span> <span aria-hidden="true">↻</span></button>
+          <button class="text-button" type="button" data-refresh><span data-refresh-label>Check for the latest update</span> <span aria-hidden="true">↻</span></button>
         </aside>
       </div>
     </section>
@@ -126,7 +126,7 @@
           <a class="source-link" href="https://weather.metoffice.gov.uk/warnings-and-advice/uk-warnings" rel="external noopener">Check current Met Office warnings <span aria-hidden="true">↗</span></a>
         </div>
         <div class="serious-note" role="note">
-          <strong data-warning-note-title>These cards are illustrative, not active warnings.</strong>
+          <strong data-warning-note-title>Checking the official warning feed…</strong>
           <span data-warning-note-copy>Always follow current official Met Office warnings and emergency guidance.</span>
         </div>
         <div class="warning-grid" data-warning-list aria-busy="true">
@@ -140,12 +140,12 @@
       <div class="shell">
         <div class="section-heading section-heading--split">
           <div>
-            <p class="eyebrow" data-selected-location-label>Your selected sample location</p>
+            <p class="eyebrow" data-selected-location-label>Your selected forecast location</p>
             <h2 id="location-title" data-location-heading>Loading location…</h2>
           </div>
-          <div class="source-pill" data-location-source>Sample source</div>
+          <div class="source-pill" data-location-source>Checking provider…</div>
         </div>
-        <p class="source-context" data-source-context>This page does not make a live forecast API request.</p>
+        <p class="source-context" data-source-context>Forecast data is refreshed server-side and source-labelled; this browser never receives the Met Office key.</p>
         <div class="conditions-layout">
           <article class="now-card" data-current-card aria-busy="true">
             <div class="now-card__condition">
@@ -156,7 +156,7 @@
               </div>
             </div>
             <p class="feels-like">Feels like <strong data-feels-like>—°C</strong></p>
-            <p class="observed-time"><span data-observed-label>Sample time:</span> <time data-observed-at>—</time></p>
+            <p class="observed-time"><span data-observed-label>Forecast time:</span> <time data-observed-at>—</time></p>
           </article>
           <dl class="metric-grid" data-metrics>
             <div><dt><span aria-hidden="true">☂</span> Rain chance</dt><dd data-metric="precipitation">—</dd></div>
@@ -198,7 +198,7 @@
           </ul>
         </div>
         <div class="chart-card">
-          <div class="chart-scroll" role="region" tabindex="0" aria-label="Scrollable 24-hour sample weather chart">
+          <div class="chart-scroll" role="region" tabindex="0" aria-label="Scrollable 24-hour weather chart">
             <svg class="hourly-chart" data-hourly-chart role="img" aria-labelledby="chart-title chart-desc" viewBox="0 0 1040 390" preserveAspectRatio="xMinYMin meet">
               <title id="chart-title">Twenty-four-hour weather chart</title>
               <desc id="chart-desc">Temperature, feels-like temperature, rain chance, wind and gusts. An accessible data table follows.</desc>
@@ -208,7 +208,7 @@
             <summary>Read the 24-hour data as a table</summary>
             <div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable hourly forecast table">
               <table>
-                <caption data-hourly-caption>Hourly sample forecast for <span data-table-location>the selected location</span></caption>
+                <caption data-hourly-caption>Hourly forecast for <span data-table-location>the selected location</span></caption>
                 <thead><tr><th scope="col">Time</th><th scope="col">Conditions</th><th scope="col">Temp</th><th scope="col">Feels</th><th scope="col">Rain chance</th><th scope="col">Rainfall</th><th scope="col">Wind</th><th scope="col">Gusts</th></tr></thead>
                 <tbody data-hourly-table></tbody>
               </table>
@@ -222,7 +222,7 @@
       <div class="shell">
         <div class="section-heading">
           <p class="eyebrow">The longer look</p>
-          <h2 id="daily-title">Multi-day sample outlook</h2>
+          <h2 id="daily-title">Forecast outlook</h2>
         </div>
         <div class="daily-grid" data-daily-list aria-live="polite"></div>
       </div>
@@ -247,13 +247,13 @@
         </fieldset>
         <div class="map-layout">
           <div class="map-frame">
-            <div id="weather-map" class="weather-map" role="region" aria-label="Interactive sample map of UK weather locations" data-weather-map>
+            <div id="weather-map" class="weather-map" role="region" aria-label="Interactive map of UK weather locations" data-weather-map>
               <p class="map-placeholder">The map loads when it enters view. Use the location list below if maps are not convenient.</p>
             </div>
           </div>
           <aside class="map-key" aria-labelledby="map-key-title" aria-live="polite">
-            <h3 id="map-key-title" data-map-key-title>Sample temperatures</h3>
-            <p data-map-key-copy>City-centre markers show illustrative cached values.</p>
+            <h3 id="map-key-title" data-map-key-title>Forecast temperatures</h3>
+            <p data-map-key-copy>Configured forecast-point values are loading.</p>
             <ul data-map-key-list></ul>
           </aside>
         </div>
@@ -261,7 +261,7 @@
           <summary>Accessible location list</summary>
           <div class="table-scroll" role="region" tabindex="0" aria-label="Scrollable UK forecast location table">
             <table>
-              <caption data-location-table-caption>WeatherChart’s 12 sample UK locations</caption>
+              <caption data-location-table-caption>WeatherChart’s 12 UK forecast locations</caption>
               <thead><tr><th scope="col">Location</th><th scope="col">Region</th><th scope="col">Conditions</th><th scope="col">Temperature</th><th scope="col">Rain chance</th><th scope="col">Wind</th></tr></thead>
               <tbody data-location-table></tbody>
             </table>
@@ -270,18 +270,18 @@
       </div>
     </section>
 
-    <section class="section section--community" id="community" aria-labelledby="community-title">
+    <section class="section section--community" id="community" aria-labelledby="community-title" data-community-section hidden>
       <div class="shell">
         <div class="section-heading section-heading--split">
           <div>
             <p class="eyebrow">What people are saying</p>
             <h2 id="community-title">Local weather chatter</h2>
           </div>
-          <a class="button button--ghost-light" href="community.html">How community cards work</a>
+          <a class="button button--ghost-light" href="community.html">Community source policy</a>
         </div>
         <div class="community-disclaimer" role="note">
           <strong>Public weather chatter — not a verified weather observation.</strong>
-          <span>Public posts are shown for local flavour and may be inaccurate. Use the official forecast and warnings for decisions.</span>
+          <span>Every card links to its attributed public source. Posts may be inaccurate; use the official forecast and warnings for decisions.</span>
         </div>
         <div class="filter-row" data-community-filters>
           <label>Platform <select data-filter="platform"><option value="all">All platforms</option></select></label>
@@ -301,7 +301,7 @@
           </div>
           <a class="source-link" href="https://www.metoffice.gov.uk/about-us/news-and-media/media-centre/weather-and-climate-news" rel="external noopener">Met Office weather news <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="section-intro" data-news-mode-copy>The sample dataset contains no invented stories. WeatherChart never republishes article bodies or Met Office images.</p>
+        <p class="section-intro" data-news-mode-copy>Loading source-linked weather news. WeatherChart never republishes article bodies or Met Office images.</p>
         <div class="filter-row" data-news-filters>
           <label>Year <select data-filter="year"><option value="all">All years</option></select></label>
           <label>Topic <select data-filter="topic"><option value="all">All topics</option></select></label>
@@ -368,7 +368,7 @@
         <a href="community.html">Community approach</a>
         <a href="../index.html" data-cool-isle-link>Back to Cool Isle</a>
       </nav>
-      <p class="site-footer__fineprint" data-footer-mode-copy>Sample data shown for interface demonstration only. Do not use it for safety-critical decisions.</p>
+      <p class="site-footer__fineprint" data-footer-mode-copy>Weather data remains subject to source times, provider limitations and current official warnings.</p>
     </div>
   </footer>
 

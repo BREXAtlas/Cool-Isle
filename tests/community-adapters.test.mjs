@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { fetchMastodonCommunity } from "../scripts/lib/community-adapters/mastodon.mjs";
 import { fetchTikTokCommunity } from "../scripts/lib/community-adapters/tiktok.mjs";
 import { fetchXCommunity } from "../scripts/lib/community-adapters/x.mjs";
 import { fetchYouTubeCommunity } from "../scripts/lib/community-adapters/youtube.mjs";
@@ -17,13 +18,14 @@ const keywords = {
     youtube: "UK weather rain",
     x: "#UKWeather -is:retweet lang:en",
   },
+  providerSources: { mastodon: [] },
   allowedWeatherKeywords: ["weather", "rain", "snow", "wind"],
   locations: [
     { name: "Manchester", region: "North West England", aliases: ["Greater Manchester"] },
     { name: "Glasgow", region: "Scotland", aliases: ["Glasgow area"] },
     { name: "Cardiff", region: "South Wales", aliases: ["Caerdydd"] },
   ],
-  perPlatformCaps: { youtube: 2, x: 2, tiktok: 2, total: 6 },
+  perPlatformCaps: { youtube: 2, x: 2, tiktok: 2, mastodon: 2, total: 8 },
   maximumAgeHours: 48,
   requestTimeoutMs: 250,
 };
@@ -33,6 +35,7 @@ const allowlist = {
     { domain: "www.youtube.com", platform: "youtube" },
     { domain: "www.tiktok.com", platform: "tiktok" },
     { domain: "x.com", platform: "x" },
+    { domain: "mastodon.social", platform: "mastodon" },
   ],
   blockedQueryParameters: ["utm_source"],
   maximumExcerptCharacters: 220,
@@ -42,7 +45,7 @@ const allowlist = {
 
 const blocklist = {
   blockedDomains: [],
-  blockedAccounts: { youtube: ["blocked-channel"], x: ["blocked_x"], tiktok: ["blocked_tiktok"] },
+  blockedAccounts: { youtube: ["blocked-channel"], x: ["blocked_x"], tiktok: ["blocked_tiktok"], mastodon: [] },
   blockedTermGroups: { unsafe: ["unsafe phrase"] },
   sensitivePatterns: [],
 };
@@ -268,6 +271,85 @@ test("TikTok checks only manually approved URLs through public oEmbed and discar
   assert.equal(JSON.stringify(result).includes("unsafe-cdn.invalid"), false);
 });
 
+test("Mastodon uses a documented public hashtag timeline and retains direct attributed local posts only", async () => {
+  const calls = [];
+  const result = await fetchMastodonCommunity({
+    keywords: {
+      ...keywords,
+      providerSources: { mastodon: [{ instance: "https://mastodon.social", hashtag: "UKWeather" }] },
+    },
+    allowlist: { ...allowlist, requireCoarseLocation: true },
+    blocklist,
+    now,
+    fetchImpl: async (url, options) => {
+      calls.push({ url: String(url), options });
+      return jsonResponse([
+        {
+          id: "1001",
+          url: "https://mastodon.social/@skywatch/1001?utm_source=feed",
+          created_at: "2026-07-13T17:30:00Z",
+          content: "<p>Fresh <strong>rain</strong> crossing Manchester this evening. #UKWeather</p>",
+          visibility: "public",
+          sensitive: false,
+          spoiler_text: "",
+          language: "en",
+          in_reply_to_id: null,
+          reblog: null,
+          account: {
+            id: "account-1",
+            username: "skywatch",
+            acct: "skywatch",
+            display_name: "Sky Watch",
+            bot: false,
+            locked: false,
+          },
+        },
+        {
+          id: "1002",
+          url: "https://remote.example/@weather/1002",
+          created_at: "2026-07-13T17:25:00Z",
+          content: "<p>Rain in Manchester. #UKWeather</p>",
+          visibility: "public",
+          sensitive: false,
+          spoiler_text: "",
+          language: "en",
+          in_reply_to_id: null,
+          reblog: null,
+          account: { id: "account-2", username: "weather", acct: "weather@remote.example", display_name: "Remote Weather", bot: false, locked: false },
+        },
+        {
+          id: "1003",
+          url: "https://mastodon.social/@weatherbot/1003",
+          created_at: "2026-07-13T17:20:00Z",
+          content: "<p>Rain in Manchester. #UKWeather</p>",
+          visibility: "public",
+          sensitive: false,
+          spoiler_text: "",
+          language: "en",
+          in_reply_to_id: null,
+          reblog: null,
+          account: { id: "account-3", username: "weatherbot", acct: "weatherbot", display_name: "Weather Bot", bot: true, locked: false },
+        },
+      ]);
+    },
+  });
+
+  assert.equal(calls.length, 1);
+  const requestUrl = new URL(calls[0].url);
+  assert.equal(requestUrl.origin, "https://mastodon.social");
+  assert.equal(requestUrl.pathname, "/api/v1/timelines/tag/UKWeather");
+  assert.equal(calls[0].options.headers.Authorization, undefined);
+  assert.match(calls[0].options.headers["User-Agent"], /WeatherChartUK/);
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].url, "https://mastodon.social/@skywatch/1001");
+  assert.equal(result.items[0].authorDisplayName, "Sky Watch");
+  assert.equal(result.items[0].authorHandle, "@skywatch@mastodon.social");
+  assert.equal(result.items[0].sourceHost, "mastodon.social");
+  assert.equal(result.items[0].location.label, "Manchester");
+  assert.equal(result.audit.excluded["source-host-not-reviewed"], 1);
+  assert.equal(result.audit.excluded["not-eligible-public-post"], 1);
+});
+
 test("missing credentials and disabled curation make no network calls and retain a count-only audit", async () => {
   let calls = 0;
   const result = await runCommunityAdapters({
@@ -329,9 +411,10 @@ test("provider timeout is bounded and never retried", async () => {
   assert.equal(result.errorCode, "request-timeout");
 });
 
-test("community updater preserves the no-key fallback without attempting a network call", async (t) => {
+test("community updater publishes an empty non-sample dataset when every source is disabled", async (t) => {
   const { rootDir, paths } = await temporaryRoot(now);
   t.after(() => removeRoot(rootDir));
+  await writeJsonAtomic(paths.socialKeywordsPath, { providerSources: { mastodon: [] } });
   let calls = 0;
   const result = await runCommunityUpdate({
     rootDir,
@@ -344,8 +427,10 @@ test("community updater preserves the no-key fallback without attempting a netwo
   });
   const output = await readJson(paths.communityPath);
   assert.equal(calls, 0);
-  assert.equal(result.outcome, "fallback");
-  assert.equal(output.sample, true);
+  assert.equal(result.outcome, "empty");
+  assert.equal(output.sample, false);
+  assert.equal(output.datasetState, "no-current-posts");
+  assert.deepEqual(output.items, []);
   assert.equal(output.audit.containsPostText, false);
 });
 
@@ -361,7 +446,8 @@ test("a successful provider refresh removes prior items no longer returned upstr
   });
   const output = await readJson(paths.communityPath);
   assert.deepEqual(output.items, []);
-  assert.equal(output.sample, true);
+  assert.equal(output.sample, false);
+  assert.equal(output.datasetState, "no-current-posts");
   assert.equal(JSON.stringify(output).includes("refresh-secret"), false);
 });
 

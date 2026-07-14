@@ -10,6 +10,31 @@ import { removeRoot, seedPrivateLedger, temporaryRoot } from "./helpers.mjs";
 const fixtureUrl = new URL("./fixtures/metoffice-hourly.json", import.meta.url);
 const fixture = JSON.parse(await fs.readFile(fixtureUrl, "utf8"));
 
+function openMeteoFixture(now) {
+  const times = Array.from({ length: 30 }, (_, index) =>
+    new Date(now.getTime() + index * 3_600_000).toISOString().slice(0, 16));
+  return {
+    latitude: 51.5,
+    longitude: -0.1,
+    hourly: {
+      time: times,
+      temperature_2m: times.map((_, index) => 14 + (index % 7)),
+      apparent_temperature: times.map((_, index) => 13 + (index % 7)),
+      precipitation_probability: times.map(() => 20),
+      precipitation: times.map(() => 0),
+      relative_humidity_2m: times.map(() => 72),
+      wind_speed_10m: times.map(() => 16),
+      wind_gusts_10m: times.map(() => 25),
+      wind_direction_10m: times.map(() => 225),
+      visibility: times.map(() => 10_000),
+      pressure_msl: times.map(() => 1014),
+      weather_code: times.map(() => 2),
+      cloud_cover: times.map(() => 45),
+      dew_point_2m: times.map(() => 10),
+    },
+  };
+}
+
 test("Met Office GeoJSON is normalised with explicit conversions and source metadata", () => {
   const result = normaliseMetOfficeForecast(
     fixture,
@@ -57,6 +82,48 @@ test("a complete official batch uses hourly endpoints and the apikey header only
   assert.equal((await readJson(paths.quotaLedgerPath)).attempts, 12);
 });
 
+test("a missing Met Office credential publishes a fresh attributed Open-Meteo batch", async (t) => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const { rootDir, paths } = await temporaryRoot(new Date("2026-07-13T15:00:00Z"));
+  t.after(() => removeRoot(rootDir));
+  await seedPrivateLedger(paths, now, 0);
+  const status = await readJson(paths.statusPath);
+  status.quota = await readJson(paths.quotaLedgerPath);
+  await writeJsonAtomic(paths.statusPath, status);
+  let metOfficeCalls = 0;
+  let fallbackCalls = 0;
+  const result = await runWeatherUpdate({
+    rootDir,
+    now: () => now,
+    apiKey: "",
+    requireLiveForecast: true,
+    fetchImpl: async () => {
+      metOfficeCalls += 1;
+      throw new Error("Met Office should not be called without a credential");
+    },
+    fallbackFetchImpl: async (url, options) => {
+      fallbackCalls += 1;
+      assert.match(String(url), /^https:\/\/api\.open-meteo\.com\/v1\/forecast\?/);
+      assert.equal(options.headers.apikey, undefined);
+      return { ok: true, status: 200, json: async () => openMeteoFixture(now) };
+    },
+  });
+  assert.equal(result.outcome, "credential-not-configured");
+  assert.equal(result.fallbackUpdated, true);
+  assert.equal(metOfficeCalls, 0);
+  assert.equal(fallbackCalls, 12);
+  const forecast = await readJson(paths.forecastPath);
+  assert.equal(forecast.sample, false);
+  assert.equal(forecast.fallback, true);
+  assert.equal(forecast.source.id, "open-meteo-forecast");
+  assert.equal(forecast.locations.length, 12);
+  assert.equal(forecast.locations.every(({ hourly }) => hourly.length === 24), true);
+  const updatedStatus = await readJson(paths.statusPath);
+  assert.equal(updatedStatus.provider.mode, "indicative-fallback");
+  assert.equal(updatedStatus.forecastState, "live-fallback");
+  assert.equal(updatedStatus.quota.attempts, 0);
+});
+
 test("a failed request is not retried and the pre-reserved batch preserves the last valid forecast", async (t) => {
   const now = new Date("2026-07-13T18:00:00Z");
   const { rootDir, paths, forecast } = await temporaryRoot(new Date("2026-07-13T15:00:00Z"));
@@ -74,6 +141,7 @@ test("a failed request is not retried and the pre-reserved batch preserves the l
       calls += 1;
       throw new Error("offline");
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "request-failed");
   assert.equal(calls, 1);
@@ -135,7 +203,7 @@ test("required durable quota is confirmed as one batch before the first upstream
         confirmed: true,
         durable: true,
         utcDay: "2026-07-13",
-        limit: 300,
+        limit: 350,
         attempts: 12,
         attemptsBefore: 0,
         attemptsAfter: 12,
@@ -192,6 +260,7 @@ test("required durable reservation failure stops before all Met Office requests"
       calls += 1;
       return { ok: true, status: 200, json: async () => fixture };
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "durable-quota-write-unconfirmed");
   assert.equal(result.attemptsThisRun, 0);
@@ -220,6 +289,7 @@ test("fresh official data skips manual, push, and scheduled duplicate calls for 
     now: () => now,
     apiKey: "unit-test-placeholder",
     fetchImpl: async () => { calls += 1; },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "freshness-skip");
   assert.equal(calls, 0);
@@ -230,7 +300,7 @@ test("an eleven-call remainder stops before any upstream request", async (t) => 
   const now = new Date("2026-07-13T18:00:00Z");
   const { rootDir, paths } = await temporaryRoot(new Date("2026-07-13T15:00:00Z"));
   t.after(() => removeRoot(rootDir));
-  await seedPrivateLedger(paths, now, 289);
+  await seedPrivateLedger(paths, now, 339);
   const status = await readJson(paths.statusPath);
   status.quota = await readJson(paths.quotaLedgerPath);
   await writeJsonAtomic(paths.statusPath, status);
@@ -240,6 +310,7 @@ test("an eleven-call remainder stops before any upstream request", async (t) => 
     now: () => now,
     apiKey: "unit-test-placeholder",
     fetchImpl: async () => { calls += 1; },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "fewer-than-12-calls-remain");
   assert.equal(calls, 0);
@@ -264,6 +335,7 @@ test("the UTC-boundary safety window stops before reservation and upstream I/O",
       async reserveBatch() { reservations += 1; },
     },
     fetchImpl: async () => { calls += 1; },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "utc-boundary-safety-window");
   assert.equal(reservations, 0);

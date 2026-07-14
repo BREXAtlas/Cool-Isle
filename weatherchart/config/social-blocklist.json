@@ -19,7 +19,8 @@
   "blockedAccounts": {
     "youtube": [],
     "x": [],
-    "tiktok": []
+    "tiktok": [],
+    "mastodon": []
   },
   "blockedTermGroups": {
     "personalData": [

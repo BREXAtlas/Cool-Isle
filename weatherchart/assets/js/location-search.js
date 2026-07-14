@@ -124,7 +124,6 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
 
   let locations = initialLocations;
   let onSelect = initialOnSelect;
-  let sample = Boolean(initialOptions.sample);
   let suggestions = [];
   let activeIndex = -1;
 
@@ -136,12 +135,10 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
     const help = document.querySelector('[data-search-help]');
     const privacyCopy = document.querySelector('[data-location-privacy-copy]');
     if (help) {
-      help.textContent = sample
-        ? `Searches ${locations.length} cached sample cities first. Uncached UK places use Open-Meteo geocoding and postcodes use postcodes.io; results stay only in this tab's memory.`
-        : `Searches ${locations.length} configured forecast points first. Uncached UK places use Open-Meteo geocoding and postcodes use postcodes.io; results stay only in this tab's memory.`;
+      help.textContent = `Searches ${locations.length} configured forecast points first. Uncached UK places use Open-Meteo geocoding and postcodes use postcodes.io; results stay only in this tab's memory.`;
     }
     if (privacyCopy) {
-      privacyCopy.textContent = `We ask only after you choose this button, find the nearest ${sample ? 'sample city' : 'available forecast point'} in your browser, then discard your coordinates.`;
+      privacyCopy.textContent = 'We ask only after you choose this button, find the nearest available forecast point in your browser, then discard your coordinates.';
     }
   };
 
@@ -156,7 +153,7 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
     if (!location) return;
     input.value = location.name;
     closeList();
-    announce(explanation || `Showing the ${sample ? 'cached sample' : 'available forecast point'} for ${location.name}.`);
+    announce(explanation || `Showing the available forecast point for ${location.name}.`);
     const url = new URL(window.location.href);
     url.searchParams.set('location', location.id);
     window.history.replaceState({ location: location.id }, '', url);
@@ -190,7 +187,7 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
       });
       item.append(
         makeElement('strong', { text: location.name }),
-        makeElement('small', { text: `${location.region} · ${sample ? 'cached sample' : 'configured forecast'} point` })
+        makeElement('small', { text: `${location.region} · configured forecast point` })
       );
       item.addEventListener('pointerdown', (event) => {
         event.preventDefault();
@@ -247,7 +244,7 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
       const distance = nearest.distance < 1 ? 'under 1 km' : `about ${Math.round(nearest.distance)} km`;
       choose(
         nearest.location,
-        `${geocoded.sourceName} matched ${geocoded.name}. The nearest ${sample ? 'cached sample city' : 'configured forecast point'} is ${nearest.location.name}, ${distance} away. This is not a street-level forecast; the result is not persisted.`
+        `${geocoded.sourceName} matched ${geocoded.name}. The nearest configured forecast point is ${nearest.location.name}, ${distance} away. This is not a street-level forecast; the result is not persisted.`
       );
     } catch {
       announce('That place could not be resolved safely. Try a full UK postcode or one of the 12 listed cities. Nothing was stored.');
@@ -273,7 +270,7 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
           announce('No cached location could be selected. Your coordinates were not stored.');
           return;
         }
-        choose(nearest.location, `Nearest of the ${locations.length} ${sample ? 'cached sample cities' : 'available forecast points'}: ${nearest.location.name}, about ${Math.round(nearest.distance)} km away. Your coordinates were discarded.`);
+        choose(nearest.location, `Nearest of the ${locations.length} available forecast points: ${nearest.location.name}, about ${Math.round(nearest.distance)} km away. Your coordinates were discarded.`);
       },
       (error) => {
         locationButton.disabled = false;
@@ -291,7 +288,6 @@ export function initialiseLocationSearch(initialLocations, initialOnSelect, init
     update(nextLocations, nextOnSelect, nextOptions = {}) {
       if (Array.isArray(nextLocations) && nextLocations.length) locations = nextLocations;
       if (typeof nextOnSelect === 'function') onSelect = nextOnSelect;
-      if ('sample' in nextOptions) sample = Boolean(nextOptions.sample);
       updateModeCopy();
       closeList();
     }

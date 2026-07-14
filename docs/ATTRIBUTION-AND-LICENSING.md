@@ -27,7 +27,7 @@ Do not apply that OGL statement to Global Spot merely because the Met Office is 
 
 ## Open-Meteo
 
-Label any Open-Meteo result “Open-Meteo indicative fallback” and link to https://open-meteo.com/. Never present it as an official Met Office forecast or warning.
+Label any Open-Meteo result “Open-Meteo indicative fallback”, attribute “Weather data by Open-Meteo.com”, and link to https://open-meteo.com/. Never present it as an official Met Office forecast or warning. The free API is currently restricted to non-commercial use under its terms; before any ads, affiliate activity, subscriptions, checkout, or other monetisation, disable this fallback or move it to an appropriate paid Open-Meteo plan and re-check the current terms: https://open-meteo.com/en/terms
 
 ## Maps
 

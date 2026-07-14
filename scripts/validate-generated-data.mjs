@@ -2,8 +2,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import {
+  DAILY_ATTEMPT_LIMIT,
   DATA_FILE_NAMES,
   DEFAULT_LOCATIONS,
+  LEGACY_DAILY_ATTEMPT_LIMIT,
   REQUIRED_BATCH_SIZE,
   createPaths,
 } from "./lib/constants.mjs";
@@ -84,8 +86,19 @@ function validateForecast(forecast, errors) {
     }
   }
   if (ids.size !== REQUIRED_BATCH_SIZE) errors.push("forecast.json location ids are incomplete");
-  if (forecast.sample === false && !/met office/i.test(forecast.source.name)) {
-    errors.push("A live forecast must identify Met Office as its source");
+  if (
+    forecast.sample === false &&
+    !["met-office-global-spot-hourly", "open-meteo-forecast"].includes(forecast.source?.id)
+  ) {
+    errors.push("A live forecast must identify an approved live provider");
+  }
+  if (forecast.source?.id === "open-meteo-forecast") {
+    if (forecast.fallback !== true || !/open-meteo/i.test(forecast.source?.name ?? "")) {
+      errors.push("An Open-Meteo forecast must be explicitly labelled as fallback data");
+    }
+    if (!/^https:\/\/open-meteo\.com\//i.test(forecast.source?.url ?? "")) {
+      errors.push("An Open-Meteo forecast must link to its provider");
+    }
   }
 }
 
@@ -141,6 +154,11 @@ function validateCommunity(community, errors) {
     return errors.push("community.json must contain an items array");
   }
   if (!isIsoDate(community.generatedAt)) errors.push("community.json generatedAt is invalid");
+  if (community.sample !== false) errors.push("community.json must never publish sample community posts");
+  if (!["live-public-posts", "preserved-live", "no-current-posts"].includes(community.datasetState)) {
+    errors.push("community.json has an invalid live dataset state");
+  }
+  if (community?.source?.scrapingUsed !== false) errors.push("community.json must confirm that page scraping is not used");
   if (community.audit) {
     if (community.audit.containsPostText !== false) errors.push("community.json audit must declare that it contains no post text");
     for (const [reason, count] of Object.entries(community.audit.excluded ?? {})) {
@@ -150,18 +168,13 @@ function validateCommunity(community, errors) {
       }
     }
   }
-  const allowedStatuses = new Set(community.sample
-    ? ["sample-approved"]
-    : ["approved", "manually-approved", "automated-filtered"]);
+  const allowedStatuses = new Set(["approved", "manually-approved", "automated-filtered"]);
   const allowedMediaTypes = new Set(["text-link", "video-link", "oembed-link"]);
   const allowedLocationBases = new Set([
     "platform_geotag",
     "author_explicit",
     "keyword_only",
     "unknown",
-    "sample region only",
-    "sample city area",
-    "sample county",
   ]);
   for (const item of community.items) {
     const safeSource = sanitisePublicUrl(item?.url);
@@ -176,8 +189,11 @@ function validateCommunity(community, errors) {
     if (!allowedMediaTypes.has(item?.mediaType)) {
       errors.push(`Community item ${item?.id ?? "(unknown)"} has an invalid media type`);
     }
-    if (!item?.id || !item?.title || !item?.author || !item?.excerpt) {
+    if (!item?.id || !item?.title || !item?.author || !item?.excerpt || !item?.sourceName || !item?.sourceHost) {
       errors.push(`Community item ${item?.id ?? "(unknown)"} is incomplete`);
+    }
+    if (safeSource && item?.sourceHost !== new URL(safeSource.url).hostname.toLowerCase()) {
+      errors.push(`Community item ${item?.id ?? "(unknown)"} source host does not match its direct link`);
     }
     if (!isIsoDate(item?.publishedAt)) {
       errors.push(`Community item ${item?.id ?? "(unknown)"} has an invalid publication date`);
@@ -213,15 +229,19 @@ function validateQuota(quota, errors) {
   const limit = quota.limit ?? quota.limitPerUtcDay;
   const attempts = quota.attempts ?? quota.callsUsed;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day ?? "")) errors.push("status.json quota UTC day is invalid");
-  if (limit !== 300) errors.push("status.json quota must enforce a 300-attempt limit");
-  if (!Number.isInteger(attempts) || attempts < 0 || attempts > 300) errors.push("status.json quota attempt count is invalid");
+  if (limit !== DAILY_ATTEMPT_LIMIT) {
+    errors.push(`status.json quota must enforce a ${DAILY_ATTEMPT_LIMIT}-attempt limit`);
+  }
+  if (!Number.isInteger(attempts) || attempts < 0 || attempts > DAILY_ATTEMPT_LIMIT) {
+    errors.push("status.json quota attempt count is invalid");
+  }
   if (quota.hardStopEnabled != null && quota.hardStopEnabled !== true) {
     errors.push("status.json quota hard stop cannot be disabled");
   }
   if (quota.reservedCallsThisRun != null && (
     !Number.isInteger(quota.reservedCallsThisRun) ||
     quota.reservedCallsThisRun < 0 ||
-    quota.reservedCallsThisRun > 300
+    quota.reservedCallsThisRun > DAILY_ATTEMPT_LIMIT
   )) {
     errors.push("status.json quota reserved-call count is invalid");
   }
@@ -238,13 +258,23 @@ function validateStatus(status, warnings, errors) {
   validateQuota(status.quota, errors);
 }
 
-export function validateBundle(bundle) {
+export function validateBundle(bundle, { requireLiveForecast = false } = {}) {
   const errors = [];
   validateForecast(bundle.forecast, errors);
   validateWarnings(bundle.warnings, errors);
   validateNews(bundle.news, errors);
   validateCommunity(bundle.community, errors);
   validateStatus(bundle.status, bundle.warnings ?? { warnings: [] }, errors);
+  if (requireLiveForecast) {
+    if (bundle.forecast?.sample !== false) {
+      errors.push("Production deployment requires a live Met Office or Open-Meteo forecast");
+    }
+    for (const name of ["warnings", "news", "community"]) {
+      if (bundle[name]?.sample !== false) {
+        errors.push(`Production deployment does not permit sample ${name} data`);
+      }
+    }
+  }
   for (const [name, value] of Object.entries(bundle)) checkNoSecrets(value, errors, name);
   return errors;
 }
@@ -265,7 +295,12 @@ function normaliseQuotaSnapshot(value, today) {
   const attempts = value.attempts ?? value.callsUsed;
   const limit = value.limit ?? value.limitPerUtcDay;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day ?? "") || day > today) return null;
-  if (!Number.isInteger(attempts) || attempts < 0 || attempts > 300 || limit !== 300) return null;
+  if (
+    !Number.isInteger(attempts) ||
+    attempts < 0 ||
+    attempts > DAILY_ATTEMPT_LIMIT ||
+    ![DAILY_ATTEMPT_LIMIT, LEGACY_DAILY_ATTEMPT_LIMIT].includes(limit)
+  ) return null;
   return { ...value, day, attempts };
 }
 
@@ -287,10 +322,10 @@ function mergeQuotaSnapshots(values, now) {
     quotaDayUtc: latestDay,
     attempts,
     callsUsed: attempts,
-    limit: 300,
-    limitPerUtcDay: 300,
-    remaining: 300 - attempts,
-    callsRemaining: 300 - attempts,
+    limit: DAILY_ATTEMPT_LIMIT,
+    limitPerUtcDay: DAILY_ATTEMPT_LIMIT,
+    remaining: DAILY_ATTEMPT_LIMIT - attempts,
+    callsRemaining: DAILY_ATTEMPT_LIMIT - attempts,
     callsMadeThisRun: Math.max(0, ...candidates.map((candidate) => Number(candidate.callsMadeThisRun) || 0)),
     reservedCallsThisRun: Math.max(0, ...candidates.map((candidate) => Number(candidate.reservedCallsThisRun) || 0)),
     hardStopEnabled: true,
@@ -334,6 +369,7 @@ export async function validateGeneratedData({
   rootDir = process.cwd(),
   restoreOnFailure = false,
   snapshot = false,
+  requireLiveForecast = false,
   now = new Date(),
 } = {}) {
   const paths = createPaths(rootDir);
@@ -341,7 +377,7 @@ export async function validateGeneratedData({
   let errors;
   try {
     bundle = await readBundle(paths);
-    errors = validateBundle(bundle);
+    errors = validateBundle(bundle, { requireLiveForecast });
   } catch (error) {
     errors = [`Generated data could not be read (${safeErrorCode(error)})`];
   }
@@ -351,7 +387,7 @@ export async function validateGeneratedData({
     try {
       await restoreLastValid(paths, now);
       bundle = await readBundle(paths);
-      errors = validateBundle(bundle);
+      errors = validateBundle(bundle, { requireLiveForecast });
       restored = errors.length === 0;
     } catch {
       // Preserve the original validation errors below.
@@ -373,6 +409,9 @@ async function main() {
   const result = await validateGeneratedData({
     restoreOnFailure: flags.has("--restore-on-failure"),
     snapshot: flags.has("--snapshot"),
+    requireLiveForecast:
+      flags.has("--require-live-forecast") ||
+      process.env.WEATHERCHART_REQUIRE_LIVE_FORECAST === "true",
   });
   console.log(result.restored ? "Generated data restored from the last valid snapshot." : "Generated data is valid.");
 }

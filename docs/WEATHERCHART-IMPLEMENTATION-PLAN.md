@@ -19,21 +19,21 @@ Add a distinct, accessible WeatherChart UK subsite at `/Cool-Isle/weatherchart/`
 1. The browser will load small, normalised JSON files from `weatherchart/data/`; it will never call Weather DataHub directly.
 2. `scripts/update-weather-data.mjs` will expose `MetOfficeProvider`, `OpenMeteoFallbackProvider`, and `MockProvider` behind one normalised schema.
 3. The official Global Spot hourly endpoint will be called for the twelve configured locations once per hourly refresh. Twelve locations × 24 UTC hours = 288 attempts/day.
-4. A hard shared ceiling of 300 upstream attempts per UTC day will apply. The complete twelve-location batch is durably pre-reserved through a compare-and-swap update on a dedicated GitHub branch and confirmed before the first call. Failed or unused reserved calls still count. There will be no automatic retry of Weather DataHub calls and no retry after `429`.
-5. Deployed status and the Actions cache are secondary recovery/observability copies, not quota authority. Scheduled runs are serialised. Missing durable state is quarantined at 300 for the current UTC day; invalid, unconfirmed, exhausted, or conflicting state makes no official calls and preserves the last valid dataset.
+4. A hard shared ceiling of 350 upstream attempts per UTC day will apply. The complete twelve-location batch is durably pre-reserved through a compare-and-swap update on a dedicated GitHub branch and confirmed before the first call. Failed or unused reserved calls still count. There will be no automatic retry of Weather DataHub calls and no retry after `429`.
+5. Deployed status and the Actions cache are secondary recovery/observability copies, not quota authority. Scheduled runs are serialised. Missing durable state is quarantined at 350 for the current UTC day; invalid, unconfirmed, exhausted, or conflicting state makes no official calls and activates the live attributed fallback.
 6. Manual and push-triggered runs will honour the same freshness check and ledger; they will not refetch official data that is less than 55 minutes old.
-7. The separate Global Spot daily endpoint will be disabled by default because adding twelve daily calls would consume the entire 300-call ceiling. The official hourly feed supplies 48 hours; later days will be labelled Open-Meteo fallback data until quota or scheduling changes are approved.
+7. The separate Global Spot daily endpoint remains disabled because the hourly feed supplies the required outlook without another twelve-call batch. Open-Meteo supplies a separately attributed live fallback when the preferred provider cannot run.
 8. The key will be read only from `MET_OFFICE_API_KEY` in GitHub Actions, sent only in the `apikey` request header, and excluded from URLs, logs, generated JSON, browser code, examples, and repository history.
 
 ## Implementation phases
 
 1. **Foundation and guardrails**
-   - Add `.gitignore`, `.env.example`, package/test metadata, normalised schemas, sample fixtures, priority locations, source records, and quota tests.
+   - Add `.gitignore`, `.env.example`, package/test metadata, normalised schemas, test fixtures, priority locations, source records, and quota tests.
    - Add source, licensing, privacy, moderation, setup, deployment, domain, and image-credit documentation.
 
 2. **WeatherChart experience**
    - Build a self-contained vanilla-JavaScript subsite with a distinctive indigo/sky palette, semantic structure, skip link, accessible search, warning region, current conditions, deterministic “What this means” cards, 24-hour chart plus data table, forecast cards, Leaflet map plus list, severe-weather news, explainers, community-weather cards, stale/error states, and reduced-motion support.
-   - Use committed sample data only as an explicitly labelled demonstration when live generated data is unavailable.
+   - Publish only validated live provider data; if no provider succeeds, retain prior validated live data or show an unavailable state.
    - Keep all internal links and assets relative so the subsite works both under `/Cool-Isle/weatherchart/` and at a future domain root.
 
 3. **Cool Isle integration**
@@ -61,7 +61,7 @@ Add a distinct, accessible WeatherChart UK subsite at `/Cool-Isle/weatherchart/`
 
 - Cool Isle remains functional and gains clear links to WeatherChart.
 - WeatherChart links clearly back to Cool Isle and works at `/Cool-Isle/weatherchart/` with a distinct accessible mobile design.
-- Official calls cannot exceed 300 per UTC day; secrets cannot reach Git, generated data, logs, or the browser.
+- Official calls cannot exceed 350 per UTC day; secrets cannot reach Git, generated data, logs, or the browser.
 - Data source, timestamp, fallback, and stale state are visible throughout.
 - Scheduled generation preserves the last valid dataset on any partial failure.
 - Automated checks pass and the draft pull request documents remaining manual secret/domain setup.

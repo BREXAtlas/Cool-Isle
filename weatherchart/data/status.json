@@ -1,38 +1,80 @@
 {
-  "sample": true,
-  "datasetState": "sample",
-  "generatedAt": "2026-07-13T16:00:00.000Z",
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-14T04:10:01.246Z",
   "deployedAt": null,
-  "nextCheckAt": "2026-07-13T17:17:00.000Z",
-  "checkedSources": [
-    "synthetic forecast bundle",
-    "empty warning sample state",
-    "empty news sample state",
-    "synthetic community cards"
+  "nextExpectedCheck": "2026-07-14T05:10:01.246Z",
+  "sourcesChecked": [
+    "met-office-global-spot-hourly",
+    "open-meteo-forecast",
+    "community-youtube",
+    "community-x",
+    "community-tiktok",
+    "community-mastodon",
+    "community-aggregation",
+    "met-office-warnings-rss",
+    "met-office-news-rss"
   ],
-  "successfulSources": [],
-  "failedSources": [],
+  "successfulSources": [
+    "open-meteo-forecast",
+    "community-youtube",
+    "community-x",
+    "community-tiktok",
+    "community-mastodon",
+    "community-aggregation",
+    "met-office-news-rss",
+    "met-office-warnings-rss"
+  ],
+  "failedSources": [
+    "met-office-global-spot-hourly"
+  ],
+  "sourceErrors": {
+    "met-office-global-spot-hourly": "credential-not-configured"
+  },
   "provider": {
-    "id": "mock",
-    "name": "MockProvider",
-    "mode": "sample"
+    "id": "open-meteo",
+    "name": "Open-Meteo",
+    "mode": "indicative-fallback"
   },
-  "fallbackActive": false,
+  "fallbackUsed": true,
   "stale": false,
+  "staleLevel": "fresh",
   "warningCount": 0,
-  "workflowRunId": null,
+  "workflowRun": null,
+  "workflowAttempt": null,
+  "lastSuccessfulOfficialAt": null,
+  "lastForecastAttemptAt": null,
+  "forecastState": "live-fallback",
   "quota": {
-    "quotaDayUtc": "2026-07-13",
-    "limitPerUtcDay": 300,
+    "utcDay": "2026-07-14",
+    "quotaDayUtc": "2026-07-14",
+    "attempts": 0,
     "callsUsed": 0,
-    "callsRemaining": 300,
+    "limit": 350,
+    "limitPerUtcDay": 350,
+    "remaining": 350,
+    "callsRemaining": 350,
     "callsMadeThisRun": 0,
+    "reservedCallsThisRun": 0,
+    "reservationMode": null,
+    "lastReservationAt": null,
     "hardStopEnabled": true,
-    "note": "Sample generation makes no Global Spot API calls. Production automation must persist usage and stop before the daily limit."
+    "safe": true,
+    "reason": null,
+    "updatedAt": "2026-07-14T04:09:51.963Z",
+    "lastAttemptAt": null
   },
-  "messages": [
-    "Showing synthetic sample data while no validated live bundle is available.",
-    "No credential is stored in this file or required by the browser.",
-    "Use the official Met Office service for current forecasts, warnings, and safety advice."
-  ]
+  "nextCheckAt": "2026-07-14T05:10:01.246Z",
+  "checkedSources": [
+    "met-office-global-spot-hourly",
+    "open-meteo-forecast",
+    "community-youtube",
+    "community-x",
+    "community-tiktok",
+    "community-mastodon",
+    "community-aggregation",
+    "met-office-warnings-rss",
+    "met-office-news-rss"
+  ],
+  "fallbackActive": true,
+  "workflowRunId": null
 }

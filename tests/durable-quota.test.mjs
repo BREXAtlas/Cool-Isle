@@ -81,7 +81,7 @@ function createFakeGitHub({
             version: 2,
             utcDay: incoming.utcDay,
             attempts: 12,
-            limit: 300,
+            limit: 350,
             updatedAt: reservedAt,
             source: "github-contents-durable-reservation",
             reservations: [{
@@ -129,7 +129,7 @@ function seedDurableRecord(fake, { day = "2026-07-13", attempts = 0 } = {}) {
     version: 2,
     utcDay: day,
     attempts,
-    limit: 300,
+    limit: 350,
     updatedAt: `${day}T00:00:00.000Z`,
     source: "github-contents-durable-reservation",
     reservations: [],
@@ -146,18 +146,65 @@ test("GitHub Contents store creates its branch and quarantines a missing file fo
     { code: "durable-quota-bootstrap-quarantined" },
   );
 
-  assert.equal(fake.state.record.attempts, 300);
-  assert.equal(fake.state.record.limit, 300);
+  assert.equal(fake.state.record.attempts, 350);
+  assert.equal(fake.state.record.limit, 350);
   assert.equal(fake.state.record.source, "missing-durable-state-quarantine");
   assert.deepEqual(fake.state.record.reservations, []);
   assert.equal(fake.state.writes, 1);
   assert.equal(fake.state.requests.some(({ method, url }) => method === "POST" && url.endsWith("/git/refs")), true);
 });
 
+test("an explicit operator bootstrap replaces only a missing-state quarantine and is one-time", async () => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const fake = createFakeGitHub();
+  const store = quotaStore(fake, now, "run-bootstrap:1");
+  await assert.rejects(
+    store.reserveBatch({ size: 12, minimumAttempts: 0 }),
+    { code: "durable-quota-bootstrap-quarantined" },
+  );
+  assert.equal(fake.state.record.source, "missing-durable-state-quarantine");
+  assert.equal(fake.state.record.attempts, 350);
+
+  const bootstrapped = await store.bootstrapCurrentDay({
+    day: "2026-07-13",
+    attempts: 0,
+    actor: "weather-operator",
+  });
+  assert.deepEqual(bootstrapped, {
+    day: "2026-07-13",
+    attempts: 0,
+    limit: 350,
+    confirmed: true,
+  });
+  assert.equal(fake.state.record.source, "operator-confirmed-bootstrap");
+  assert.equal(fake.state.record.bootstrapAudit.replacedQuarantine, true);
+  assert.equal(fake.state.record.bootstrapAudit.actor, "weather-operator");
+
+  await assert.rejects(
+    store.bootstrapCurrentDay({ day: "2026-07-13", attempts: 0 }),
+    { code: "durable-quota-bootstrap-refused" },
+  );
+  const reservation = await store.reserveBatch({ size: 12, minimumAttempts: 0 });
+  assert.equal(reservation.attempts, 12);
+});
+
+test("operator bootstrap refuses a day other than the current UTC day", async () => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const fake = createFakeGitHub();
+  await assert.rejects(
+    quotaStore(fake, now, "run-bootstrap:2").bootstrapCurrentDay({
+      day: "2026-07-12",
+      attempts: 0,
+    }),
+    { code: "durable-quota-bootstrap-day-mismatch" },
+  );
+  assert.equal(fake.state.requests.length, 0);
+});
+
 test("a valid previous-day durable record resets before confirming a full batch", async () => {
   const now = new Date("2026-07-14T00:05:00Z");
   const fake = createFakeGitHub();
-  seedDurableRecord(fake, { day: "2026-07-13", attempts: 300 });
+  seedDurableRecord(fake, { day: "2026-07-13", attempts: 350 });
   const result = await quotaStore(fake, now, "run-101b:1").reserveBatch({
     size: 12,
     minimumAttempts: 0,
@@ -167,6 +214,44 @@ test("a valid previous-day durable record resets before confirming a full batch"
   assert.equal(result.attemptsAfter, 12);
   assert.equal(fake.state.record.utcDay, "2026-07-14");
   assert.equal(fake.state.record.attempts, 12);
+});
+
+test("a legacy 300-limit durable record migrates without reducing its attempt count", async () => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const fake = createFakeGitHub();
+  seedDurableRecord(fake, { attempts: 288 });
+  fake.state.record.limit = 300;
+  const result = await quotaStore(fake, now, "run-legacy:1").reserveBatch({
+    size: 12,
+    minimumAttempts: 288,
+  });
+  assert.equal(result.attemptsBefore, 288);
+  assert.equal(result.attemptsAfter, 300);
+  assert.equal(fake.state.record.limit, 350);
+  assert.equal(fake.state.record.attempts, 300);
+});
+
+test("a legacy missing-state quarantine remains fully quarantined after the limit increase", async () => {
+  const now = new Date("2026-07-13T18:00:00Z");
+  const fake = createFakeGitHub();
+  seedDurableRecord(fake, { attempts: 300 });
+  fake.state.record.limit = 300;
+  fake.state.record.source = "missing-durable-state-quarantine";
+  await assert.rejects(
+    quotaStore(fake, now, "run-legacy-quarantine:1").reserveBatch({
+      size: 12,
+      minimumAttempts: 0,
+    }),
+    { code: "durable-quota-exhausted" },
+  );
+  assert.equal(fake.state.writes, 0);
+  const bootstrapped = await quotaStore(fake, now, "run-legacy-quarantine:2").bootstrapCurrentDay({
+    day: "2026-07-13",
+    attempts: 0,
+  });
+  assert.equal(bootstrapped.attempts, 0);
+  assert.equal(fake.state.record.limit, 350);
+  assert.equal(fake.state.record.source, "operator-confirmed-bootstrap");
 });
 
 test("a repeated reservation id is idempotent and cannot double-count", async () => {
@@ -218,10 +303,10 @@ test("a missing durable file fails closed even when a local baseline is supplied
     { code: "durable-quota-bootstrap-quarantined" },
   );
   assert.equal(fake.state.writes, 1);
-  assert.equal(fake.state.record.attempts, 300);
+  assert.equal(fake.state.record.attempts, 350);
 });
 
-test("pipeline publishes the confirmed 300-call quarantine and makes no forecast call", async (t) => {
+test("pipeline publishes the confirmed 350-call quarantine and makes no Met Office call", async (t) => {
   const now = new Date("2026-07-13T18:00:00Z");
   const { rootDir, paths } = await temporaryRoot(new Date("2026-07-13T15:00:00Z"));
   t.after(() => removeRoot(rootDir));
@@ -241,12 +326,13 @@ test("pipeline publishes the confirmed 300-call quarantine and makes no forecast
       calls += 1;
       return { ok: true, status: 200, json: async () => fixture };
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "durable-quota-bootstrap-quarantined");
   assert.equal(calls, 0);
-  assert.equal((await readJson(paths.quotaLedgerPath)).attempts, 300);
+  assert.equal((await readJson(paths.quotaLedgerPath)).attempts, 350);
   const deployedStatus = await readJson(paths.statusPath);
-  assert.equal(deployedStatus.quota.attempts, 300);
+  assert.equal(deployedStatus.quota.attempts, 350);
   assert.equal(deployedStatus.quota.safe, false);
 });
 
@@ -272,6 +358,7 @@ test("durable state survives a failed request and complete local cache loss", as
       upstreamCalls += 1;
       throw new Error("simulated runner crash boundary");
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(first.outcome, "request-failed");
   assert.equal(fake.state.record.attempts, 12);
@@ -290,6 +377,7 @@ test("durable state survives a failed request and complete local cache loss", as
       upstreamCalls += 1;
       throw new Error("offline after cache loss");
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
 
   assert.equal(second.outcome, "request-failed");
@@ -308,7 +396,7 @@ test("durable exhaustion stops before any upstream request", async (t) => {
   status.quota = await readJson(paths.quotaLedgerPath);
   await writeJsonAtomic(paths.statusPath, status);
   const fake = createFakeGitHub();
-  seedDurableRecord(fake, { attempts: 299 });
+  seedDurableRecord(fake, { attempts: 349 });
   let calls = 0;
   const result = await runWeatherUpdate({
     rootDir,
@@ -320,10 +408,11 @@ test("durable exhaustion stops before any upstream request", async (t) => {
       calls += 1;
       return { ok: true, status: 200, json: async () => fixture };
     },
+    fallbackFetchImpl: async () => { throw new Error("fallback offline"); },
   });
   assert.equal(result.outcome, "durable-quota-exhausted");
   assert.equal(calls, 0);
-  assert.equal(fake.state.record.attempts, 299);
+  assert.equal(fake.state.record.attempts, 349);
 });
 
 test("deployment requires durable quota and persists its private snapshot only after Pages succeeds", async () => {
@@ -337,6 +426,11 @@ test("deployment requires durable quota and persists its private snapshot only a
   assert.match(workflow, /contents:\s*write/);
   assert.match(workflow, /WEATHERCHART_REQUIRE_DURABLE_QUOTA:\s*['"]true['"]/);
   assert.match(workflow, /WEATHERCHART_QUOTA_TOKEN:\s*\$\{\{ github\.token \}\}/);
+  assert.match(workflow, /name:\s*MET_OFFICE_API_KEY/);
+  assert.match(workflow, /name:\s*github-pages/);
+  assert.match(workflow, /confirm_quota_bootstrap/);
+  assert.match(workflow, /bootstrap-weather-quota\.mjs/);
+  assert.match(workflow, /WEATHERCHART_REQUIRE_LIVE_FORECAST:\s*['"]true['"]/);
   assert.ok(refreshIndex > 0 && deployIndex > refreshIndex);
   assert.ok(recheckIndex > refreshIndex);
   assert.ok(snapshotIndex > recheckIndex && stageIndex > snapshotIndex);

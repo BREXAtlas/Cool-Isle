@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- ===================== SEO: UK WEATHER-READY NICHE ===================== -->
 <title>CoolIsle UK — Cooling, Winter Warmth &amp; Weather-Ready Living</title>
-<meta name="description" content="Britain's weather-ready shop: portable cooling for heatwaves, warmth for winter, rain-ready gear, live UK heat tracker, budget cooling hacks and sustainable solutions. Fast UK delivery.">
+<meta name="description" content="Weather-ready guidance for British homes: live UK heat tracking, budget cooling ideas, winter preparation, rain-ready kit and links to official sellers.">
 <meta name="keywords" content="portable air conditioner UK, keep house cool heatwave UK, cooling on a budget UK, cheap ways to keep cool UK, best fan UK, air cooler UK, keep warm winter UK, draught excluder, thermal curtains, heated throw, energy bills UK, fuel poverty help, UK heatwave 2026, heat health alert, Met Office amber warning, eco friendly cooling UK, sustainable heating UK, rain gear UK, weather preparedness UK, where to buy air conditioner UK, air conditioner price comparison UK">
 <meta property="og:title" content="CoolIsle UK — Weather-Ready Britain">
 <meta property="og:description" content="Live UK heat tracker, budget cooling hacks, heatwave relief, winter warmth and rain-ready gear. Built for British homes.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Store","name":"CoolIsle UK","description":"Weather-ready living for UK homes: cooling, warmth, rain gear and preparedness advice","areaServed":["England","Scotland","Wales","Northern Ireland"],"currenciesAccepted":"GBP, USD, EUR"}
+{"@context":"https://schema.org","@type":"WebSite","name":"CoolIsle UK","description":"Weather-ready guidance for UK homes: cooling, warmth, rain gear and preparedness advice","areaServed":["England","Scotland","Wales","Northern Ireland"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
@@ -53,10 +53,6 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .nav-links a:hover{color:#fff;text-decoration:underline}
 .nav-links .weatherchart-nav-link{background:#42C7F5;color:#152238;padding:6px 10px;border-radius:999px;font-weight:700}
 .nav-links .weatherchart-nav-link:hover{background:#BDF3FF;color:#152238;text-decoration:none}
-.currency{display:flex;border:1px solid #3A5A6E;border-radius:999px;overflow:hidden}
-.currency button{background:transparent;color:#CFE6EF;border:0;padding:6px 12px;font:inherit;font-size:.82rem;cursor:pointer}
-.currency button[aria-pressed="true"]{background:var(--glacial);color:var(--ink);font-weight:700}
-
 .hero{background:linear-gradient(180deg,var(--ink) 0%, #10425C 70%, var(--relief) 100%);color:#fff;padding:60px 0 68px}
 .hero .eyebrow{color:var(--glacial)}
 .hero h1{font-size:clamp(2rem,5.5vw,3.5rem);font-weight:800;margin:14px 0 16px;max-width:17ch}
@@ -110,6 +106,8 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .card .price small{font-size:.7rem;color:#789;display:block;font-family:'Public Sans'}
 .card .buy{margin-top:10px;text-align:center;background:var(--ink);color:#fff;border-radius:8px;padding:10px;text-decoration:none;font-weight:700;font-size:.88rem}
 .card .buy:hover{background:#123B54}
+.commerce-disclosure{background:#fff;border:1px solid var(--line);border-left:5px solid var(--amber);border-radius:8px;padding:14px 16px;margin:16px 0 24px;font-size:.88rem;color:#345}
+.commerce-disclosure strong{color:var(--ink)}
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
 .filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font:inherit;font-size:.84rem;cursor:pointer;font-weight:500}
 .filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -139,7 +137,6 @@ header{background:var(--ink);color:#fff;padding:14px 0;position:sticky;top:0;z-i
 .map-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:.82rem}
 .map-legend span::before{content:"●";margin-right:6px}
 .leg-heat::before{color:var(--red)}
-.leg-supplier::before{color:var(--relief)}
 
 /* AC locator table */
 .tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:.88rem}
@@ -217,7 +214,7 @@ footer a{color:var(--glacial)}
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#">Cool<em>Isle</em> UK</a>
+    <a class="logo" href="index.html">Cool<em>Isle</em> UK</a>
     <nav class="nav-links" aria-label="Main">
       <a href="#shop">Heat Relief</a>
       <a href="#weather-gallery">Gallery</a>
@@ -231,11 +228,6 @@ footer a{color:var(--glacial)}
       <a class="weatherchart-nav-link" href="weatherchart/">WeatherChart UK</a>
       <a href="#about">About</a>
     </nav>
-    <div class="currency" role="group" aria-label="Currency">
-      <button type="button" data-cur="GBP" aria-pressed="true">£</button>
-      <button type="button" data-cur="USD" aria-pressed="false">$</button>
-      <button type="button" data-cur="EUR" aria-pressed="false">€</button>
-    </div>
   </div>
 </header>
 
@@ -258,7 +250,7 @@ footer a{color:var(--glacial)}
     </div>
     <!-- LIVE HEAT BOARD -->
     <div class="heat-board" id="heatBoard" aria-live="polite"></div>
-    <p class="advisory">Live temperatures via Open-Meteo. For official heat-health alerts always check the <a href="https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-warnings" rel="noopener" target="_blank">Met Office warnings page</a> and <a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA heat-health alerts on GOV.UK</a>.</p>
+    <p class="advisory">Live temperatures via Open-Meteo. For official weather-health alerts always check the <a href="https://www.metoffice.gov.uk/weather/warnings-and-advice/uk-warnings" rel="noopener" target="_blank">Met Office warnings page</a> and <a href="https://www.gov.uk/guidance/weather-health-alerting-system" rel="noopener" target="_blank">UKHSA Weather-Health Alerts on GOV.UK</a>.</p>
     <p class="weather-check-status" id="weatherCheckStatus" role="status" aria-live="polite">Preparing the latest indicative weather check…</p>
   </div>
 </section>
@@ -295,7 +287,7 @@ footer a{color:var(--glacial)}
         <figcaption>Summer-ready homes<span>Shade first, ventilate at night, then add efficient cooling.</span></figcaption>
       </figure>
       <figure class="weather-photo">
-        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267d?auto=format&fit=crop&w=1200&q=82" alt="A bright, comfortable apartment interior" loading="lazy" decoding="async">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=82" alt="A bright, comfortable apartment interior" loading="lazy" decoding="async">
         <figcaption>Comfort in smaller spaces<span>Practical ideas for flats, rentals and compact rooms.</span></figcaption>
       </figure>
       <figure class="weather-photo">
@@ -311,10 +303,11 @@ footer a{color:var(--glacial)}
 <section id="shop">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">In stock while the big shops sell out</p>
-      <h2>Immediate heat relief — start with these three</h2>
-      <p>Our starter trio: seal the window properly, upgrade your AC's efficiency, or create a cool zone without an AC at all. Light to post, quick to arrive, kind to your leccy bill.</p>
+      <p class="eyebrow">Compare at the source</p>
+      <h2>Heat-relief kit — check the seller before you buy</h2>
+      <p>Start by sealing a portable AC window, checking compatible venting parts, or comparing lower-power fans and air coolers. Each recommendation opens an official seller or manufacturer page.</p>
     </div>
+    <p class="commerce-disclosure" role="note"><strong>How buying works:</strong> Cool Isle does not sell products or process checkout. These are direct, non-affiliate links to official seller or manufacturer pages. Verify the current price, compatibility, delivery and stock with the seller.</p>
     <div class="hero-three" id="heroThree"></div>
     <div class="filters" role="group" aria-label="Filter products">
       <button type="button" data-filter="all" aria-pressed="true">Everything</button>
@@ -355,7 +348,7 @@ footer a{color:var(--glacial)}
     <div class="sec-head">
       <p class="eyebrow">Yes — Britain's cold problem is even bigger than its heat problem</p>
       <h2>Winter-ready: the freeze is coming</h2>
-      <p>The UK has some of the oldest, draughtiest housing in Europe. Every winter brings thousands of excess deaths linked to cold homes, and millions of households struggle with heating bills. The answer isn't just turning the thermostat up — it's keeping the warmth you've already paid for. We're building our winter range now; join the list and be first.</p>
+      <p>The UK has some of the oldest, draughtiest housing in Europe. Every winter brings thousands of excess deaths linked to cold homes, and millions of households struggle with heating bills. The answer isn't just turning the thermostat up — it's keeping the warmth you've already paid for. The cards below link to current ranges at official sellers.</p>
     </div>
     <div class="grid" id="winterGrid"></div>
     <p style="margin-top:18px;font-size:.9rem">Struggling with heating costs? Check your eligibility for support: <a href="https://www.gov.uk/browse/benefits/help-for-carers" rel="noopener" target="_blank">GOV.UK help with bills</a> · <a href="https://www.gov.uk/winter-fuel-payment" rel="noopener" target="_blank">Winter Fuel Payment</a> · <a href="https://www.gov.uk/cold-weather-payment" rel="noopener" target="_blank">Cold Weather Payment</a> · <a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p>
@@ -400,25 +393,24 @@ footer a{color:var(--glacial)}
       <a class="eco-link" href="https://www.gov.uk/apply-boiler-upgrade-scheme" rel="noopener" target="_blank"><b>Boiler Upgrade Scheme →</b><span>Government grants towards a heat pump — which heats in winter AND can cool in summer.</span></a>
       <a class="eco-link" href="https://energysavingtrust.org.uk" rel="noopener" target="_blank"><b>Energy Saving Trust →</b><span>Independent advice on insulation, draught-proofing and cutting bills.</span></a>
       <a class="eco-link" href="https://www.gov.uk/improve-energy-efficiency" rel="noopener" target="_blank"><b>Improve your home's energy efficiency →</b><span>Official GOV.UK tool with recommendations for your property.</span></a>
-      <a class="eco-link" href="https://www.metoffice.gov.uk/weather/climate-change" rel="noopener" target="_blank"><b>Met Office: UK climate change →</b><span>The science behind Britain's shifting weather.</span></a>
-      <a class="eco-link" href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank"><b>UKHSA Heat-Health Alerts →</b><span>Sign up for official alerts before heatwaves hit.</span></a>
+      <a class="eco-link" href="https://weather.metoffice.gov.uk/climate-change/what-is-climate-change" rel="noopener" target="_blank"><b>Met Office: UK climate change →</b><span>The science behind Britain's shifting weather.</span></a>
+      <a class="eco-link" href="https://www.gov.uk/guidance/weather-health-alerting-system" rel="noopener" target="_blank"><b>UKHSA Weather-Health Alerts →</b><span>Use the official alerting system before severe heat or cold.</span></a>
       <a class="eco-link" href="https://www.nhs.uk/live-well/seasonal-health/keep-warm-keep-well/" rel="noopener" target="_blank"><b>NHS: Keep Warm, Keep Well →</b><span>Official winter health guidance for cold homes.</span></a>
     </div>
   </div>
 </section>
 
-<!-- ============ UK HEAT MAP + SUPPLIERS ============ -->
+<!-- ============ UK HEAT MAP ============ -->
 <section id="map">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Live map</p>
-      <h2>UK heat by nation &amp; region — and where our stock ships from</h2>
-      <p>Red markers show live temperatures across England, Scotland, Wales and Northern Ireland. Blue markers show fulfilment hubs our dropship partners operate from — the closer the warehouse, the faster your delivery.</p>
+      <h2>UK heat by nation &amp; region</h2>
+      <p>Markers show the latest available temperatures for selected cities across England, Scotland, Wales and Northern Ireland.</p>
     </div>
-    <div id="ukmap" role="region" aria-label="Map of UK showing live city temperatures and supplier warehouse locations"></div>
+    <div id="ukmap" role="region" aria-label="Map of UK showing the latest available city temperatures"></div>
     <div class="map-legend">
       <span class="leg-heat">Live temperature (city)</span>
-      <span class="leg-supplier">Supplier / fulfilment hub (approximate)</span>
     </div>
   </div>
 </section>
@@ -428,25 +420,24 @@ footer a{color:var(--glacial)}
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Honest shopping</p>
-      <h2>AC Locator — everywhere to buy, compared</h2>
-      <p>We'd love your order, but our first job is being useful. Here's where Brits can buy portable air conditioning right now, with typical price ranges and what each is best for. During heatwaves, phone ahead — stock vanishes within hours.</p>
+      <h2>AC Locator — compare official seller pages</h2>
+      <p>Cool Isle does not sell air conditioners. Use these direct retailer and manufacturer links to compare the live price, delivery options and availability shown by each seller.</p>
     </div>
     <div class="tbl-scroll">
     <table class="tbl">
-      <thead><tr><th>Retailer</th><th>Typical portable AC price</th><th>Best for</th><th>Watch out for</th></tr></thead>
+      <thead><tr><th>Seller</th><th>Official destination</th><th>Useful for</th><th>Check before ordering</th></tr></thead>
       <tbody>
-        <tr><td><b>CoolIsle UK</b> (you're here)</td><td>£219–£599</td><td>Accessories in stock, honest sizing advice, 1–4 day UK dropship delivery</td><td>New kid on the block — check our reviews</td></tr>
-        <tr><td>Currys</td><td>£249–£699</td><td>Big-brand units, click &amp; collect</td><td>Sells out first in heatwaves</td></tr>
-        <tr><td>Argos</td><td>£150–£500</td><td>Same-day collection at Sainsbury's</td><td>Budget units, limited BTU info</td></tr>
-        <tr><td>B&amp;Q / Screwfix</td><td>£180–£550</td><td>Trade-adjacent stock, hose fittings</td><td>Portable units sold out during June's heatwave</td></tr>
-        <tr><td>AO.com</td><td>£230–£650</td><td>Fast delivery, good filtering</td><td>Delivery slots fill in hot weeks</td></tr>
-        <tr><td>Appliances Direct</td><td>£170–£600</td><td>Widest AC-specialist range</td><td>Check refurb vs new listings</td></tr>
-        <tr><td>Amazon UK</td><td>£150–£700</td><td>Reviews at scale, fast Prime delivery</td><td>Unbranded imports — verify UKCA marking &amp; UK plug</td></tr>
-        <tr><td>Meaco (direct)</td><td>£369–£549</td><td>The UK's best-reviewed portable ACs</td><td>Premium pricing, waitlists in heatwaves</td></tr>
+        <tr><td>Currys</td><td><a href="https://www.currys.co.uk/appliances/fans-heating-and-air-treatment/heating-and-cooling/portable-air-conditioners" target="_blank" rel="noopener noreferrer nofollow">Browse at Currys ↗</a></td><td>Portable air-conditioner range</td><td>Room coverage, energy label and collection availability</td></tr>
+        <tr><td>Argos</td><td><a href="https://www.argos.co.uk/browse/appliances/fans-heaters-and-dehumidifiers/air-conditioning/c%3A29440/" target="_blank" rel="noopener noreferrer nofollow">Browse at Argos ↗</a></td><td>Air conditioners and air coolers</td><td>Whether the item is a compressor AC or evaporative cooler</td></tr>
+        <tr><td>B&amp;Q</td><td><a href="https://www.diy.com/heating-plumbing-cooling/air-treatment/cooling/air-conditioners.cat" target="_blank" rel="noopener noreferrer nofollow">Browse at B&amp;Q ↗</a></td><td>Portable units and window accessories</td><td>Whether B&amp;Q or a marketplace partner fulfils the order</td></tr>
+        <tr><td>AO</td><td><a href="https://ao.com/l/air_conditioners/1/55-143-796-823-825/" target="_blank" rel="noopener noreferrer nofollow">Browse at AO ↗</a></td><td>Filtered air-conditioner comparisons</td><td>Delivery charge and selected-date availability</td></tr>
+        <tr><td>Appliances Direct</td><td><a href="https://www.appliancesdirect.co.uk/ct/heating-and-air-conditioning/air-conditioners/portable" target="_blank" rel="noopener noreferrer nofollow">Browse at Appliances Direct ↗</a></td><td>Specialist portable AC range</td><td>New versus refurbished condition and compatible accessories</td></tr>
+        <tr><td>Pro Breeze</td><td><a href="https://probreeze.com/products/9000-btu-3-in-1-smart-portable-air-conditioner" target="_blank" rel="noopener noreferrer nofollow">View at Pro Breeze ↗</a></td><td>Manufacturer specifications for a 9,000 BTU model</td><td>Current availability and the included window kit</td></tr>
+        <tr><td>Meaco</td><td><a href="https://www.meaco.com/collections/air-conditioners" target="_blank" rel="noopener noreferrer nofollow">Browse at Meaco ↗</a></td><td>Manufacturer range and current model specifications</td><td>Current availability, room size and noise level</td></tr>
       </tbody>
     </table>
     </div>
-    <p style="margin-top:14px;font-size:.85rem;color:#567">Prices indicative, July 2026. Whoever you buy from: check the BTU suits your room (use our <a href="#calculator">calculator</a>), confirm a UK window kit is included, and never buy a 115V US-spec unit — it won't run on UK mains.</p>
+    <p style="margin-top:14px;font-size:.85rem;color:#567">Seller pages are the source of truth for price and stock. Whoever you buy from: check the BTU suits your room (use our <a href="#calculator">calculator</a>), confirm a suitable window kit is included, and choose a UK-spec unit with a UK plug.</p>
   </div>
 </section>
 
@@ -475,10 +466,10 @@ footer a{color:var(--glacial)}
     <p style="max-width:70ch;margin-top:14px">We take our cue from a very British tradition of environmental stewardship — one championed for over five decades by His Majesty King Charles III, who spoke about sustainability long before it was fashionable. In that spirit, we always recommend the lowest-energy option that solves your problem: shade before fans, fans before coolers, coolers before compressors, and insulation before everything. This country queued calmly through rationing and put the kettle on during the Blitz; a heatwave won't beat us either — but a bit of preparation helps.</p>
     <div class="pain">
       <div><b>Pain: "My flat is an oven and I rent."</b><p>Solve: no-drill, landlord-friendly kit — window seal kits, portable units, evaporative coolers. Nothing permanent, everything reversible.</p></div>
-      <div><b>Pain: "ACs are sold out everywhere."</b><p>Solve: live stock via dropship warehouses, plus our AC Locator pointing you to whoever has stock — even if it isn't us.</p></div>
-      <div><b>Pain: "I can't afford to run cooling."</b><p>Solve: running costs on every listing, free hacks that cost pennies, and right-sizing advice so you never buy more BTU than you need.</p></div>
+      <div><b>Pain: "I can't find an AC locally."</b><p>Solve: the AC Locator opens several official seller pages so you can check their current availability directly.</p></div>
+      <div><b>Pain: "I can't afford to run cooling."</b><p>Solve: free hacks, lower-power options and right-sizing advice so you can compare what meets your needs.</p></div>
       <div><b>Pain: "Winter bills frighten me more than summer."</b><p>Solve: our winter range keeps warmth in rather than burning more gas — plus signposting to every GOV.UK support scheme.</p></div>
-      <div><b>Pain: "I don't know what to trust online."</b><p>Solve: UKCA-marked branded products only, honest comparisons including our competitors, and official Met Office, NHS and GOV.UK sources linked throughout.</p></div>
+      <div><b>Pain: "I don't know what to trust online."</b><p>Solve: direct manufacturer and established-retailer links, plus official Met Office, NHS and GOV.UK sources throughout.</p></div>
       <div><b>Pain: "And then it rains."</b><p>Solve: of course it does. Rain-ready gear lives here too — because being weather-ready in Britain means all the weather.</p></div>
     </div>
   </div>
@@ -501,41 +492,39 @@ footer a{color:var(--glacial)}
   <div class="wrap">
     <div class="foot-grid">
       <div><h4>CoolIsle UK</h4><p>Weather-ready living for British homes. Heat relief, winter warmth, rain-ready gear.</p></div>
-      <div><h4>Shop</h4><p><a href="#shop">Cooling</a><br><a href="#winter">Winter warmth</a><br><a href="#shop">Rain-ready</a><br><a href="#shop">Hack kit</a></p></div>
+      <div><h4>Gear guides</h4><p><a href="#shop">Cooling</a><br><a href="#winter">Winter warmth</a><br><a href="#shop">Rain-ready</a><br><a href="#shop">Hack kit</a></p></div>
       <div><h4>Learn</h4><p><a href="#hacks">Budget cooling hacks</a><br><a href="#trends">UK climate trends</a><br><a href="#locator">AC Locator</a><br><a href="#calculator">BTU calculator</a></p></div>
       <div><h4>WeatherChart UK</h4><p><a href="weatherchart/"><strong>Open the forecast companion →</strong></a><br>Location weather, official warnings, charts, maps and explainers.</p></div>
-      <div><h4>Official resources</h4><p><a href="https://www.metoffice.gov.uk" rel="noopener" target="_blank">Met Office</a><br><a href="https://www.gov.uk/government/collections/heat-health-alerts" rel="noopener" target="_blank">UKHSA alerts</a><br><a href="https://www.nhs.uk/live-well/seasonal-health/" rel="noopener" target="_blank">NHS seasonal health</a><br><a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p></div>
+      <div><h4>Official resources</h4><p><a href="https://www.metoffice.gov.uk" rel="noopener" target="_blank">Met Office</a><br><a href="https://www.gov.uk/guidance/weather-health-alerting-system" rel="noopener" target="_blank">UKHSA alerts</a><br><a href="https://www.nhs.uk/live-well/seasonal-health/" rel="noopener" target="_blank">NHS seasonal health</a><br><a href="https://energysavingtrust.org.uk" rel="noopener" target="_blank">Energy Saving Trust</a></p></div>
     </div>
-    <p class="disclaimer">© 2026 CoolIsle UK. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Prices shown in GBP, USD or EUR at indicative rates; final charge in GBP at checkout. We are an independent retailer; links to GOV.UK, NHS and Met Office are provided as a public resource and imply no endorsement.</p>
+    <p class="disclaimer">© 2026 CoolIsle UK. Live weather via Open-Meteo, indicative only — always follow official Met Office and UKHSA guidance. Climate figures compiled from public Met Office records; verify at source. Cool Isle does not sell products or process checkout. Product links go to third-party official seller or manufacturer pages without affiliate IDs; verify price, stock, compatibility and delivery there. Links to GOV.UK, NHS and Met Office imply no endorsement.</p>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-/* =====================================================================
-   CONFIG — edit freely. buyUrl: paste your Shopify product links.
-===================================================================== */
+/* Verified official retailer/manufacturer destinations; no affiliate IDs. */
 const HERO_SKUS = ["CI-SEAL-001","CI-DUAL-003","CI-TOWER-006"]; // the starter trio
 
 const PRODUCTS = [
- {sku:"CI-SEAL-001", name:"Universal Window Seal Kit for Portable AC", cat:"accessory", ship:"uk", gbp:24.99, rating:"★★★★☆ Essential", meta:"Fits UK casement & sliding windows · boosts AC efficiency", eco:true, buyUrl:"#"},
- {sku:"CI-DUAL-003", name:"Dual-Hose Upgrade Kit", cat:"accessory", ship:"uk", gbp:22.99, rating:"★★★★☆ Efficiency boost", meta:"Makes single-hose ACs 20–30% more effective", eco:true, buyUrl:"#"},
- {sku:"CI-TOWER-006", name:"Evaporative Tower Air Cooler 3L + Ice Packs", cat:"ac", ship:"uk", gbp:89.00, rating:"★★★★☆", meta:"3–6p/hr to run · remote · 12hr timer", eco:true, buyUrl:"#"},
- {sku:"CI-HOSE-002", name:"AC Exhaust Hose Extension 2m", cat:"accessory", ship:"uk", gbp:18.99, rating:"★★★★☆", meta:"Universal 130/150mm fittings", buyUrl:"#"},
- {sku:"CI-MINIFAN-004", name:"Handheld Mini Fan 3-Pack (USB-C)", cat:"ac", ship:"uk", gbp:19.99, rating:"★★★★☆ Commuter hero", meta:"Rechargeable — don't bin it, recharge it", eco:true, buyUrl:"#"},
- {sku:"CI-DESK-005", name:"Personal Desktop Air Cooler (USB)", cat:"ac", ship:"uk", gbp:29.99, rating:"★★★★☆", meta:"Cool zone at your desk for pennies", buyUrl:"#"},
- {sku:"CI-TFAN-007", name:"Silent Tower Fan 46\"", cat:"ac", ship:"uk", gbp:69.00, rating:"★★★★★ Sleep saver", meta:"1–3p/hr · quiet enough for light sleepers", eco:true, buyUrl:"#"},
- {sku:"CI-PB9000", name:"Pro Breeze 4-in-1 Smart 9000 BTU AC", cat:"ac", ship:"uk", gbp:299, rating:"★★★★☆ 4.2 (779)", meta:"Which? Best Buy · WiFi · rooms to 22m²", buyUrl:"#"},
- {sku:"CI-MC7000", name:"MeacoCool MC Series 7000 BTU AC", cat:"ac", ship:"uk", gbp:369, rating:"★★★★★ Editors' pick", meta:"Quietest small-bedroom AC · UK window kit", buyUrl:"#"},
- /* ---- WINTER (preview — launching autumn) ---- */
- {sku:"CI-W-DRAFT", name:"Door & Letterbox Draught Excluder Set", cat:"winter", ship:"uk", gbp:16.99, rating:"Coming this autumn", meta:"Stops the warmth you've paid for escaping", eco:true, buyUrl:"#", preorder:true},
- {sku:"CI-W-THERM", name:"Thermal Blackout Curtain Liners (pair)", cat:"winter", ship:"uk", gbp:34.99, rating:"Coming this autumn", meta:"Cuts window heat-loss · doubles as summer shade", eco:true, buyUrl:"#", preorder:true},
- {sku:"CI-W-THROW", name:"Low-Energy Heated Throw", cat:"winter", ship:"uk", gbp:49.99, rating:"Coming this autumn", meta:"Heat the person, not the house — pennies per evening", eco:true, buyUrl:"#", preorder:true},
- {sku:"CI-W-FILM", name:"Window Insulation Film Kit", cat:"winter", ship:"uk", gbp:12.99, rating:"Coming this autumn", meta:"Secondary glazing for renters — fully removable", eco:true, buyUrl:"#", preorder:true},
+ {sku:"CI-SEAL-001", name:"Portable AC Window Seal Kits", cat:"accessory", seller:"Pro Breeze", cta:"Browse at", meta:"Hinged-window seals and cooling spares; measure the window before ordering.", eco:true, buyUrl:"https://probreeze.com/collections/cooling-spare-parts"},
+ {sku:"CI-DUAL-003", name:"Portable AC Spares & Venting Accessories", cat:"accessory", seller:"Appliances Direct", cta:"Browse at", meta:"Check the AC model, adaptor shape and hose diameter for compatibility.", buyUrl:"https://www.appliancesdirect.co.uk/ct/heating-and-air-conditioning/spare-parts-and-accessories"},
+ {sku:"CI-TOWER-006", name:"Evaporative Air Coolers", cat:"ac", seller:"Argos", cta:"Browse at", meta:"These are not compressor air conditioners; compare suitability for humid weather.", eco:true, buyUrl:"https://www.argos.co.uk/browse/appliances/fans-heaters-and-dehumidifiers/fans/c%3A29439/type%3Aair-coolers/"},
+ {sku:"CI-HOSE-002", name:"AC Exhaust Hoses & Compatible Parts", cat:"accessory", seller:"Appliances Direct", cta:"Browse at", meta:"Match the hose diameter, thread direction and machine adaptor to your model.", buyUrl:"https://www.appliancesdirect.co.uk/ct/heating-and-air-conditioning/spare-parts-and-accessories"},
+ {sku:"CI-MINIFAN-004", name:"Rechargeable Handheld & Desk Fan", cat:"ac", seller:"Argos", cta:"View at", meta:"A foldable personal fan; confirm charging cable and battery details at Argos.", eco:true, buyUrl:"https://www.argos.co.uk/product/8179191"},
+ {sku:"CI-DESK-005", name:"USB Desk Fans", cat:"ac", seller:"Currys", cta:"Browse at", meta:"Compact personal airflow for a desk; compare size, noise and power connection.", eco:true, buyUrl:"https://www.currys.co.uk/appliances/fans-heating-and-air-treatment/heating-and-cooling/desk-fans"},
+ {sku:"CI-TFAN-007", name:"Tower Fans", cat:"ac", seller:"Argos", cta:"Browse at", meta:"Compare dimensions, timer, speed settings and published noise information.", eco:true, buyUrl:"https://www.argos.co.uk/sd/cooling-tower-fans/"},
+ {sku:"CI-PB9000", name:"Pro Breeze 9000 BTU Smart Portable AC", cat:"ac", seller:"Pro Breeze", cta:"View at", meta:"Manufacturer specifications include room size, modes, power and window kits.", buyUrl:"https://probreeze.com/products/9000-btu-3-in-1-smart-portable-air-conditioner"},
+ {sku:"CI-MC7000", name:"Meaco Portable Air Conditioners", cat:"ac", seller:"Meaco", cta:"Browse at", meta:"Compare current manufacturer specifications for room size, noise, power and window kits.", buyUrl:"https://www.meaco.com/collections/air-conditioners"},
+ /* ---- WINTER ---- */
+ {sku:"CI-W-DRAFT", name:"External Door Draught Excluders", cat:"winter", seller:"B&Q", cta:"View at", meta:"Measure the door and identify the gap before choosing a fixed seal.", eco:true, buyUrl:"https://www.diy.com/departments/diall-aluminium-silver-effect-aluminium-rubber-draught-excluder-l-1-05m/1802824_BQ.prd"},
+ {sku:"CI-W-THERM", name:"Thermal Curtain Linings", cat:"winter", seller:"Dunelm", cta:"View at", meta:"Check curtain heading type, width and drop before choosing a lining size.", eco:true, buyUrl:"https://www.dunelm.com/product/pencil-pleat-thermal-curtain-linings-1000017869"},
+ {sku:"CI-W-THROW", name:"Heated Blankets & Throws", cat:"winter", seller:"Dunelm", cta:"Browse at", meta:"Compare controls, wattage, care instructions and safety features at the seller.", eco:true, buyUrl:"https://www.dunelm.com/category/home-and-furniture/bedding/electric-blankets"},
+ {sku:"CI-W-FILM", name:"Secondary Glazing Window Film", cat:"winter", seller:"B&Q", cta:"View at", meta:"Check film dimensions, frame suitability and fitting instructions before ordering.", eco:true, buyUrl:"https://www.diy.com/departments/secondary-glazing-shrink-fit-double-glazing-film-by-seal-n-save/0708747936636_BQ.prd"},
  /* ---- RAIN ---- */
- {sku:"CI-R-BROLLY", name:"Storm-Proof Windproof Umbrella", cat:"rain", ship:"uk", gbp:24.99, rating:"★★★★☆", meta:"Inverted frame survives British gusts", buyUrl:"#"},
- {sku:"CI-R-PONCHO", name:"Packable Rain Poncho (recycled fabric)", cat:"rain", ship:"uk", gbp:14.99, rating:"★★★★☆", meta:"Festival & school-run approved", eco:true, buyUrl:"#"},
- {sku:"CI-R-BOOT", name:"Boot & Shoe Drying Rack", cat:"rain", ship:"uk", gbp:19.99, rating:"★★★★☆", meta:"Because wet school shoes by 8am is a national crisis", buyUrl:"#"},
+ {sku:"CI-R-BROLLY", name:"Wind-Resistant Umbrellas", cat:"rain", seller:"Decathlon", cta:"Browse at", meta:"Compare canopy size, packed length and wind-resistant construction.", buyUrl:"https://www.decathlon.co.uk/accessories/umbrellas"},
+ {sku:"CI-R-PONCHO", name:"Packable Rain Ponchos & Capes", cat:"rain", seller:"Decathlon", cta:"Browse at", meta:"Compare waterproofing, coverage, packed size and intended activity.", buyUrl:"https://www.decathlon.co.uk/accessories/rain-poncho-and-capes"},
+ {sku:"CI-R-BOOT", name:"Non-Electric Boot Dryers", cat:"rain", seller:"Drysure", cta:"View at", meta:"Manufacturer information for moisture-absorbing boot dryers without mains power.", eco:true, buyUrl:"https://www.drysure.co.uk/"},
 ];
 
 /* Live cities for the heat board + map. lat/lon for Open-Meteo. */
@@ -546,14 +535,6 @@ const CITIES = [
  {n:"Belfast", la:54.60, lo:-5.93}, {n:"Leeds", la:53.80, lo:-1.55},
 ];
 
-/* Supplier / fulfilment hubs (approximate public locations) */
-const SUPPLIERS = [
- {n:"Avasam network (HQ)", la:53.48, lo:-2.29, note:"Verified UK dropship suppliers, 1–4 day delivery"},
- {n:"CJ Dropshipping UK hub", la:52.45, lo:-1.73, note:"Accessories, fans, coolers — UK warehouse"},
- {n:"Costway UK warehouse", la:52.24, lo:-0.90, note:"Bulky home goods, UK stock"},
- {n:"AliExpress UK-stock hubs", la:51.88, lo:0.55, note:"'Ships from UK' filtered listings"},
-];
-
 /* Trend data: approximate hottest recorded UK temp in notable years (°C, Met Office public records) */
 const TREND = [
  {y:2003,t:38.5},{y:2006,t:36.5},{y:2015,t:36.7},{y:2019,t:38.7},
@@ -561,29 +542,20 @@ const TREND = [
 ];
 
 const STATIC_TICKER = [
- "⚠ Heatwave season: UK AC install requests up 320% year-on-year",
- "Portable units sold out at major retailers — accessories still in stock",
- "1–4 day delivery from UK warehouses",
- "Winter range launching this autumn — draught-proofing before the freeze",
+ "Check official seller pages for current price, stock and delivery",
+ "Compare portable AC room size, energy label and window kit",
+ "External product links contain no affiliate IDs",
+ "Start with shade, ventilation and the lowest-power option that works",
 ];
 
-/* ============ currency ============ */
-let RATES = { GBP:1, USD:1.27, EUR:1.17 };
-const SYMBOL = { GBP:"£", USD:"$", EUR:"€" };
-let currentCur = "GBP";
-fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR")
- .then(r=>r.json()).then(d=>{ if(d&&d.rates){RATES.USD=d.rates.USD;RATES.EUR=d.rates.EUR;renderAll();}}).catch(()=>{});
-
 /* ============ rendering ============ */
-function priceIn(g){return SYMBOL[currentCur]+(g*RATES[currentCur]).toFixed(2);}
 function cardHTML(p){
  const cls = p.cat==="winter"?"card winter":p.cat==="rain"?"card rain":"card";
- const btn = p.preorder ? "Join the winter list" : "Add to basket";
  return `<article class="${cls}"><div class="temp-bar"></div>
-  <div><span class="badge uk">SHIPS FROM UK</span> ${p.eco?'<span class="badge eco">LOW-ENERGY PICK</span>':''}</div>
-  <h3>${p.name}</h3><div class="stars">${p.rating}</div><div class="meta">${p.meta}</div>
-  <div class="price">${priceIn(p.gbp)}<small>${currentCur!=="GBP"?"≈ £"+p.gbp.toFixed(2)+" charged at checkout":"inc. VAT"}</small></div>
-  <a class="buy" href="${p.buyUrl}">${btn}</a></article>`;
+  <div><span class="badge uk">OFFICIAL DESTINATION</span></div>
+  <h3>${p.name}</h3><div class="stars">Seller: ${p.seller}</div><div class="meta">${p.meta}</div>
+  <div class="price">Check live price &amp; stock<small>Confirmed on the seller page</small></div>
+  <a class="buy" href="${p.buyUrl}" target="_blank" rel="noopener noreferrer nofollow" aria-label="${p.cta} ${p.seller}: ${p.name} (opens in a new tab)">${p.cta} ${p.seller} ↗</a></article>`;
 }
 let currentFilter="all";
 function renderAll(){
@@ -600,10 +572,6 @@ function renderAll(){
 }
 renderAll();
 
-document.querySelectorAll(".currency button").forEach(b=>b.addEventListener("click",()=>{
- document.querySelectorAll(".currency button").forEach(x=>x.setAttribute("aria-pressed","false"));
- b.setAttribute("aria-pressed","true"); currentCur=b.dataset.cur; renderAll();
-}));
 document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{
  document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed","false"));
  b.setAttribute("aria-pressed","true"); currentFilter=b.dataset.filter; renderAll();
@@ -737,27 +705,31 @@ async function refreshWeatherChartPanel(){
    const status=await statusResponse.json();
    const forecast=forecastResponse?.ok?await forecastResponse.json():null;
    const warningCount=Number(status.warningCount);
-   const isSample=status.sample===true||status.datasetState==="sample"||status.provider?.mode==="sample";
-   const forecastNotFresh=status.stale===true||status.fallbackUsed===true||/preserved|failed|fallback/i.test(String(status.forecastState||""));
+   if(!forecast||forecast.sample!==false)throw new Error("Live WeatherChart forecast unavailable");
+   const forecastState=String(status.forecastState||"");
+   const liveFallback=forecast.source?.id==="open-meteo-forecast"&&forecastState==="live-fallback";
+   const forecastNotFresh=status.stale===true||/preserved|failed|unavailable/i.test(forecastState);
    const warningSourceReady=Array.isArray(status.successfulSources)&&status.successfulSources.includes("met-office-warnings-rss");
    warning.textContent=warningSourceReady&&Number.isFinite(warningCount)
        ?`${warningCount} active official warning${warningCount===1?"":"s"} in the latest dataset`
        :"Official warning update unavailable — check the Met Office";
    const forecastSummary=status.currentSummary||status.summary||summariseWeatherChartForecast(forecast)||"The last validated location forecasts remain available.";
-   summary.textContent=isSample
-     ?"Explore the interface safely; current decisions should use the linked official Met Office services."
-     :forecastNotFresh
-       ?`Last validated forecast retained${status.stale===true?" and marked stale":""}. ${forecastSummary} Check the official services before making decisions.`
+   summary.textContent=forecastNotFresh
+     ?`Last validated forecast${status.stale===true?" marked stale":""}. ${forecastSummary} Check the official services before making decisions.`
+     :liveFallback
+       ?`Live Open-Meteo fallback. ${forecastSummary}`
        :forecastSummary;
    const updateTime=status.generatedAt||status.deployedAt;
    updated.textContent=updateTime
      ?forecastNotFresh
        ?`WeatherChart last checked ${formatUKTime(updateTime)} · forecast not refreshed`
-       :`WeatherChart updated ${formatUKTime(updateTime)} · checked hourly`
+       :liveFallback
+         ?`WeatherChart live fallback updated ${formatUKTime(updateTime)} · checked hourly`
+         :`WeatherChart updated ${formatUKTime(updateTime)} · checked hourly`
      :"WeatherChart checks for published updates hourly.";
  }catch(error){
    warning.textContent="Open WeatherChart UK for the latest available status";
-   summary.textContent="The forecast companion remains available with clearly labelled sample or fallback data.";
+   summary.textContent="Live WeatherChart data is temporarily unavailable. Use the linked official Met Office services for current conditions.";
    updated.textContent="Always follow current official Met Office warnings and emergency guidance.";
  }
 }
@@ -825,10 +797,6 @@ function drawMap(){
   const marker=L.circleMarker([c.la,c.lo],{radius:10,color:"#C8341F",fillColor:"#F5A200",fillOpacity:.85,weight:2})
    .addTo(map).bindPopup(weatherPopup(c));
   weatherMarkers.push({marker,city:c});
- });
- SUPPLIERS.forEach(s=>{
-  L.circleMarker([s.la,s.lo],{radius:8,color:"#0E2A3C",fillColor:"#0E7C9E",fillOpacity:.9,weight:2})
-   .addTo(map).bindPopup(`<b>${s.n}</b><br>${s.note}`);
  });
 }
 setTimeout(drawMap, 2500); // fallback if weather fetch is slow

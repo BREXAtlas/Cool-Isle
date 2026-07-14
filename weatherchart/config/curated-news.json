@@ -1,7 +1,6 @@
 {
   "version": 1,
   "updatedAt": "2026-07-13T00:00:00.000Z",
-  "sample": true,
   "policy": "Use official feeds or manually reviewed direct links only. Do not scrape article pages, copy article bodies, or reuse images without permission.",
   "discoveryPages": [
     {

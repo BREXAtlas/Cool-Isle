@@ -18,7 +18,7 @@ No analytics or advertising tracker is enabled by this implementation. Any futur
 
 ## Public community data
 
-Community cards include only permitted public metadata and a direct source link. Location is reduced to city/region and accompanied by its basis/confidence. Items normally expire within 24–48 hours. The update job removes unavailable/deleted items on the next check and does not preserve a private archive.
+Community cards include only permitted public post text, platform/author/time attribution and a direct source link. Location is reduced to city/region and accompanied by its basis/confidence; precise coordinates are never retained. Items expire within 48 hours. The update job removes unavailable/deleted items on the next successful check and does not preserve a private archive or publish synthetic replacements.
 
 ## Corrections and removals
 

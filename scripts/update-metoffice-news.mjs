@@ -160,11 +160,21 @@ export function buildNewsDataset(items, curated, generatedAt = new Date()) {
 }
 
 function emptyWarnings(now) {
-  return { ...buildWarningsDataset([], now), sample: true, datasetState: "fallback-empty" };
+  return {
+    ...buildWarningsDataset([], now),
+    sample: false,
+    unavailable: true,
+    datasetState: "source-unavailable",
+  };
 }
 
 function emptyNews(now) {
-  return { ...buildNewsDataset([], [], now), sample: true, datasetState: "fallback-empty" };
+  return {
+    ...buildNewsDataset([], [], now),
+    sample: false,
+    unavailable: true,
+    datasetState: "source-unavailable",
+  };
 }
 
 export async function runNewsUpdate({
@@ -195,14 +205,15 @@ export async function runNewsUpdate({
     outcomes.warnings = "updated";
   } catch (error) {
     const previous = await readJson(paths.warningsPath, null);
-    if (!previous || !Array.isArray(previous.warnings)) {
+    if (!previous || previous.sample !== false || !Array.isArray(previous.warnings)) {
       await writeJsonAtomic(paths.warningsPath, emptyWarnings(generatedAt));
       status.warningCount = 0;
+      outcomes.warnings = "unavailable";
     } else {
       status.warningCount = previous.warnings.length;
+      outcomes.warnings = "preserved";
     }
     recordSource(status, "met-office-warnings-rss", "failure", safeErrorCode(error));
-    outcomes.warnings = "preserved";
   }
 
   try {
@@ -213,11 +224,13 @@ export async function runNewsUpdate({
     outcomes.news = "updated";
   } catch (error) {
     const previous = await readJson(paths.newsPath, null);
-    if (!previous || !Array.isArray(previous.items)) {
+    if (!previous || previous.sample !== false || !Array.isArray(previous.items)) {
       await writeJsonAtomic(paths.newsPath, emptyNews(generatedAt));
+      outcomes.news = "unavailable";
+    } else {
+      outcomes.news = "preserved";
     }
     recordSource(status, "met-office-news-rss", "failure", safeErrorCode(error));
-    outcomes.news = "preserved";
   }
 
   await writeStatus(paths.statusPath, status, generatedAt);

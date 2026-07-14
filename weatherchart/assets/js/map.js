@@ -72,8 +72,8 @@ function popup(title, lines) {
   return root;
 }
 
-function locationEntries(layer, locations, sample) {
-  const qualifier = sample ? 'sample ' : '';
+function locationEntries(layer, locations) {
+  const qualifier = '';
   return locations.map((location) => {
     const current = location.current || {};
     if (layer === 'rain') {
@@ -207,7 +207,6 @@ export function initialiseWeatherMap(initialData = {}) {
     locations: initialData.locations || [],
     warnings: initialData.warnings || [],
     community: initialData.community || [],
-    forecastSample: Boolean(initialData.forecastSample),
     warningSample: Boolean(initialData.warningSample),
     warningUnavailable: Boolean(initialData.warningUnavailable),
     communitySample: Boolean(initialData.communitySample)
@@ -219,14 +218,14 @@ export function initialiseWeatherMap(initialData = {}) {
   const entriesFor = (layer) => {
     if (layer === 'warnings') return warningEntries(dataState.warnings, dataState.warningSample);
     if (layer === 'community') return communityEntries(dataState.community, dataState.locations, dataState.communitySample);
-    return locationEntries(layer, dataState.locations, dataState.forecastSample);
+    return locationEntries(layer, dataState.locations);
   };
 
   const updateKey = (layer, entries) => {
     const details = {
-      temperature: [dataState.forecastSample ? 'Sample temperatures' : 'Forecast temperatures', dataState.forecastSample ? 'City-centre markers show illustrative cached temperatures.' : 'Configured forecast-point temperatures with source context on the page.'],
-      rain: [dataState.forecastSample ? 'Sample rain chance' : 'Forecast rain chance', dataState.forecastSample ? 'Percentages are illustrative precipitation probabilities.' : 'Percentages show precipitation probability at configured forecast points.'],
-      wind: [dataState.forecastSample ? 'Sample wind speed' : 'Forecast wind speed', 'Markers show wind speed; select one for gust information.'],
+      temperature: ['Forecast temperatures', 'Configured forecast-point temperatures with source context on the page.'],
+      rain: ['Forecast rain chance', 'Percentages show precipitation probability at configured forecast points.'],
+      wind: ['Forecast wind speed', 'Markers show wind speed; select one for gust information.'],
       warnings: [dataState.warningUnavailable ? 'Warning layer unavailable' : dataState.warningSample ? 'Illustrative warning regions' : 'Official warning regions', dataState.warningUnavailable ? 'The warning source could not be refreshed. Check the official Met Office warning service.' : 'Coarse markers only—no warning polygons have been invented.'],
       community: [dataState.communitySample ? 'Sample community discussion' : 'Community discussion', 'Coarse city markers; public chatter is not verified.']
     }[layer];
@@ -247,7 +246,7 @@ export function initialiseWeatherMap(initialData = {}) {
     requestedLayer = layer;
     const entries = entriesFor(layer);
     updateKey(layer, entries);
-    mapElement.setAttribute('aria-label', dataState.forecastSample ? 'Interactive sample map of UK weather locations' : 'Interactive map of UK weather locations');
+    mapElement.setAttribute('aria-label', 'Interactive map of UK weather locations');
     if (!map || !window.L) return;
     markerLayer?.clearLayers();
     entries.forEach((entry) => {
@@ -312,7 +311,6 @@ export function initialiseWeatherMap(initialData = {}) {
         locations: nextData.locations || dataState.locations,
         warnings: nextData.warnings || [],
         community: nextData.community || [],
-        forecastSample: Boolean(nextData.forecastSample),
         warningSample: Boolean(nextData.warningSample),
         warningUnavailable: Boolean(nextData.warningUnavailable),
         communitySample: Boolean(nextData.communitySample)

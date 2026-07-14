@@ -57,4 +57,33 @@ test("OpenMeteoFallbackProvider is opt-in and labels its provider mode", async (
   assert.equal(provider.mode, "indicative-fallback");
   assert.equal(result.current.visibilityKm, 10);
   assert.equal(result.current.condition, "Rain");
+  assert.equal(result.hourly.length, 1);
+  assert.equal(result.daily.length, 1);
+});
+
+test("Open-Meteo keeps the next 24 hours while retaining multi-day summaries", async () => {
+  const start = new Date("2026-07-13T18:00:00Z");
+  const times = Array.from({ length: 54 }, (_, index) =>
+    new Date(start.getTime() + index * 3_600_000).toISOString().slice(0, 16));
+  const provider = new OpenMeteoFallbackProvider({
+    enabled: true,
+    fetchImpl: async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        latitude: 51.5,
+        longitude: -0.1,
+        hourly: {
+          time: times,
+          temperature_2m: times.map((_, index) => 15 + (index % 8)),
+          weather_code: times.map(() => 3),
+        },
+      }),
+    }),
+  });
+  const result = await provider.fetchLocation(DEFAULT_LOCATIONS[0], start);
+  assert.equal(result.hourly.length, 24);
+  assert.equal(result.hourly[0].time, start.toISOString());
+  assert.ok(result.daily.length >= 3);
+  assert.ok(result.daily.every(({ condition }) => condition === "Overcast"));
 });
