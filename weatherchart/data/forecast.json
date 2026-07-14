@@ -1,0 +1,4080 @@
+{
+  "sample": true,
+  "datasetState": "sample",
+  "generatedAt": "2026-07-13T16:00:00.000Z",
+  "validUntil": "2026-07-14T16:00:00.000Z",
+  "source": {
+    "name": "WeatherChart UK synthetic sample",
+    "url": "https://www.metoffice.gov.uk/services/data",
+    "licence": "Synthetic demonstration data; no live Met Office observations or forecasts are reproduced.",
+    "label": "SAMPLE DATA — not for decisions, travel planning, or safety guidance"
+  },
+  "units": {
+    "temperature": "°C",
+    "precipitationProbability": "%",
+    "rainfall": "mm",
+    "wind": "km/h",
+    "visibility": "km",
+    "cloudCover": "%"
+  },
+  "weatherCodeSystem": "WMO-style demonstration codes",
+  "disclaimer": "All values in this file are invented for interface testing. Check the Met Office for current forecasts and warnings.",
+  "locations": [
+    {
+      "id": "london",
+      "name": "London",
+      "region": "Greater London",
+      "latitude": 51.5074,
+      "longitude": -0.1278,
+      "sourcePoint": {
+        "latitude": 51.5074,
+        "longitude": -0.1278,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 22,
+        "feelsLikeC": 22,
+        "precipitationProbability": 15,
+        "rainfallMm": 0,
+        "humidityPercent": 58,
+        "windKph": 14,
+        "gustKph": 25,
+        "visibilityKm": 18,
+        "cloudCoverPercent": 45,
+        "sunrise": "2026-07-13T04:59:00+01:00",
+        "sunset": "2026-07-13T21:12:00+01:00",
+        "condition": "Partly cloudy",
+        "weatherCode": 2
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 22,
+          "feelsLikeC": 22,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 27,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 29,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 29,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 31,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 31,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 29,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 27,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 23,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 21,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 21,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 23,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 27,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 29,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 31,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 31,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 22,
+          "feelsLikeC": 22,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 29,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 23,
+          "feelsLikeC": 23,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 27,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 24,
+          "feelsLikeC": 24,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 24,
+          "feelsLikeC": 24,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 23,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 24,
+          "feelsLikeC": 24,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 23,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 23,
+          "feelsLikeC": 23,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "condition": "Partly cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Partly cloudy",
+          "highC": 24,
+          "lowC": 17,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "sunrise": "2026-07-13T04:59:00+01:00",
+          "sunset": "2026-07-13T21:12:00+01:00",
+          "summary": "Partly cloudy; sample high 24°C, low 17°C, with a 15% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Sunny intervals",
+          "highC": 25,
+          "lowC": 17,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 22,
+          "sunrise": "2026-07-14T04:59:00+01:00",
+          "sunset": "2026-07-14T21:12:00+01:00",
+          "summary": "Sunny intervals; sample high 25°C, low 17°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Light shower",
+          "highC": 24,
+          "lowC": 18,
+          "precipitationProbability": 35,
+          "rainfallMm": 4,
+          "windKph": 16,
+          "gustKph": 29,
+          "sunrise": "2026-07-15T04:59:00+01:00",
+          "sunset": "2026-07-15T21:12:00+01:00",
+          "summary": "Light shower; sample high 24°C, low 18°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Cloudy",
+          "highC": 23,
+          "lowC": 16,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 10,
+          "gustKph": 19,
+          "sunrise": "2026-07-16T04:59:00+01:00",
+          "sunset": "2026-07-16T21:12:00+01:00",
+          "summary": "Cloudy; sample high 23°C, low 16°C, with a 15% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 25,
+          "lowC": 17,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 23,
+          "sunrise": "2026-07-17T04:59:00+01:00",
+          "sunset": "2026-07-17T21:12:00+01:00",
+          "summary": "Sunny intervals; sample high 25°C, low 17°C, with a 5% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "birmingham",
+      "name": "Birmingham",
+      "region": "West Midlands",
+      "latitude": 52.4862,
+      "longitude": -1.8904,
+      "sourcePoint": {
+        "latitude": 52.4862,
+        "longitude": -1.8904,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 18,
+        "feelsLikeC": 17,
+        "precipitationProbability": 45,
+        "rainfallMm": 0.2,
+        "humidityPercent": 72,
+        "windKph": 19,
+        "gustKph": 32,
+        "visibilityKm": 12,
+        "cloudCoverPercent": 78,
+        "sunrise": "2026-07-13T05:02:00+01:00",
+        "sunset": "2026-07-13T21:22:00+01:00",
+        "condition": "Light shower",
+        "weatherCode": 80
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 19,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 19,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 19,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Light shower",
+          "highC": 20,
+          "lowC": 13,
+          "precipitationProbability": 55,
+          "rainfallMm": 2.9,
+          "windKph": 19,
+          "gustKph": 32,
+          "sunrise": "2026-07-13T05:02:00+01:00",
+          "sunset": "2026-07-13T21:22:00+01:00",
+          "summary": "Light shower; sample high 20°C, low 13°C, with a 55% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Cloudy",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.2,
+          "windKph": 17,
+          "gustKph": 29,
+          "sunrise": "2026-07-14T05:02:00+01:00",
+          "sunset": "2026-07-14T21:22:00+01:00",
+          "summary": "Cloudy; sample high 21°C, low 13°C, with a 40% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Partly cloudy",
+          "highC": 20,
+          "lowC": 14,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "sunrise": "2026-07-15T05:02:00+01:00",
+          "sunset": "2026-07-15T21:22:00+01:00",
+          "summary": "Partly cloudy; sample high 20°C, low 14°C, with a 40% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Light rain",
+          "highC": 19,
+          "lowC": 12,
+          "precipitationProbability": 46,
+          "rainfallMm": 1.8,
+          "windKph": 15,
+          "gustKph": 26,
+          "sunrise": "2026-07-16T05:02:00+01:00",
+          "sunset": "2026-07-16T21:22:00+01:00",
+          "summary": "Light rain; sample high 19°C, low 12°C, with a 46% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "sunrise": "2026-07-17T05:02:00+01:00",
+          "sunset": "2026-07-17T21:22:00+01:00",
+          "summary": "Sunny intervals; sample high 21°C, low 13°C, with a 25% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "manchester",
+      "name": "Manchester",
+      "region": "North West England",
+      "latitude": 53.4808,
+      "longitude": -2.2426,
+      "sourcePoint": {
+        "latitude": 53.4808,
+        "longitude": -2.2426,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 17,
+        "feelsLikeC": 16,
+        "precipitationProbability": 70,
+        "rainfallMm": 0.8,
+        "humidityPercent": 82,
+        "windKph": 22,
+        "gustKph": 38,
+        "visibilityKm": 9,
+        "cloudCoverPercent": 90,
+        "sunrise": "2026-07-13T04:56:00+01:00",
+        "sunset": "2026-07-13T21:31:00+01:00",
+        "condition": "Light rain",
+        "weatherCode": 61
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light rain"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 75,
+          "rainfallMm": 0.8,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.2,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 85,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 80,
+          "rainfallMm": 0.8,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.2,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 85,
+          "rainfallMm": 0.8,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.2,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Light rain",
+          "highC": 19,
+          "lowC": 12,
+          "precipitationProbability": 80,
+          "rainfallMm": 4,
+          "windKph": 22,
+          "gustKph": 38,
+          "sunrise": "2026-07-13T04:56:00+01:00",
+          "sunset": "2026-07-13T21:31:00+01:00",
+          "summary": "Light rain; sample high 19°C, low 12°C, with a 80% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Heavy shower",
+          "highC": 20,
+          "lowC": 12,
+          "precipitationProbability": 77,
+          "rainfallMm": 5.1,
+          "windKph": 20,
+          "gustKph": 35,
+          "sunrise": "2026-07-14T04:56:00+01:00",
+          "sunset": "2026-07-14T21:31:00+01:00",
+          "summary": "Heavy shower; sample high 20°C, low 12°C, with a 77% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Cloudy",
+          "highC": 19,
+          "lowC": 13,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 42,
+          "sunrise": "2026-07-15T04:56:00+01:00",
+          "sunset": "2026-07-15T21:31:00+01:00",
+          "summary": "Cloudy; sample high 19°C, low 13°C, with a 55% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Light shower",
+          "highC": 18,
+          "lowC": 11,
+          "precipitationProbability": 71,
+          "rainfallMm": 2.9,
+          "windKph": 18,
+          "gustKph": 32,
+          "sunrise": "2026-07-16T04:56:00+01:00",
+          "sunset": "2026-07-16T21:31:00+01:00",
+          "summary": "Light shower; sample high 18°C, low 11°C, with a 71% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Partly cloudy",
+          "highC": 20,
+          "lowC": 12,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "sunrise": "2026-07-17T04:56:00+01:00",
+          "sunset": "2026-07-17T21:31:00+01:00",
+          "summary": "Partly cloudy; sample high 20°C, low 12°C, with a 55% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "glasgow",
+      "name": "Glasgow",
+      "region": "West Central Scotland",
+      "latitude": 55.8642,
+      "longitude": -4.2518,
+      "sourcePoint": {
+        "latitude": 55.8642,
+        "longitude": -4.2518,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 15,
+        "feelsLikeC": 14,
+        "precipitationProbability": 80,
+        "rainfallMm": 1.6,
+        "humidityPercent": 86,
+        "windKph": 24,
+        "gustKph": 42,
+        "visibilityKm": 7,
+        "cloudCoverPercent": 95,
+        "sunrise": "2026-07-13T04:47:00+01:00",
+        "sunset": "2026-07-13T21:55:00+01:00",
+        "condition": "Heavy shower",
+        "weatherCode": 81
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 85,
+          "rainfallMm": 1.2,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 90,
+          "rainfallMm": 1.6,
+          "windKph": 26,
+          "gustKph": 46,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 95,
+          "rainfallMm": 0.8,
+          "windKph": 26,
+          "gustKph": 46,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 90,
+          "rainfallMm": 1.2,
+          "windKph": 27,
+          "gustKph": 48,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 85,
+          "rainfallMm": 1.6,
+          "windKph": 27,
+          "gustKph": 48,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 80,
+          "rainfallMm": 0.8,
+          "windKph": 26,
+          "gustKph": 46,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.2,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 10,
+          "feelsLikeC": 8,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 10,
+          "feelsLikeC": 8,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 10,
+          "feelsLikeC": 8,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 10,
+          "feelsLikeC": 8,
+          "precipitationProbability": 75,
+          "rainfallMm": 0.8,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.2,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 85,
+          "rainfallMm": 1.6,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 90,
+          "rainfallMm": 0.8,
+          "windKph": 26,
+          "gustKph": 46,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 95,
+          "rainfallMm": 1.2,
+          "windKph": 27,
+          "gustKph": 48,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 90,
+          "rainfallMm": 1.6,
+          "windKph": 27,
+          "gustKph": 48,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 85,
+          "rainfallMm": 0.8,
+          "windKph": 26,
+          "gustKph": 46,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 80,
+          "rainfallMm": 1.2,
+          "windKph": 25,
+          "gustKph": 44,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.6,
+          "windKph": 24,
+          "gustKph": 42,
+          "condition": "Heavy shower"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Heavy shower",
+          "highC": 17,
+          "lowC": 10,
+          "precipitationProbability": 90,
+          "rainfallMm": 5.1,
+          "windKph": 24,
+          "gustKph": 42,
+          "sunrise": "2026-07-13T04:47:00+01:00",
+          "sunset": "2026-07-13T21:55:00+01:00",
+          "summary": "Heavy shower; sample high 17°C, low 10°C, with a 90% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light rain",
+          "highC": 18,
+          "lowC": 10,
+          "precipitationProbability": 87,
+          "rainfallMm": 1.8,
+          "windKph": 22,
+          "gustKph": 39,
+          "sunrise": "2026-07-14T04:47:00+01:00",
+          "sunset": "2026-07-14T21:55:00+01:00",
+          "summary": "Light rain; sample high 18°C, low 10°C, with a 87% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Cloudy",
+          "highC": 17,
+          "lowC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 26,
+          "gustKph": 46,
+          "sunrise": "2026-07-15T04:47:00+01:00",
+          "sunset": "2026-07-15T21:55:00+01:00",
+          "summary": "Cloudy; sample high 17°C, low 11°C, with a 55% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Light shower",
+          "highC": 16,
+          "lowC": 9,
+          "precipitationProbability": 81,
+          "rainfallMm": 4,
+          "windKph": 20,
+          "gustKph": 36,
+          "sunrise": "2026-07-16T04:47:00+01:00",
+          "sunset": "2026-07-16T21:55:00+01:00",
+          "summary": "Light shower; sample high 16°C, low 9°C, with a 81% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Partly cloudy",
+          "highC": 18,
+          "lowC": 10,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "sunrise": "2026-07-17T04:47:00+01:00",
+          "sunset": "2026-07-17T21:55:00+01:00",
+          "summary": "Partly cloudy; sample high 18°C, low 10°C, with a 55% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "edinburgh",
+      "name": "Edinburgh",
+      "region": "East Central Scotland",
+      "latitude": 55.9533,
+      "longitude": -3.1883,
+      "sourcePoint": {
+        "latitude": 55.9533,
+        "longitude": -3.1883,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 16,
+        "feelsLikeC": 15,
+        "precipitationProbability": 35,
+        "rainfallMm": 0,
+        "humidityPercent": 76,
+        "windKph": 21,
+        "gustKph": 35,
+        "visibilityKm": 14,
+        "cloudCoverPercent": 88,
+        "sunrise": "2026-07-13T04:43:00+01:00",
+        "sunset": "2026-07-13T21:48:00+01:00",
+        "condition": "Cloudy",
+        "weatherCode": 3
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 10,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 33,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 10,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 31,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 10,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 31,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 10,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 33,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 33,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 33,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Cloudy",
+          "highC": 18,
+          "lowC": 11,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 35,
+          "sunrise": "2026-07-13T04:43:00+01:00",
+          "sunset": "2026-07-13T21:48:00+01:00",
+          "summary": "Cloudy; sample high 18°C, low 11°C, with a 30% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light shower",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 42,
+          "rainfallMm": 2.9,
+          "windKph": 19,
+          "gustKph": 32,
+          "sunrise": "2026-07-14T04:43:00+01:00",
+          "sunset": "2026-07-14T21:48:00+01:00",
+          "summary": "Light shower; sample high 19°C, low 11°C, with a 42% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Partly cloudy",
+          "highC": 18,
+          "lowC": 12,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 23,
+          "gustKph": 39,
+          "sunrise": "2026-07-15T04:43:00+01:00",
+          "sunset": "2026-07-15T21:48:00+01:00",
+          "summary": "Partly cloudy; sample high 18°C, low 12°C, with a 30% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Cloudy",
+          "highC": 17,
+          "lowC": 10,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 29,
+          "sunrise": "2026-07-16T04:43:00+01:00",
+          "sunset": "2026-07-16T21:48:00+01:00",
+          "summary": "Cloudy; sample high 17°C, low 10°C, with a 30% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 33,
+          "sunrise": "2026-07-17T04:43:00+01:00",
+          "sunset": "2026-07-17T21:48:00+01:00",
+          "summary": "Sunny intervals; sample high 19°C, low 11°C, with a 15% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "cardiff",
+      "name": "Cardiff",
+      "region": "South Wales",
+      "latitude": 51.4816,
+      "longitude": -3.1791,
+      "sourcePoint": {
+        "latitude": 51.4816,
+        "longitude": -3.1791,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 18,
+        "feelsLikeC": 18,
+        "precipitationProbability": 55,
+        "rainfallMm": 0.4,
+        "humidityPercent": 78,
+        "windKph": 20,
+        "gustKph": 34,
+        "visibilityKm": 11,
+        "cloudCoverPercent": 82,
+        "sunrise": "2026-07-13T05:11:00+01:00",
+        "sunset": "2026-07-13T21:24:00+01:00",
+        "condition": "Light shower",
+        "weatherCode": 80
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 40,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 38,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Light shower"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Light shower",
+          "highC": 20,
+          "lowC": 13,
+          "precipitationProbability": 65,
+          "rainfallMm": 2.9,
+          "windKph": 20,
+          "gustKph": 34,
+          "sunrise": "2026-07-13T05:11:00+01:00",
+          "sunset": "2026-07-13T21:24:00+01:00",
+          "summary": "Light shower; sample high 20°C, low 13°C, with a 65% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light rain",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 62,
+          "rainfallMm": 4,
+          "windKph": 18,
+          "gustKph": 31,
+          "sunrise": "2026-07-14T05:11:00+01:00",
+          "sunset": "2026-07-14T21:24:00+01:00",
+          "summary": "Light rain; sample high 21°C, low 13°C, with a 62% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Partly cloudy",
+          "highC": 20,
+          "lowC": 14,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 38,
+          "sunrise": "2026-07-15T05:11:00+01:00",
+          "sunset": "2026-07-15T21:24:00+01:00",
+          "summary": "Partly cloudy; sample high 20°C, low 14°C, with a 50% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Cloudy",
+          "highC": 19,
+          "lowC": 12,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 16,
+          "gustKph": 28,
+          "sunrise": "2026-07-16T05:11:00+01:00",
+          "sunset": "2026-07-16T21:24:00+01:00",
+          "summary": "Cloudy; sample high 19°C, low 12°C, with a 50% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "sunrise": "2026-07-17T05:11:00+01:00",
+          "sunset": "2026-07-17T21:24:00+01:00",
+          "summary": "Sunny intervals; sample high 21°C, low 13°C, with a 35% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "belfast",
+      "name": "Belfast",
+      "region": "County Antrim",
+      "latitude": 54.5973,
+      "longitude": -5.9301,
+      "sourcePoint": {
+        "latitude": 54.5973,
+        "longitude": -5.9301,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 16,
+        "feelsLikeC": 15,
+        "precipitationProbability": 40,
+        "rainfallMm": 0.1,
+        "humidityPercent": 80,
+        "windKph": 26,
+        "gustKph": 45,
+        "visibilityKm": 13,
+        "cloudCoverPercent": 89,
+        "sunrise": "2026-07-13T05:01:00+01:00",
+        "sunset": "2026-07-13T21:51:00+01:00",
+        "condition": "Cloudy",
+        "weatherCode": 3
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.1,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 27,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 28,
+          "gustKph": 49,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 28,
+          "gustKph": 49,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 29,
+          "gustKph": 51,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 29,
+          "gustKph": 51,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 28,
+          "gustKph": 49,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 27,
+          "gustKph": 47,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 27,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 28,
+          "gustKph": 49,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 29,
+          "gustKph": 51,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 29,
+          "gustKph": 51,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 28,
+          "gustKph": 49,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 27,
+          "gustKph": 47,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Cloudy",
+          "highC": 18,
+          "lowC": 11,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 45,
+          "sunrise": "2026-07-13T05:01:00+01:00",
+          "sunset": "2026-07-13T21:51:00+01:00",
+          "summary": "Cloudy; sample high 18°C, low 11°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light shower",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 47,
+          "rainfallMm": 5.1,
+          "windKph": 24,
+          "gustKph": 42,
+          "sunrise": "2026-07-14T05:01:00+01:00",
+          "sunset": "2026-07-14T21:51:00+01:00",
+          "summary": "Light shower; sample high 19°C, low 11°C, with a 47% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Light rain",
+          "highC": 18,
+          "lowC": 12,
+          "precipitationProbability": 44,
+          "rainfallMm": 1.8,
+          "windKph": 28,
+          "gustKph": 49,
+          "sunrise": "2026-07-15T05:01:00+01:00",
+          "sunset": "2026-07-15T21:51:00+01:00",
+          "summary": "Light rain; sample high 18°C, low 12°C, with a 44% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Partly cloudy",
+          "highC": 17,
+          "lowC": 10,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 39,
+          "sunrise": "2026-07-16T05:01:00+01:00",
+          "sunset": "2026-07-16T21:51:00+01:00",
+          "summary": "Partly cloudy; sample high 17°C, low 10°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Cloudy",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 43,
+          "sunrise": "2026-07-17T05:01:00+01:00",
+          "sunset": "2026-07-17T21:51:00+01:00",
+          "summary": "Cloudy; sample high 19°C, low 11°C, with a 35% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "bristol",
+      "name": "Bristol",
+      "region": "South West England",
+      "latitude": 51.4545,
+      "longitude": -2.5879,
+      "sourcePoint": {
+        "latitude": 51.4545,
+        "longitude": -2.5879,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 19,
+        "feelsLikeC": 19,
+        "precipitationProbability": 25,
+        "rainfallMm": 0,
+        "humidityPercent": 70,
+        "windKph": 18,
+        "gustKph": 30,
+        "visibilityKm": 16,
+        "cloudCoverPercent": 60,
+        "sunrise": "2026-07-13T05:10:00+01:00",
+        "sunset": "2026-07-13T21:22:00+01:00",
+        "condition": "Partly cloudy",
+        "weatherCode": 2
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 26,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 26,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 21,
+          "gustKph": 36,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 20,
+          "gustKph": 34,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 32,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "condition": "Partly cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "condition": "Partly cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Partly cloudy",
+          "highC": 21,
+          "lowC": 14,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 30,
+          "sunrise": "2026-07-13T05:10:00+01:00",
+          "sunset": "2026-07-13T21:22:00+01:00",
+          "summary": "Partly cloudy; sample high 21°C, low 14°C, with a 20% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Sunny intervals",
+          "highC": 22,
+          "lowC": 14,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 27,
+          "sunrise": "2026-07-14T05:10:00+01:00",
+          "sunset": "2026-07-14T21:22:00+01:00",
+          "summary": "Sunny intervals; sample high 22°C, low 14°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Light shower",
+          "highC": 21,
+          "lowC": 15,
+          "precipitationProbability": 35,
+          "rainfallMm": 2.9,
+          "windKph": 20,
+          "gustKph": 34,
+          "sunrise": "2026-07-15T05:10:00+01:00",
+          "sunset": "2026-07-15T21:22:00+01:00",
+          "summary": "Light shower; sample high 21°C, low 15°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Cloudy",
+          "highC": 20,
+          "lowC": 13,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "sunrise": "2026-07-16T05:10:00+01:00",
+          "sunset": "2026-07-16T21:22:00+01:00",
+          "summary": "Cloudy; sample high 20°C, low 13°C, with a 20% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 22,
+          "lowC": 14,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 28,
+          "sunrise": "2026-07-17T05:10:00+01:00",
+          "sunset": "2026-07-17T21:22:00+01:00",
+          "summary": "Sunny intervals; sample high 22°C, low 14°C, with a 5% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "newcastle",
+      "name": "Newcastle upon Tyne",
+      "region": "North East England",
+      "latitude": 54.9783,
+      "longitude": -1.6178,
+      "sourcePoint": {
+        "latitude": 54.9783,
+        "longitude": -1.6178,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 16,
+        "feelsLikeC": 15,
+        "precipitationProbability": 45,
+        "rainfallMm": 0.1,
+        "humidityPercent": 79,
+        "windKph": 25,
+        "gustKph": 41,
+        "visibilityKm": 12,
+        "cloudCoverPercent": 85,
+        "sunrise": "2026-07-13T04:45:00+01:00",
+        "sunset": "2026-07-13T21:39:00+01:00",
+        "condition": "Cloudy",
+        "weatherCode": 3
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.1,
+          "windKph": 25,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 26,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 27,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 27,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 28,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 28,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 27,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 26,
+          "gustKph": 43,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 23,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 23,
+          "gustKph": 37,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 11,
+          "feelsLikeC": 9,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 25,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 10,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 26,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 27,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 12,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 28,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 13,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 28,
+          "gustKph": 47,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 14,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 27,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 26,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 39,
+          "condition": "Cloudy"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 15,
+          "precipitationProbability": 40,
+          "rainfallMm": 0,
+          "windKph": 25,
+          "gustKph": 41,
+          "condition": "Cloudy"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Cloudy",
+          "highC": 18,
+          "lowC": 11,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.2,
+          "windKph": 25,
+          "gustKph": 41,
+          "sunrise": "2026-07-13T04:45:00+01:00",
+          "sunset": "2026-07-13T21:39:00+01:00",
+          "summary": "Cloudy; sample high 18°C, low 11°C, with a 40% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light shower",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 52,
+          "rainfallMm": 2.9,
+          "windKph": 23,
+          "gustKph": 38,
+          "sunrise": "2026-07-14T04:45:00+01:00",
+          "sunset": "2026-07-14T21:39:00+01:00",
+          "summary": "Light shower; sample high 19°C, low 11°C, with a 52% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Cloudy",
+          "highC": 18,
+          "lowC": 12,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.2,
+          "windKph": 27,
+          "gustKph": 45,
+          "sunrise": "2026-07-15T04:45:00+01:00",
+          "sunset": "2026-07-15T21:39:00+01:00",
+          "summary": "Cloudy; sample high 18°C, low 12°C, with a 40% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Partly cloudy",
+          "highC": 17,
+          "lowC": 10,
+          "precipitationProbability": 40,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 35,
+          "sunrise": "2026-07-16T04:45:00+01:00",
+          "sunset": "2026-07-16T21:39:00+01:00",
+          "summary": "Partly cloudy; sample high 17°C, low 10°C, with a 40% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 19,
+          "lowC": 11,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 24,
+          "gustKph": 39,
+          "sunrise": "2026-07-17T04:45:00+01:00",
+          "sunset": "2026-07-17T21:39:00+01:00",
+          "summary": "Sunny intervals; sample high 19°C, low 11°C, with a 25% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "leeds",
+      "name": "Leeds",
+      "region": "Yorkshire and the Humber",
+      "latitude": 53.8008,
+      "longitude": -1.5491,
+      "sourcePoint": {
+        "latitude": 53.8008,
+        "longitude": -1.5491,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 17,
+        "feelsLikeC": 16,
+        "precipitationProbability": 60,
+        "rainfallMm": 0.5,
+        "humidityPercent": 81,
+        "windKph": 23,
+        "gustKph": 39,
+        "visibilityKm": 10,
+        "cloudCoverPercent": 87,
+        "sunrise": "2026-07-13T04:52:00+01:00",
+        "sunset": "2026-07-13T21:31:00+01:00",
+        "condition": "Light shower",
+        "weatherCode": 80
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.5,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 75,
+          "rainfallMm": 0.8,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.2,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.2,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.4,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 45,
+          "rainfallMm": 0.4,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 21,
+          "gustKph": 35,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 12,
+          "feelsLikeC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 12,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 13,
+          "precipitationProbability": 70,
+          "rainfallMm": 0.8,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 14,
+          "precipitationProbability": 75,
+          "rainfallMm": 1.2,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 15,
+          "precipitationProbability": 70,
+          "rainfallMm": 1.6,
+          "windKph": 26,
+          "gustKph": 45,
+          "condition": "Heavy shower"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 16,
+          "precipitationProbability": 65,
+          "rainfallMm": 0.4,
+          "windKph": 25,
+          "gustKph": 43,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 60,
+          "rainfallMm": 0.2,
+          "windKph": 24,
+          "gustKph": 41,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.4,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.2,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 18,
+          "precipitationProbability": 50,
+          "rainfallMm": 0.4,
+          "windKph": 22,
+          "gustKph": 37,
+          "condition": "Light shower"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 17,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 23,
+          "gustKph": 39,
+          "condition": "Light shower"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Light shower",
+          "highC": 19,
+          "lowC": 12,
+          "precipitationProbability": 70,
+          "rainfallMm": 2.9,
+          "windKph": 23,
+          "gustKph": 39,
+          "sunrise": "2026-07-13T04:52:00+01:00",
+          "sunset": "2026-07-13T21:31:00+01:00",
+          "summary": "Light shower; sample high 19°C, low 12°C, with a 70% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Light rain",
+          "highC": 20,
+          "lowC": 12,
+          "precipitationProbability": 67,
+          "rainfallMm": 4,
+          "windKph": 21,
+          "gustKph": 36,
+          "sunrise": "2026-07-14T04:52:00+01:00",
+          "sunset": "2026-07-14T21:31:00+01:00",
+          "summary": "Light rain; sample high 20°C, low 12°C, with a 67% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Cloudy",
+          "highC": 19,
+          "lowC": 13,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 25,
+          "gustKph": 43,
+          "sunrise": "2026-07-15T04:52:00+01:00",
+          "sunset": "2026-07-15T21:31:00+01:00",
+          "summary": "Cloudy; sample high 19°C, low 13°C, with a 55% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Partly cloudy",
+          "highC": 18,
+          "lowC": 11,
+          "precipitationProbability": 55,
+          "rainfallMm": 0.2,
+          "windKph": 19,
+          "gustKph": 33,
+          "sunrise": "2026-07-16T04:52:00+01:00",
+          "sunset": "2026-07-16T21:31:00+01:00",
+          "summary": "Partly cloudy; sample high 18°C, low 11°C, with a 55% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 20,
+          "lowC": 12,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 22,
+          "gustKph": 37,
+          "sunrise": "2026-07-17T04:52:00+01:00",
+          "sunset": "2026-07-17T21:31:00+01:00",
+          "summary": "Sunny intervals; sample high 20°C, low 12°C, with a 35% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "plymouth",
+      "name": "Plymouth",
+      "region": "South West England",
+      "latitude": 50.3755,
+      "longitude": -4.1427,
+      "sourcePoint": {
+        "latitude": 50.3755,
+        "longitude": -4.1427,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 18,
+        "feelsLikeC": 18,
+        "precipitationProbability": 20,
+        "rainfallMm": 0,
+        "humidityPercent": 73,
+        "windKph": 16,
+        "gustKph": 28,
+        "visibilityKm": 20,
+        "cloudCoverPercent": 42,
+        "sunrise": "2026-07-13T05:18:00+01:00",
+        "sunset": "2026-07-13T21:25:00+01:00",
+        "condition": "Sunny intervals",
+        "weatherCode": 1
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 30,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 32,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 32,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 34,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 34,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 32,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 30,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 13,
+          "feelsLikeC": 13,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 14,
+          "feelsLikeC": 14,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 30,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 15,
+          "feelsLikeC": 15,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 32,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 35,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 34,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 30,
+          "rainfallMm": 0,
+          "windKph": 19,
+          "gustKph": 34,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 18,
+          "gustKph": 32,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 17,
+          "gustKph": 30,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Sunny intervals",
+          "highC": 20,
+          "lowC": 13,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "sunrise": "2026-07-13T05:18:00+01:00",
+          "sunset": "2026-07-13T21:25:00+01:00",
+          "summary": "Sunny intervals; sample high 20°C, low 13°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Partly cloudy",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 25,
+          "sunrise": "2026-07-14T05:18:00+01:00",
+          "sunset": "2026-07-14T21:25:00+01:00",
+          "summary": "Partly cloudy; sample high 21°C, low 13°C, with a 15% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Light shower",
+          "highC": 20,
+          "lowC": 14,
+          "precipitationProbability": 35,
+          "rainfallMm": 1.8,
+          "windKph": 18,
+          "gustKph": 32,
+          "sunrise": "2026-07-15T05:18:00+01:00",
+          "sunset": "2026-07-15T21:25:00+01:00",
+          "summary": "Light shower; sample high 20°C, low 14°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Sunny intervals",
+          "highC": 19,
+          "lowC": 12,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 22,
+          "sunrise": "2026-07-16T05:18:00+01:00",
+          "sunset": "2026-07-16T21:25:00+01:00",
+          "summary": "Sunny intervals; sample high 19°C, low 12°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Cloudy",
+          "highC": 21,
+          "lowC": 13,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "sunrise": "2026-07-17T05:18:00+01:00",
+          "sunset": "2026-07-17T21:25:00+01:00",
+          "summary": "Cloudy; sample high 21°C, low 13°C, with a 15% chance of precipitation."
+        }
+      ]
+    },
+    {
+      "id": "norwich",
+      "name": "Norwich",
+      "region": "East of England",
+      "latitude": 52.6309,
+      "longitude": 1.2974,
+      "sourcePoint": {
+        "latitude": 52.6309,
+        "longitude": 1.2974,
+        "distanceKm": 0,
+        "label": "Synthetic sample point"
+      },
+      "current": {
+        "observedAt": "2026-07-13T16:00:00.000Z",
+        "temperatureC": 21,
+        "feelsLikeC": 21,
+        "precipitationProbability": 10,
+        "rainfallMm": 0,
+        "humidityPercent": 61,
+        "windKph": 13,
+        "gustKph": 22,
+        "visibilityKm": 22,
+        "cloudCoverPercent": 35,
+        "sunrise": "2026-07-13T04:50:00+01:00",
+        "sunset": "2026-07-13T21:11:00+01:00",
+        "condition": "Sunny intervals",
+        "weatherCode": 1
+      },
+      "hourly": [
+        {
+          "time": "2026-07-13T16:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T17:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T18:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T19:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T20:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T21:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T22:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-13T23:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T00:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T01:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 20,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T02:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 11,
+          "gustKph": 18,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T03:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 11,
+          "gustKph": 18,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T04:00:00.000Z",
+          "temperatureC": 16,
+          "feelsLikeC": 16,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 20,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T05:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T06:00:00.000Z",
+          "temperatureC": 17,
+          "feelsLikeC": 17,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T07:00:00.000Z",
+          "temperatureC": 18,
+          "feelsLikeC": 18,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T08:00:00.000Z",
+          "temperatureC": 19,
+          "feelsLikeC": 19,
+          "precipitationProbability": 25,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T09:00:00.000Z",
+          "temperatureC": 20,
+          "feelsLikeC": 20,
+          "precipitationProbability": 20,
+          "rainfallMm": 0,
+          "windKph": 16,
+          "gustKph": 28,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T10:00:00.000Z",
+          "temperatureC": 21,
+          "feelsLikeC": 21,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T11:00:00.000Z",
+          "temperatureC": 22,
+          "feelsLikeC": 22,
+          "precipitationProbability": 10,
+          "rainfallMm": 0,
+          "windKph": 14,
+          "gustKph": 24,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T12:00:00.000Z",
+          "temperatureC": 23,
+          "feelsLikeC": 23,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T13:00:00.000Z",
+          "temperatureC": 23,
+          "feelsLikeC": 23,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 20,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T14:00:00.000Z",
+          "temperatureC": 23,
+          "feelsLikeC": 23,
+          "precipitationProbability": 0,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 20,
+          "condition": "Sunny intervals"
+        },
+        {
+          "time": "2026-07-14T15:00:00.000Z",
+          "temperatureC": 22,
+          "feelsLikeC": 22,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "condition": "Sunny intervals"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-13",
+          "condition": "Sunny intervals",
+          "highC": 23,
+          "lowC": 16,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 13,
+          "gustKph": 22,
+          "sunrise": "2026-07-13T04:50:00+01:00",
+          "sunset": "2026-07-13T21:11:00+01:00",
+          "summary": "Sunny intervals; sample high 23°C, low 16°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-14",
+          "condition": "Sunny",
+          "highC": 24,
+          "lowC": 16,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 11,
+          "gustKph": 19,
+          "sunrise": "2026-07-14T04:50:00+01:00",
+          "sunset": "2026-07-14T21:11:00+01:00",
+          "summary": "Sunny; sample high 24°C, low 16°C, with a 5% chance of precipitation."
+        },
+        {
+          "date": "2026-07-15",
+          "condition": "Partly cloudy",
+          "highC": 23,
+          "lowC": 17,
+          "precipitationProbability": 15,
+          "rainfallMm": 0,
+          "windKph": 15,
+          "gustKph": 26,
+          "sunrise": "2026-07-15T04:50:00+01:00",
+          "sunset": "2026-07-15T21:11:00+01:00",
+          "summary": "Partly cloudy; sample high 23°C, low 17°C, with a 15% chance of precipitation."
+        },
+        {
+          "date": "2026-07-16",
+          "condition": "Light shower",
+          "highC": 22,
+          "lowC": 15,
+          "precipitationProbability": 35,
+          "rainfallMm": 4,
+          "windKph": 9,
+          "gustKph": 16,
+          "sunrise": "2026-07-16T04:50:00+01:00",
+          "sunset": "2026-07-16T21:11:00+01:00",
+          "summary": "Light shower; sample high 22°C, low 15°C, with a 35% chance of precipitation."
+        },
+        {
+          "date": "2026-07-17",
+          "condition": "Sunny intervals",
+          "highC": 24,
+          "lowC": 16,
+          "precipitationProbability": 5,
+          "rainfallMm": 0,
+          "windKph": 12,
+          "gustKph": 20,
+          "sunrise": "2026-07-17T04:50:00+01:00",
+          "sunset": "2026-07-17T21:11:00+01:00",
+          "summary": "Sunny intervals; sample high 24°C, low 16°C, with a 5% chance of precipitation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://brexatlas.github.io/Cool-Isle/</loc><lastmod>2026-07-13</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/blog.html</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/winter.html</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/</loc><lastmod>2026-07-13</lastmod><changefreq>hourly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/location.html</loc><lastmod>2026-07-13</lastmod><changefreq>hourly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/news.html</loc><lastmod>2026-07-13</lastmod><changefreq>hourly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/community.html</loc><lastmod>2026-07-13</lastmod><changefreq>hourly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/explainers.html</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/sources.html</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://brexatlas.github.io/Cool-Isle/weatherchart/privacy.html</loc><lastmod>2026-07-13</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+</urlset>

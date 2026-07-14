@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /Cool-Isle/
+
+Sitemap: https://brexatlas.github.io/Cool-Isle/sitemap.xml

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "sample": true,
+  "datasetState": "sample-empty",
+  "generatedAt": "2026-07-13T16:00:00.000Z",
+  "source": {
+    "name": "Met Office News Releases RSS",
+    "url": "https://www.metoffice.gov.uk/feed/syndication/news-rss.xml",
+    "label": "No invented sample stories — the hourly pipeline publishes direct official links with neutral or manually reviewed summaries"
+  },
+  "items": []
+}

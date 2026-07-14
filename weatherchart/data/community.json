@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "sample": true,
+  "datasetState": "sample-or-preserved",
+  "generatedAt": "2026-07-13T22:46:47.450Z",
+  "expiresAfterHours": 48,
+  "notice": "Public posts are shown for local flavour and may be inaccurate. Use the official forecast and warnings for decisions.",
+  "source": {
+    "method": "manual curation and supported public links only",
+    "scrapingUsed": false
+  },
+  "items": [
+    {
+      "id": "sample-community-youtube-manchester",
+      "platform": "youtube",
+      "author": "Demo contributor",
+      "title": "SAMPLE: Evening shower clouds over Greater Manchester",
+      "excerpt": "Synthetic report describing dark shower clouds moving east during an otherwise bright evening.",
+      "url": "https://www.youtube.com/",
+      "publishedAt": "2026-07-13T15:10:00.000Z",
+      "expiresAt": "2026-07-15T15:10:00.000Z",
+      "keywords": [
+        "showers",
+        "clouds"
+      ],
+      "location": {
+        "label": "Greater Manchester",
+        "region": "North West England",
+        "basis": "sample region only",
+        "confidence": "low",
+        "latitude": null,
+        "longitude": null
+      },
+      "mediaType": "video-link",
+      "familySafe": true,
+      "reviewStatus": "sample-approved",
+      "verified": false,
+      "embedAllowed": false
+    },
+    {
+      "id": "sample-community-tiktok-cardiff",
+      "platform": "tiktok",
+      "author": "Demo contributor",
+      "title": "SAMPLE: Brief rainbow reported near Cardiff",
+      "excerpt": "Synthetic report of a rainbow after a short shower, included only to demonstrate a curated social card.",
+      "url": "https://www.tiktok.com/",
+      "publishedAt": "2026-07-13T14:25:00.000Z",
+      "expiresAt": "2026-07-15T14:25:00.000Z",
+      "keywords": [
+        "rainbow",
+        "shower"
+      ],
+      "location": {
+        "label": "Cardiff area",
+        "region": "South Wales",
+        "basis": "sample city area",
+        "confidence": "low",
+        "latitude": null,
+        "longitude": null
+      },
+      "mediaType": "oembed-link",
+      "familySafe": true,
+      "reviewStatus": "sample-approved",
+      "verified": false,
+      "embedAllowed": false
+    },
+    {
+      "id": "sample-community-bluesky-norfolk",
+      "platform": "bluesky",
+      "author": "Demo contributor",
+      "title": "SAMPLE: Sunny intervals across Norfolk",
+      "excerpt": "Synthetic text-only observation illustrating a coarse regional label without an address, postcode, or precise coordinates.",
+      "url": "https://bsky.app/",
+      "publishedAt": "2026-07-13T13:40:00.000Z",
+      "expiresAt": "2026-07-15T13:40:00.000Z",
+      "keywords": [
+        "sunshine",
+        "cloud"
+      ],
+      "location": {
+        "label": "Norfolk",
+        "region": "East of England",
+        "basis": "sample county",
+        "confidence": "medium",
+        "latitude": null,
+        "longitude": null
+      },
+      "mediaType": "text-link",
+      "familySafe": true,
+      "reviewStatus": "sample-approved",
+      "verified": false,
+      "embedAllowed": false
+    },
+    {
+      "id": "sample-community-mastodon-glasgow",
+      "platform": "mastodon",
+      "author": "Demo contributor",
+      "title": "SAMPLE: Heavy shower described in the Glasgow area",
+      "excerpt": "Synthetic report showing how a recent public post could be summarized without copying media or exposing location.",
+      "url": "https://mastodon.social/",
+      "publishedAt": "2026-07-13T12:55:00.000Z",
+      "expiresAt": "2026-07-15T12:55:00.000Z",
+      "keywords": [
+        "heavy shower",
+        "rain"
+      ],
+      "location": {
+        "label": "Glasgow area",
+        "region": "West Central Scotland",
+        "basis": "sample city area",
+        "confidence": "low",
+        "latitude": null,
+        "longitude": null
+      },
+      "mediaType": "text-link",
+      "familySafe": true,
+      "reviewStatus": "sample-approved",
+      "verified": false,
+      "embedAllowed": false
+    }
+  ]
+}
