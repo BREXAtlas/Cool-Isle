@@ -47,6 +47,7 @@ Use Node.js 22 or newer. From the repository root:
 ```sh
 npm ci
 npm test
+npm run test:html
 npm run validate:data
 python -m http.server 8000
 ```

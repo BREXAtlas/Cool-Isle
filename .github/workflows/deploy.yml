@@ -89,6 +89,7 @@ jobs:
 
       - name: Recheck the final static artifact and data
         run: |
+          npm run test:html
           npm run test:static
           npm run validate:data
 
