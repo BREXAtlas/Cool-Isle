@@ -56,6 +56,9 @@ jobs:
             --exclude='.env' \
             ./ "$RUNNER_TEMP/pages-site/"
 
+      - name: Add Cloudflare Web Analytics
+        run: node scripts/inject-cloudflare-analytics.mjs "$RUNNER_TEMP/pages-site"
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
