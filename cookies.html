@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cookies &amp; Privacy Choices — CoolIsle UK</title>
-<meta name="description" content="How CoolIsle UK remembers your privacy choice and when optional external maps are loaded.">
+<meta name="description" content="How CoolIsle UK uses cookie-free analytics, remembers your privacy choice and loads optional external maps.">
 <link rel="canonical" href="https://brexatlas.github.io/Cool-Isle/cookies.html">
 <link rel="stylesheet" href="weatherchart/assets/css/privacy-choices.css">
 <script type="module" src="weatherchart/assets/js/privacy-choices.js"></script>
@@ -19,8 +19,8 @@
   <div class="hero">
     <p class="eyebrow">Cookie and privacy choices</p>
     <h1>You control the optional map</h1>
-    <p>CoolIsle uses no analytics or advertising cookies. The first-visit choice lets you allow or reject the external interactive map without losing the weather information, guides, tables or seller links.</p>
-    <p><strong>Last updated:</strong> 14 July 2026</p>
+    <p>CoolIsle uses no analytics or advertising cookies. It uses cookie-free Cloudflare Web Analytics to measure aggregate page visits and performance. The first-visit choice lets you allow or reject the external interactive map without losing the weather information, guides, tables or seller links.</p>
+    <p><strong>Last updated:</strong> 17 July 2026</p>
   </div>
 
   <section class="choice-box" aria-labelledby="change-choice-title">
@@ -37,18 +37,18 @@
       <thead><tr><th>Key</th><th>Purpose and exact fields</th><th>Duration</th></tr></thead>
       <tbody><tr><td><code>coolisle.privacy.v1</code></td><td>Remembers the policy <code>version</code>, whether <code>optionalMaps</code> is allowed, and the <code>decidedAt</code> and <code>expiresAt</code> times.</td><td>Up to 180 days, unless you reset it sooner.</td></tr></tbody>
     </table>
-    <p>If browser storage is blocked, the choice applies only to the current page and is asked again later. Invalid, expired or differently shaped records are discarded.</p>
+    <p>If browser storage is blocked, the choice applies only to the current page and is asked again later. Invalid, expired or differently shaped records are discarded. Cloudflare Web Analytics does not create an analytics cookie or use browser storage.</p>
   </section>
 
   <section aria-labelledby="maps-title">
     <h2 id="maps-title">Optional interactive map</h2>
     <p>The map is off until you choose “Allow optional maps”. Allowing it downloads Leaflet from cdnjs and map tiles from OpenStreetMap. Those providers receive ordinary connection data such as your IP address and browser headers. Rejecting or later withdrawing your choice leaves a non-interactive explanation in place and prevents further map-tile loading.</p>
-    <p><a href="https://www.cloudflare.com/privacypolicy/" rel="external noopener">Cloudflare privacy policy (cdnjs)</a> · <a href="https://osmfoundation.org/wiki/Privacy_Policy" rel="external noopener">OpenStreetMap Foundation privacy policy</a></p>
+    <p><a href="https://www.cloudflare.com/privacypolicy/" rel="external noopener">Cloudflare privacy policy</a> · <a href="https://osmfoundation.org/wiki/Privacy_Policy" rel="external noopener">OpenStreetMap Foundation privacy policy</a></p>
   </section>
 
   <section aria-labelledby="other-title">
     <h2 id="other-title">Other external connections</h2>
-    <p>Google Fonts, selected Unsplash images, Open-Meteo weather data and the published WeatherChart dataset may be requested as part of the page. The optional-map choice does not control those requests. Following a seller, official-source or social-source link takes you to that third party under its own privacy terms. CoolIsle does not run checkout, receive basket details or add affiliate identifiers to seller links.</p>
+    <p>Cloudflare Web Analytics loads on each page and receives a small cookie-free page-view and performance beacon. Google Fonts, selected Unsplash images, Open-Meteo weather data and the published WeatherChart dataset may also be requested as part of the page. The optional-map choice does not control those requests. Following a seller, official-source or social-source link takes you to that third party under its own privacy terms. CoolIsle does not run checkout, receive basket details or add affiliate identifiers to seller links.</p>
     <p>CoolIsle has no account system and does not receive your choice record. The site’s public source and issue tracker are operated through the <a href="https://github.com/BREXAtlas/Cool-Isle" rel="external noopener">BREXAtlas/Cool-Isle GitHub repository</a>. GitHub issues are public, so do not post private contact details there.</p>
   </section>
 
@@ -60,7 +60,7 @@
 
   <section class="cross-promo" aria-labelledby="weatherchart-title">
     <h2 id="weatherchart-title">Looking for the live forecast?</h2>
-    <p>Visit <a href="https://brexatlas.github.io/WeatherChartUK/">WeatherChart UK</a> for hourly refreshed UK forecasts, official warning links, charts and explainers. WeatherChart is hosted separately and keeps its own privacy choice.</p>
+    <p>Visit <a href="https://brexatlas.github.io/WeatherChartUK/">WeatherChart UK</a> for hourly refreshed UK forecasts, official warning links, charts and explainers. WeatherChart is hosted separately, uses its own Cloudflare analytics token and keeps its own privacy choice.</p>
   </section>
 </main>
 <footer><div class="shell">© 2026 CoolIsle UK · <a href="index.html">Home</a> · <a href="cookies.html" data-privacy-settings>Privacy choices</a> · <a href="https://brexatlas.github.io/WeatherChartUK/">WeatherChart UK</a></div></footer>
