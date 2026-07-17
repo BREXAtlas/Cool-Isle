@@ -5,77 +5,17 @@ const SITE_TOKEN = "2ec609df61964d39a0db3397fc3086f3";
 const root = path.resolve(process.argv[2] ?? ".");
 const excludedDirectories = new Set([".git", ".github", "docs", "node_modules", "scripts", "tests"]);
 const workWithUsLink = '<a href="mailto:hello@transformontologysystems.com?subject=Work%20with%20Cool%20Isle">Work with us</a>';
-
+const newsletter = `<section class="tips-signup" aria-labelledby="tips-signup-title"><div class="wrap"><h2 id="tips-signup-title">Weather tips without the waffle</h2><p>Get practical heat, cold and rain tips from Cool Isle.</p><form data-weather-signup><label>Email address <input type="email" name="email" autocomplete="email" required></label><label class="signup-consent"><input type="checkbox" name="consent" required> I agree to receive weather tips and practical updates.</label><label class="signup-hp" aria-hidden="true">Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label><button type="submit">Send me tips</button><p data-signup-status role="status" aria-live="polite"></p></form></div></section><script type="module" src="newsletter-signup.js"></script>`;
+const newsletterCss = `<style>.tips-signup{background:#e9f3f7;padding:42px 0}.tips-signup form{display:grid;gap:12px;max-width:620px}.tips-signup input[type=email]{width:100%;padding:12px;border:1px solid #b8ccd5;border-radius:8px;font:inherit}.tips-signup button{width:max-content;padding:11px 18px;border:0;border-radius:8px;background:#0e2a3c;color:#fff;font:inherit;font-weight:700;cursor:pointer}.tips-signup button:disabled{opacity:.6}.signup-consent{font-size:.9rem}.signup-hp{position:absolute;left:-9999px}</style>`;
 const beacon = `<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "${SITE_TOKEN}"}'></script><!-- End Cloudflare Web Analytics -->`;
-
 const beaconBlockPattern = /<!--\s*Cloudflare Web Analytics\s*-->[\s\S]*?<!--\s*End Cloudflare Web Analytics\s*-->/gi;
 const beaconScriptPattern = /<script\b(?=[^>]*\bsrc\s*=\s*["']https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js(?:\?[^"']*)?["'])[^>]*>\s*<\/script>/gi;
-
-function addCspSource(policy, directiveName, source) {
-  const directives = policy.split(";").map((directive) => directive.trim()).filter(Boolean);
-  const index = directives.findIndex((directive) => directive.split(/\s+/, 1)[0] === directiveName);
-  if (index === -1) directives.push(`${directiveName} ${source}`);
-  else {
-    const values = directives[index].split(/\s+/);
-    if (!values.includes(source)) values.push(source);
-    directives[index] = values.join(" ");
-  }
-  return directives.join("; ");
-}
-
-function allowCloudflareAnalyticsInCsp(html) {
-  return html.replace(
-    /<meta\b[^>]*http-equiv\s*=\s*["']Content-Security-Policy["'][^>]*>/i,
-    (metaTag) => metaTag.replace(
-      /\bcontent\s*=\s*(["'])([\s\S]*?)\1/i,
-      (_match, quote, policy) => {
-        let updated = addCspSource(policy, "script-src", "https://static.cloudflareinsights.com");
-        updated = addCspSource(updated, "connect-src", "https://cloudflareinsights.com");
-        return `content=${quote}${updated}${quote}`;
-      },
-    ),
-  );
-}
-
-function useCustomDomain(html) {
-  return html
-    .replaceAll("https://brexatlas.github.io/Cool-Isle/", "https://coolisle.uk/")
-    .replaceAll("https://brexatlas.github.io/Cool-Isle", "https://coolisle.uk");
-}
-
-function addWorkWithUs(html) {
-  if (html.includes('mailto:hello@transformontologysystems.com')) return html;
-  if (/<\/footer>/i.test(html)) return html.replace(/<\/footer>/i, `<p class="work-with-us">${workWithUsLink}</p>\n</footer>`);
-  return html.replace(/<\/body>/i, `<p class="work-with-us">${workWithUsLink}</p>\n</body>`);
-}
-
-async function htmlFiles(directory) {
-  const output = [];
-  for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
-    if (entry.isDirectory() && excludedDirectories.has(entry.name)) continue;
-    const absolute = path.join(directory, entry.name);
-    if (entry.isDirectory()) output.push(...await htmlFiles(absolute));
-    else if (entry.isFile() && entry.name.endsWith(".html")) output.push(absolute);
-  }
-  return output;
-}
-
-const files = await htmlFiles(root);
-if (files.length === 0) throw new Error(`No HTML files found under ${root}`);
-
-for (const file of files) {
-  let html = await fs.readFile(file, "utf8");
-  html = html.replace(beaconBlockPattern, "").replace(beaconScriptPattern, "");
-  html = allowCloudflareAnalyticsInCsp(html);
-  html = useCustomDomain(html);
-  html = addWorkWithUs(html);
-
-  if (!/<\/body>/i.test(html)) throw new Error(`Missing </body> in ${file}`);
-  html = html.replace(/\s*<\/body>/i, `\n${beacon}\n</body>`);
-
-  if (!html.includes(SITE_TOKEN)) throw new Error(`Analytics token was not inserted into ${file}`);
-  if (!html.includes("hello@transformontologysystems.com")) throw new Error(`Work with us link was not inserted into ${file}`);
-  await fs.writeFile(file, html, "utf8");
-}
-
-console.log(`Injected Cool Isle analytics, custom-domain canonicals and Work with us links into ${files.length} HTML file(s).`);
+function addCspSource(policy, directiveName, source){const directives=policy.split(";").map(d=>d.trim()).filter(Boolean);const index=directives.findIndex(d=>d.split(/\s+/,1)[0]===directiveName);if(index===-1)directives.push(`${directiveName} ${source}`);else{const values=directives[index].split(/\s+/);if(!values.includes(source))values.push(source);directives[index]=values.join(" ");}return directives.join("; ");}
+function updateCsp(html){return html.replace(/<meta\b[^>]*http-equiv\s*=\s*["']Content-Security-Policy["'][^>]*>/i,(tag)=>tag.replace(/\bcontent\s*=\s*(["'])([\s\S]*?)\1/i,(_m,q,p)=>{let u=addCspSource(p,"script-src","https://static.cloudflareinsights.com");u=addCspSource(u,"connect-src","https://cloudflareinsights.com");u=addCspSource(u,"connect-src","https://rceqidouaazdlimtivfq.supabase.co");return `content=${q}${u}${q}`;}));}
+function useCustomDomain(html){return html.replaceAll("https://brexatlas.github.io/Cool-Isle/","https://coolisle.uk/").replaceAll("https://brexatlas.github.io/Cool-Isle","https://coolisle.uk");}
+function addWorkWithUs(html){if(html.includes('mailto:hello@transformontologysystems.com'))return html;if(/<\/footer>/i.test(html))return html.replace(/<\/footer>/i,`<p class="work-with-us">${workWithUsLink}</p>\n</footer>`);return html.replace(/<\/body>/i,`<p class="work-with-us">${workWithUsLink}</p>\n</body>`);}
+function addNewsletter(html){if(html.includes("data-weather-signup"))return html;html=html.replace("</head>",`${newsletterCss}\n</head>`);if(/<footer/i.test(html))return html.replace(/<footer/i,`${newsletter}\n<footer`);return html.replace(/<\/body>/i,`${newsletter}\n</body>`);}
+async function htmlFiles(directory){const output=[];for(const entry of await fs.readdir(directory,{withFileTypes:true})){if(entry.isDirectory()&&excludedDirectories.has(entry.name))continue;const absolute=path.join(directory,entry.name);if(entry.isDirectory())output.push(...await htmlFiles(absolute));else if(entry.isFile()&&entry.name.endsWith(".html"))output.push(absolute);}return output;}
+const files=await htmlFiles(root);if(files.length===0)throw new Error(`No HTML files found under ${root}`);
+for(const file of files){let html=await fs.readFile(file,"utf8");html=html.replace(beaconBlockPattern,"").replace(beaconScriptPattern,"");html=updateCsp(html);html=useCustomDomain(html);html=addWorkWithUs(html);html=addNewsletter(html);if(!/<\/body>/i.test(html))throw new Error(`Missing </body> in ${file}`);html=html.replace(/\s*<\/body>/i,`\n${beacon}\n</body>`);if(!html.includes(SITE_TOKEN)||!html.includes("data-weather-signup"))throw new Error(`Deployment injection failed for ${file}`);await fs.writeFile(file,html,"utf8");}
+console.log(`Injected Cool Isle analytics, signup form, custom-domain canonicals and Work with us links into ${files.length} HTML file(s).`);
